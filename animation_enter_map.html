@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="js/jquery-1.11.1.min.js"></script>
+<style> 
+#div_anim{
+	z-index:90;
+	background:url(img/full_map.png) no-repeat;  
+    width:980px;  
+    height:1742px;  
+    background-size:100% 100%;  
+    position:absolute;  
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/start_bg.png',sizingMethod='scale'); 
+}
+
+/*m_width:414|m_height736*/
+
+.div_anim_action{
+animation:mymove 3s;
+animation-iteration-count:1;
+/* Safari and Chrome */
+-webkit-animation:mymove 3s;
+-webkit-animation-iteration-count:1;
+animation-fill-mode:forwards;
+}
+
+@keyframes mymove
+{
+from {top:0px;height:1742px; width:980px;}
+to {top:-200px; left:-1000px;height:2331px; width:3000px;}
+}
+
+@-webkit-keyframes mymove /* Safari and Chrome */
+{
+from {top:0px;height:1742px; width:980px;}
+to {top:-200px; left:-1000px;height:2331px; width:3000px;}
+}
+</style>
+
+<script language="javascript">
+function start(){
+    $("#div_anim").addClass("div_anim_action");
+}
+</script>
+</head>
+<body>
+<button onClick="start()">开始动画</button>
+<p><strong>注释：</strong>Internet Explorer 9 以及更早的版本不支持 animation-iteration-count 属性。</p>
+
+<div id="div_anim"></div>
+
+</body>
+</html>
