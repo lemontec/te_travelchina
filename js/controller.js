@@ -104,8 +104,13 @@ function startGame(){
 function shakePhone(){
     //剩余次数：
 	if (m_curr_today_remaind_num == 0){
-		showLimitWarning();
-		return;
+		if (!sharkeAll) {
+		    showLimitWarning();
+		    return;
+		} else {//无限摇一摇,重置剩余数量，并且将已经到达的城市数目变为0
+			m_curr_today_remaind_num = m_city_list[m_curr_city_index].limit_count;
+			m_today_arrived_city = 0;
+		}
 	}
 	var l_remaind_step_to_next_city = m_city_list[m_curr_city_index].steps - m_curr_steps_to_lastcity;
 	var next_go_steps = 0;
@@ -202,7 +207,15 @@ var m_city_list = [
 	{index:3, name:"深圳", position:{x:1810, y:1740}, steps:5, limit_count:2},
 	{index:4, name:"广州", position:{x:1740, y:1636}, steps:5, limit_count:2},
 	{index:5, name:"珠海", position:{x:1677, y:1754}, steps:5, limit_count:2},
-	{index:6, name:"佛山", position:{x:1654, y:1667}, steps:12,limit_count:5}
+	{index:6, name:"佛山", position:{x:1654, y:1667}, steps:12,limit_count:5},
+	{index:7, name:"成都", position:{x:1281, y:1354}, steps:10,limit_count:5},
+	{index:8, name:"武汉", position:{x:1564, y:1354}, steps:5, limit_count:3},
+	{index:9, name:"南京", position:{x:1738, y:1263}, steps:4, limit_count:2},
+	{index:10, name:"苏州", position:{x:1843, y:1327},steps:5, limit_count:2},
+	{index:11, name:"昆山", position:{x:1911, y:1292},steps:6, limit_count:3},
+	{index:12, name:"青岛", position:{x:1956, y:1103},steps:6, limit_count:3},
+	{index:13, name:"北京", position:{x:1837, y:879}, steps:9, limit_count:5},
+	{index:14, name:"长春", position:{x:2234, y:615}, steps:0, limit_count:0}
 ];
 //,{"东莞"},{"深圳"}//,"广州","珠海","佛山","成都","武汉","南京","苏州","昆山","青岛","北京","长春"
 /*数据信息 end*/
@@ -238,6 +251,8 @@ function hideCityInfo (){
 function showCertificate(){
 	$("#div_overlay_id").show();
 	$("#div_show_certificate_page").show();
+	
+	m_GameOver = true;
 }
 function hideCertificate(){
 	$("#div_overlay_id").hide();
@@ -339,7 +354,24 @@ function moveTest(){
 }
 
 function sharkeTest(){
+	if (m_GameOver) {
+		alert("Rravel End!");
+		return;
+	}
     shakePhone();
+}
+
+var sharkeAll = false;
+var m_GameOver = false;
+function sharkeAllTest() {
+	if (m_GameOver) {
+		alert("Rravel End!");
+		return;
+	}
+
+    sharkeAll = true;
+	shakePhone();
+	sharkeAll = false;
 }
 
 function printState(){
