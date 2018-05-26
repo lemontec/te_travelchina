@@ -7,5 +7,9 @@ class index_controller {
         $tpl = new tpl();
         $tpl->display("index2");
     }
+
+    public function test_action() {
+        return array("abc" => 123);
+    }
 };
 

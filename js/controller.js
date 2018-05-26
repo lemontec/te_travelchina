@@ -31,6 +31,8 @@ window.onload = function(){
 	//移动到上次所到达的位置
 	moveStepsToNextCity(m_curr_city_index, m_curr_steps_to_lastcity);
 	
+    nextPhase();
+    return;
 	//自动加载进度信息，完成后调用nextPhase()
 	progress(100, 10, () => {
         nextPhase();
@@ -364,6 +366,12 @@ function sharkeTest(){
 var sharkeAll = false;
 var m_GameOver = false;
 function sharkeAllTest() {
+    __request("index.test", {abc: "aa123"}, function(res) {
+        alert("success.");
+        console.debug(res);
+    });
+    return;
+
 	if (m_GameOver) {
 		alert("Rravel End!");
 		return;
