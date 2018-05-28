@@ -16,7 +16,14 @@ class index_controller {
         $userinfo = json_decode($userinfo, true);
         $openid = $userinfo["openid"];
         $userinfo = WeChat::inst()->get_user_info($openid);
-        dump_var($userinfo);
+        logging::d("OAuth", $userinfo);
+
+        $player = Player::createByOpenId($userinfo["openid"]);
+        // dump_var($userinfo);
+        $tpl = new tpl();
+        $tpl->set("headimgurl", $userinfo["headimgurl"]);
+        $tpl->set("player", $player);
+        $tpl->display("index2");
     }
 };
 
