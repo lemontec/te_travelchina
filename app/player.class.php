@@ -29,5 +29,10 @@ class Player {
         $player["today_cities"] = db_move::inst()->today_cities($pid);
         return $player;
     }
+
+    public static function update($pid, $distance, $loc1, $loc2) {
+        db_player::inst()->update_distance($pid, $distance);
+        db_move::inst()->add($pid, $loc1, $loc2);
+    }
 };
 

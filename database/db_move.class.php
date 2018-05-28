@@ -73,6 +73,7 @@ class db_move extends database {
             "player" => $player,
             "loc1" => $loc1,
             "loc2" => $loc2,
+            "time" => time(),
         ));
     }
 };

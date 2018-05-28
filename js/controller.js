@@ -188,6 +188,12 @@ function shakePhone(){
 		jRequest("index_test", paramsData, function (){
 		    //成功函数
 		}, jRequest_error);
+
+        __request("index.move", {loc1: m_curr_city_index, loc2: m_curr_steps_to_lastcity, distance: 10}, function(res) {
+            console.debug(res);
+            // m_current_city_index = res.cityindex;
+            // m_today_arrived_city = res.today_arrived_city;
+        });
 	}
 	drawProgressBar();
 }

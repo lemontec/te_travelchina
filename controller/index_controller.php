@@ -19,6 +19,8 @@ class index_controller {
         logging::d("OAuth", $userinfo);
 
         $player = Player::playerinfo($userinfo["openid"], $userinfo["nickname"], $userinfo["headimgurl"]);
+        $_SESSION["current.player"] = $player;
+
         $tpl = new tpl();
         $tpl->set("headimgurl", $userinfo["headimgurl"]);
         $tpl->set("nickname", $userinfo["nickname"]);
@@ -33,6 +35,7 @@ class index_controller {
     public function demo_action() {
         $demo = get_request("player", "demoid");
         $player = Player::playerinfo($demo, "nick", "/te/travelchina/img/wx_icon.jpg");
+        $_SESSION["current.player"] = $player;
 
         $tpl = new tpl();
         $tpl->set("headimgurl", $player["headimgurl"]);
@@ -44,5 +47,28 @@ class index_controller {
         $tpl->set("distance", $player["distance"]);
         $tpl->display("index2");
     }
+
+    public function move_action() {
+        $player = get_session("current.player");
+        if ($player == null) {
+            return $this->index_action();
+        }
+        $loc1 = get_request_assert("loc1");
+        $loc2 = get_request_assert("loc2");
+        $distance = get_request_assert("distance");
+        Player::update($player["id"], $distance, $loc1, $loc2);
+
+        $player = Player::playerinfo($player["openid"], $player["nickname"], $player["headimgurl"]);
+        $_SESSION["current.player"] = $player;
+
+        $player["cityindex"] = $player["loc1"];
+        $player["steps_2_lastcity"] = $player["loc2"];
+        $player["today_arrived_city"] = ($player["today_cities"] <= 1 ? 0 : 1);
+ 
+        return $player;
+    }
+
 };
+
+
 

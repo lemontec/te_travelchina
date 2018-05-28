@@ -37,11 +37,12 @@ class db_player extends database_table {
             "openid" => $openid,
             "nickname" => $nickname,
             "headimgurl" => $headimgurl,
-            "distance" => "",
+            "distance" => 0,
         ));
     }
 
     public function update_distance($id, $distance) {
+        $distance = (int)$distance;
         return $this->update(array(
             "distance" => $distance
         ));
