@@ -14,7 +14,7 @@ class db_player extends database_table {
         return self::$instance;
     }
 
-    private function db_player() {
+    public function __construct() {
         parent::__construct(MYSQL_DATABASE, MYSQL_PREFIX . "players");
     }
 
@@ -37,24 +37,15 @@ class db_player extends database_table {
             "openid" => $openid,
             "nickname" => $nickname,
             "headimgurl" => $headimgurl,
+            "distance" => "",
         ));
     }
 
-    // public function modify($id, $username, $password, $nickname, $telephone, $email, $groups, $comments) {
-    //     $id = (int)$id;
-    //     if (is_array($groups)) {
-    //         $groups = implode(",", $groups);
-    //     }
-    //     return $this->update(array(
-    //         "username" => $username,
-    //         "password" => $password,
-    //         "nickname" => $nickname,
-    //         "telephone" => $telephone,
-    //         "email" => $email,
-    //         "groups" => $groups,
-    //         "comments" => $comments,
-    //     ), "id = $id");
-    // }
+    public function update_distance($id, $distance) {
+        return $this->update(array(
+            "distance" => $distance
+        ));
+    }
 
 };
 

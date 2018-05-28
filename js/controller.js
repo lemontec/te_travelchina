@@ -214,11 +214,12 @@ function loadUserData(){
 	//=======================================================================================getData from server start
 	m_user_wx_token          = "[:te_wx_openid]";
 	m_user_wx_icon           = g_headimgurl;
-	m_curr_city_index        = "[:te_city_index]";
-	m_curr_today_remaind_num = "[:te_today_remaind_num]";
-	m_curr_steps_to_lastcity = "[:te_steps_2_lastcity]";////此属性特殊，第二天重置默认
-	m_today_arrived_city     = "[:te_today_arrived_city]";////此属性特殊，第二天重置默认
+	m_curr_city_index        = g_cityindex;
+	m_curr_today_remaind_num = g_today_remaind_num;
+	m_curr_steps_to_lastcity = g_steps_2_lastcity;////此属性特殊，第二天重置默认
+	m_today_arrived_city     = g_today_arrived_city;////此属性特殊，第二天重置默认
     var l_is_today_data      = "[:te_is_today_data]";////与上次时间匹配，如果是同一天返回1，不是同一天返回0
+
 
 	//重置第二天属性
 	if (l_is_today_data == 0 || l_is_today_data == "0") {

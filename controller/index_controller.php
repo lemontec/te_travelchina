@@ -18,17 +18,30 @@ class index_controller {
         $userinfo = WeChat::inst()->get_user_info($openid);
         logging::d("OAuth", $userinfo);
 
-        // $player = Player::createByOpenId($userinfo["openid"]);
-        // dump_var($userinfo);
+        $player = Player::playerinfo($userinfo["openid"], $userinfo["nickname"], $userinfo["headimgurl"]);
         $tpl = new tpl();
         $tpl->set("headimgurl", $userinfo["headimgurl"]);
-        // $tpl->set("player", $player);
+        $tpl->set("nickname", $userinfo["nickname"]);
+        $tpl->set("cityindex", $player["loc1"]);
+        $tpl->set("steps_2_lastcity", $player["loc2"]);
+        $tpl->set("today_steps", $player["today_steps"]);
+        $tpl->set("today_arrived_city", ($player["today_cities"] <= 1 ? 0 : 1));
+        $tpl->set("distance", $player["distance"]);
         $tpl->display("index2");
     }
 
     public function demo_action() {
+        $demo = get_request("player", "demoid");
+        $player = Player::playerinfo($demo, "nick", "/te/travelchina/img/wx_icon.jpg");
+
         $tpl = new tpl();
-        $tpl->set("headimgurl", "/te/travelchina/img/wx_icon.jpg");
+        $tpl->set("headimgurl", $player["headimgurl"]);
+        $tpl->set("nickname", $player["nickname"]);
+        $tpl->set("cityindex", $player["loc1"]);
+        $tpl->set("steps_2_lastcity", $player["loc2"]);
+        $tpl->set("today_steps", $player["today_steps"]);
+        $tpl->set("today_arrived_city", ($player["today_cities"] <= 1 ? 0 : 1));
+        $tpl->set("distance", $player["distance"]);
         $tpl->display("index2");
     }
 };
