@@ -150,7 +150,7 @@ body {
 	height: 40px;
 	position: absolute;
 	right: 15px;
-	bottom: 5px;
+	bottom: 0px;
 	background: url(../img/logo_bottom.png) no-repeat;
 	background-size: 100% 100%;
 }
@@ -428,11 +428,7 @@ body {
 	width: 100px;
 	height: 100px;
 	/*左右居中*/
-	left: 0;
-	right: 0;
-	bottom: 5px;
-	margin-left: auto;
-	margin-right: auto;
+	bottom: 0px;
 	width: 112px;
 	height: 40px;
 	position: absolute;
@@ -440,6 +436,7 @@ body {
 	top: 10px;*/
 	background: url(../img/logo_bottom.png) no-repeat;
 	background-size: 100% 100%;
+	right: 15px;
 }
 .inner {
 	/*background: green;*/
@@ -628,4 +625,33 @@ body {
 	-moz-opacity: 0.8;
 	opacity: .80;
 	filter: alpha(opacity=80);
+}
+
+
+/*close页面*/
+/*body {
+	width: 100%;
+	height: 100%;
+	margin: inherit;
+	background-color: black;
+}*/
+.container {
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	margin: 0 auto;
+	width: 90%;
+	height: 100%;
+	/* height: 100%; */
+	margin-left: 6%;
+	background-color: black;
+	display:none;
+	z-index:1020;
+}
+#c-1 {
+	/* height: 300px;
+            height: 300px; */
+	width: 100%;
+	height: 100%;
+	background-color: black;
 }

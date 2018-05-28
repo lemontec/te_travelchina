@@ -1,8 +1,5 @@
 // JavaScript Document
 
-//for close window
-window.name="main_window";
-
 //0:加载 1：开始页 2：主页
 var m_current_phase = 0;
 //页面大小
@@ -24,6 +21,10 @@ var m_today_arrived_city = 0;//今天到达的城市数
 
 var m_can_sharke_flag = true;
 var base_img_url = "";
+
+/*退出动画相关*/
+const cv = document.getElementById("c-1");
+//const cxt= cv.getContext("2d");
 
 window.onload = function(){
 	getWidthAndHeight();
@@ -71,6 +72,8 @@ function getWidthAndHeight(){
 	var view = getViewportSize();
 	m_width = view.width;
 	m_height = view.height;
+	cv.width = m_width - 30;
+	cv.height = m_height - 30;
 }
 function getViewportSize () {
     return {
@@ -352,16 +355,16 @@ function showRanking(){
 
 function requestRankData(retData){
     var jsonData = [
-			{"no":1, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"未完成", "self":0},
-			{"no":2, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"未完成", "self":0},
-			{"no":3, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"未完成", "self":0},
-			{"no":4, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"未完成", "self":0},
-			{"no":5, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"未完成", "self":0},
-			{"no":6, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"未完成", "self":0},
-			{"no":7, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"未完成", "self":0},
-			{"no":8, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"未完成", "self":0},
-			{"no":9, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"未完成", "self":0},
-		    {"no":10001, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"未完成", "self":1}
+			{"no":1, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":2, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":3, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":4, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":5, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":6, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":7, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":8, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":9, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+		    {"no":10001, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":1}
 		];
 	var rank_innerHtml = "";
 	for (var i = 0; i < jsonData.length; i++) {
@@ -425,9 +428,17 @@ function showLimitWarning(){
 function closeLimitWindow(){
 	$("#div_overlay_id").hide();
     $("#div_show_limit_window").hide();
-	window.open(base_img_url + '../index2_close.htm','main_window');
 	//window.location.href='';
+	$("#div_overlay_id").css("opacity",'1');
+	enterCloseWindow();
 }
+
+function enterCloseWindow(){
+    $("#div_overlay_id").show();
+	$("#close_window").show();
+	play_animation();
+}
+
 /*辅助提示窗口 end*/
 
 /*游戏逻辑 start*/
@@ -570,7 +581,7 @@ function action_end(){
 	if (move_map_flag) {
 	    //置回到初始点的flag为true
 		map_reset_flag = true;
-		map_reset_timer_event(5000);
+		map_reset_timer_event(4000);
 		
 		//重置move_map_flag
 		move_map_flag = false;
@@ -594,6 +605,38 @@ function map_reset_timer_event(delay) {
 
 /*游戏逻辑 end*/
 
+
+/*退出逻辑 start*/
+function play_animation() {
+    var framesUrl = [];
+    for (var i = 0; i < 52; i++) {
+        framesUrl.push('img/close/te_00' + i + '.jpg');
+    }
+
+    var that = this;
+    // frame animation
+    var ani = new frame_ani({
+        canvasTargetId: "c-1", // target canvas ID
+        framesUrl: framesUrl, // frames url
+        loop: false, // if loop
+        height: 1100, // source image's height (px)m_height
+        width: 750, // source image's width (px)m_width
+        frequency: 10, // count of frames in one second
+        audioIonName: null, // ion.sound audio name
+        onComplete: function () { // complete callback
+            console.log("Animation loop.");
+			//that.window.open('', '_self', '');
+			//that.window.close();
+			//open(location, '_self').close();
+        },
+    });
+
+    // preload & play
+    ani.initialize(function (){
+        ani.play();
+    });
+}
+/*退出逻辑 end*/
 
 
 
