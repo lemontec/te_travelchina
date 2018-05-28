@@ -18,11 +18,17 @@ class index_controller {
         $userinfo = WeChat::inst()->get_user_info($openid);
         logging::d("OAuth", $userinfo);
 
-        $player = Player::createByOpenId($userinfo["openid"]);
+        // $player = Player::createByOpenId($userinfo["openid"]);
         // dump_var($userinfo);
         $tpl = new tpl();
         $tpl->set("headimgurl", $userinfo["headimgurl"]);
-        $tpl->set("player", $player);
+        // $tpl->set("player", $player);
+        $tpl->display("index2");
+    }
+
+    public function demo_action() {
+        $tpl = new tpl();
+        $tpl->set("headimgurl", "/te/travelchina/img/wx_icon.jpg");
         $tpl->display("index2");
     }
 };

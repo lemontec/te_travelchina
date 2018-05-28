@@ -5,7 +5,7 @@ class Player {
     private $mSummary = null;
     private $mGroups = null;
 
-    public function Player($summary = array()) {
+    public function __construct($summary = array()) {
         if (empty($summary)) {
             $summary = array(
                 "id" => 0,

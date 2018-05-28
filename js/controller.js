@@ -213,7 +213,7 @@ function loadUserData(){
     //从网络拿数据
 	//=======================================================================================getData from server start
 	m_user_wx_token          = "[:te_wx_openid]";
-	m_user_wx_icon           = "[:te_wx_icon]";
+	m_user_wx_icon           = g_headimgurl;
 	m_curr_city_index        = "[:te_city_index]";
 	m_curr_today_remaind_num = "[:te_today_remaind_num]";
 	m_curr_steps_to_lastcity = "[:te_steps_2_lastcity]";////此属性特殊，第二天重置默认
@@ -228,7 +228,7 @@ function loadUserData(){
 
 	//test start
 	m_user_wx_token = "121312";
-	m_user_wx_icon =  base_img_url + "wx_icon.jpg"; 
+	// m_user_wx_icon =  base_img_url + "wx_icon.jpg"; 
 	m_curr_city_index = 0;
 	m_curr_today_remaind_num = 5;//jsonData["today_remaind_num"];
 	m_curr_steps_to_lastcity = 0;
