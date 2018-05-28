@@ -1,123 +1,119 @@
 @charset "utf-8";
 /* CSS Document */
+@import "fonts.css";
 
-body{
-    width:100%;
-	height:100%;
-	margin:inherit;
+/*防止禁用Touch事件出错*/
+* { 
+   touch-action: none;
+   font-family:SourceHanSans;
 }
 
-.div_front{
-	display:none;
-	position:absolute;
-	font:bold 20px arial,sans-serif;
-	z-index:500;
+body {
+	width: 100%;
+	height: 100%;
+	margin: inherit;
 }
-.div_front button{
-	font:bold 20px arial,sans-serif;
-	height:30px;
-	width:40px
+.div_front {
+	display: none;
+	position: absolute;
+	font: bold 20px SourceHanSans;
+	z-index: 500;
 }
-
-#btn_set3{
-    font:bold 20px arial,sans-serif;
-	height:30px;
-	width:80px;
+.div_front button {
+	font: bold 20px SourceHanSans;
+	height: 30px;
+	width: 40px
+}
+#btn_set3 {
+	font: bold 20px SourceHanSans;
+	height: 30px;
+	width: 80px;
 	position: absolute;
 }
-#btn_set4{
-    font:bold 20px arial,sans-serif;
-	height:30px;
-	width:80px;
+#btn_set4 {
+	font: bold 20px SourceHanSans;
+	height: 30px;
+	width: 80px;
 	position: absolute;
 	margin-left: 100px;
 }
-
-
 /*数据加载页面 start*/
-#div_load_progress_bar{
-   /* background-color: green;*/
-	background:url(../img/loading_logo.png) no-repeat;
-	background-size:100% 100%; 
+#div_load_progress_bar {
+	/* background-color: green;*/
+	background: url(../img/loading_logo.png) no-repeat;
+	background-size: 100% 100%;
 	/*上下居中*/
 	position: absolute;
-    width: 240px;
-    height: 87px;
+	width: 240px;
+	height: 87px;
 	/*左右居中*/
 	left: 0;
-    right: 0;
-
-	margin-left: auto; 
+	right: 0;
+	margin-left: auto;
 	margin-right: auto;
 	margin-top: -100px;
 }
-
 #div_resoure_load {
-/*	background-color: green;*/
+	/*	background-color: green;*/
 	/*上下居中*/
 	position: absolute;
-    width:100%;  
-    height:100%;
+	width: 100%;
+	height: 100%;
 	/*左右居中*/
-	left:0; 
-	right: 0; 
-	margin-left: auto; 
+	left: 0;
+	right: 0;
+	margin-left: auto;
 	margin-right: auto;
 }
-
-#loading_status {  
-	width: 240px;  
-	border: 1px #8b8a8f solid;  
-	-webkit-box-shadow: 0px 2px 2px #D0D4D6;  
-	height: 8px;  
-	-webkit-border-radius: 10px;  
-	background: -webkit-gradient(linear, 0 0, 0 100%, from(#E1E9EE), to(white));  
-	padding: 1px; 
+#loading_status {
+	width: 240px;
+	border: 1px #8b8a8f solid;
+	-webkit-box-shadow: 0px 2px 2px #D0D4D6;
+	height: 8px;
+	-webkit-border-radius: 10px;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#E1E9EE), to(white));
+	padding: 1px;
 	/*上下居中*/
 	position: absolute;
 	/*左右居中*/
 	left: 0;
 	right: 0;
-	
-	margin-left: auto; 
+	margin-left: auto;
 	margin-right: auto;
 	margin-top: 60%;
-
-}  
-
+}
 #loading_status a {
-    text-align:center;left: 0;
-    right: 0;
-    position: absolute;
-    margin-top: 10px;
-	font: bold 24px arial,sans-serif;
-	color:#898989;
+	text-align: center;
+	left: 0;
+	right: 0;
+	position: absolute;
+	margin-top: 10px;
+	font: bold 24px SourceHanSans;
+	color: #898989;
 }
-
-#loading_precent {  
-       background: -webkit-gradient(linear, 0 0, 0 100%, from(#f9b03f), color-stop(0.5,#f29300), to(#f9b03f));  
-       width: 0%;  
-       height: 100%;  
-       -webkit-border-radius: 10px;  
+#loading_precent {
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#f9b03f), color-stop(0.5, #f29300), to(#f9b03f));
+	width: 0%;
+	height: 100%;
+	-webkit-border-radius: 10px;
 }
-
 /*数据加载页面 end*/
 
 /*开始页面start*/
-#div_start_page{
-	display:none;
-	z-index:90;
-	background:url(../img/start_bg.png) no-repeat;  
-    width:100%;  
-    height:100%;  
-    background-size:100% 100%;  
-    position:absolute;  
-    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/start_bg.png',sizingMethod='scale'); 
+#div_start_page {
+	display: none;
+	z-index: 90;
+	background: url(../img/start_bg.png) no-repeat;
+	width: 100%;
+	height: 100%;
+	background-size: 100% 100%;
+	position: absolute;
+ filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/start_bg.png', sizingMethod='scale');
 }
-.div_start_log1{
+.div_start_log1 {
 	/*background-color: green;*/
-	background:url(../img/start_center_logo.png) no-repeat;
-	background-size:100% 100%; 
+	background: url(../img/start_center_logo.png) no-repeat;
+	background-size: 100% 100%;
 	/*上下居中*/
 	position: absolute;
 	width: 240px;
@@ -125,154 +121,177 @@ body{
 	top: 30%;
 	margin-top: -120px;
 	/*左右居中*/
-	left:0; 
-	right: 0; 
-	margin-left: auto; 
+	left: 0;
+	right: 0;
+	margin-left: auto;
 	margin-right: auto;
 }
-
-#div_start_page button{
-    width: 200px;
-    height: 60px;
-    position: absolute;
+#div_start_page button {
+	width: 200px;
+	height: 60px;
+	position: absolute;
 	/*左右居中*/
 	left: 0;
-    right: 0;
-	margin-left: auto; 
+	right: 0;
+	margin-left: auto;
 	margin-right: auto;
-	background:#f39300;
+	background: #f39300;
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 	border-radius: 1em;
-    outline: none;
+	outline: none;
 	border: none;
-	font: bold 24px arial,sans-serif;
-	color:#FFF;
+	font: bold 24px SourceHanSans;
+	color: #FFF;
 	margin-top: 320px;
 }
-
-.div_bottom_log{
+.div_bottom_log {
 	width: 112px;
 	height: 40px;
 	position: absolute;
 	right: 15px;
-    bottom: 5px;
-	background:url(../img/logo_bottom.png) no-repeat;
+	bottom: 5px;
+	background: url(../img/logo_bottom.png) no-repeat;
 	background-size: 100% 100%;
 }
 /*开始页面end*/
 
-
-#div_main_page{
-	display:none;
-	z-index:90;
-	background:url(../img/start_bg.png) no-repeat;  
-    width:100%;  
-    height:100%;  
-    background-size:100% 100%;  
-    position:absolute;  
+/*主页面 start*/
+#div_main_page {
+	display: none;
+	z-index: 90;
+	/*background: url(../img/start_bg.png) no-repeat;*/
+	width: 100%;
+	height: 100%;
+	background-size: 100% 100%;
+	position: absolute;
+}
+/*可以通过改坐标的方式让显示的更远一些*/
+#main_map_img_div{
+    width: 2700px;
+	height: 2098px;
+}
+#main_map_img_div img{
+   width: 2700px;
+	height: 2098px;
 }
 
 /*地图变换移动所需css start*/
-.item{  position:relative;   overflow:hidden;}
-.item img{
-    -webkit-transition:all .3s ease;
-    -moz-transition:all .3s ease;
-    -ms-transition:all .3s ease;
-    -o-transition:all .3s ease;
-    transition:all .3s ease;
-    position:absolute;
-    left:0
+.main_map_item {
+	position: relative;
+	overflow: hidden;
+}
+.main_map_item img {
+	-webkit-transition: all .3s ease;
+	-moz-transition: all .3s ease;
+	-ms-transition: all .3s ease;
+	-o-transition: all .3s ease;
+	transition: all .3s ease;
+	position: absolute;
+	left: 0
 }
 /*地图变换移动所需 end css*/
+/*已经到达的城市div信息*/
+#main_map_img_div .map_arrived_city0{
+	height:40px;
+	width:40px;
+	background-color:#090;
+}
+#main_map_img_div .map_arrived_city1{
+}
+#main_map_img_div .map_arrived_city2{
+}
+#main_map_img_div .map_arrived_city3{
+}
+#main_map_img_div .map_arrived_city4{
+}
+
+/*主页面 end*/
 
 /*排名信息*/
-.btn_rank_list{
-	width: 60px;
-	height: 60px;
+.btn_rank_list {
+	width: 50px;
+	height: 50px;
 	position: absolute;
 	right: 20px;
 	top: 20px;
-	background:url(../img/ranking_button.png) no-repeat;
+	background: url(../img/ranking_button_70.png) no-repeat;
 	background-size: 100% 100%;
 	border: none;
-	outline:none;
+	outline: none;
 }
 /*微信ICON*/
-.wechart_icon{
-   /* background-color: green;*/
-	background:#fff;
+.wechart_icon {
+	/* background-color: green;*/
 	background-repeat: no-repeat;
-	background-size:95% 95%; 
-	background-position: left 1px top 1px;
+	background-size: 100% 100%;
 	/*上下居中*/
 	position: absolute;
-	width: 60px;
-	height: 60px;
+	width: 38px;
+	height: 38px;
 	/*左右居中*/
 	left: 0;
-    right: 60px;
-    top: 40%;
-	margin-left: auto; 
+	right: 50px;
+	top: 40%;
+	margin-left: auto;
 	margin-right: auto;
-	
-	border-radius: 50%;      
-	-moz-border-radius: 50%;      
+	border-radius: 50%;
+	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
+	border: 1px solid #FFF;
 }
 /*旗帜*/
-.div_main_flag{
-   /* background-color: green;*/
-	background:url(../img/flag.png) no-repeat;
-	background-size:100% 100%; 
+.div_main_flag {
+	/* background-color: green;*/
+	background: url(../img/flag.png) no-repeat;
+	background-size: 100% 100%;
 	/*上下居中*/
 	position: absolute;
 	width: 100px;
 	height: 100px;
 	/*左右居中*/
 	left: 90px;
-    right: 0;
-    top: 40%;
-	margin-left: auto; 
+	right: 0;
+	top: 40%;
+	margin-left: auto;
 	margin-right: auto;
 }
-
 /*进度条信息*/
-.div_progress_rate{
-    background: url(../img/div_progress_bar_rate.png) no-repeat;
-	background-size:100% 100%; 
+.div_progress_rate {
+	background: url(../img/div_progress_bar_rate.png) no-repeat;
+	background-size: 100% 100%;
 	/*上下居中*/
 	position: absolute;
 	width: 100px;
 	height: 100px;
 	/*左右居中*/
 	left: 0;
-    right: 0;
-    
-	margin-left: auto; 
+	right: 0;
+	margin-left: auto;
 	margin-right: auto;
 	clip: rect(70px 100px 100px 0px);
 }
-
-.div_progress_bar{
-    	/*background-color: green;*/
-	background:url(../img/div_progress_bar.png) no-repeat;
-	background-size:100% 100%; 
+.div_progress_bar {
+	/*background-color: green;*/
+	background: url(../img/div_progress_bar.png) no-repeat;
+	background-size: 100% 100%;
 	/*上下居中*/
 	position: absolute;
-	width: 100px;
-	height: 100px;
+	width: 98px;
+	height: 98px;
 	/*左右居中*/
 	left: 0;
-    right: 0;
-
-	margin-left: auto; 
+	right: 0;
+	margin-left: auto;
 	margin-right: auto;
+	border: 1px solid transparent;
+	    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
 }
-
-.div_progress{
-	background:#666;
-	background-size:100% 100%; 
+.div_progress {
+	background: #666;
+	background-size: 100% 100%;
 	/*上下居中*/
 	position: absolute;
 	width: 100px;
@@ -281,177 +300,332 @@ body{
 	left: 0;
 	right: 0;
 	bottom: 50px;
-	margin-left: auto; 
+	margin-left: auto;
 	margin-right: auto;
-	border-radius: 50%;      
-	-moz-border-radius: 50%;      
+	border-radius: 50%;
+	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 }
 /*进度条信息 end*/
 
-#div_showinfo_page{
-	display:none;
-	z-index:70;
+#div_showinfo_page {
+	display: none;
+	z-index: 70;
 }
-
 /*城市介绍页面 start*/
-#div_show_cityinfo_page{
-	display:none;
-	z-index:1001;
-	background:#FFF;  
-    width:80%;  
-    height:80%;  
-    background-size:100% 100%;  
+#div_show_cityinfo_page {
+	display: none;
+	z-index: 1001;
+	background: #FFF;
+	width: 80%;
+	height: 480px;
+	background-size: 100% 100%;
 	position: absolute;
-
 	/*左右居中*/
 	left: 0;
 	right: 0;
-	top: 10%;
-    bottom: 10%;
-	margin-left: auto; 
+	top: 5%;
+	bottom: 10%;
+	margin-left: auto;
 	margin-right: auto;
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 	border-radius: 1em;
 }
+#div_show_cityinfo_page img {
+	height: 140px;
+	width: 100%;
+}
+.cityinfo_name_style {
+	text-align: center;
+	float: left;
+	margin-left: 36%;
+	font: 28px SourceHanSans;/*arial, sans-serif;*/
+	margin-top: 12px;
+	margin-bottom: 8px;
+}
 
-#div_show_cityinfo_page img{
-	height: 40%;
+.cityinfo_word_div{
+	height: 220px;
     width: 100%;
+    background-color: #b2dbb2;
+	overflow-x:auto;
 }
 
-#cityinfo_name{
-	text-align:center;
-	float:left;
-	margin-left: 40%;
-	font: bold 30px arial,sans-serif;
-	margin-top: 10px;
-    margin-bottom: 10px;
-}
-.cityinfo_word_style{
-	font: 16px arial,sans-serif;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    color: #666;
-    margin-left: 20px;
-    margin-right: 20px;
-	line-height: 32px;
-}
-
-.cityinfo_hide_button{
-	float:right; background:url(../img/close_button.png) no-repeat; 
-	background-size:100% 100%; 
-	width:30px; 
-	height:30px;
+.cityinfo_word_style_city {
+	font: 16px SourceHanSans;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	color: #666;
+	margin-left: 10px;
 	margin-right: 10px;
-    margin-top: 10px;
-    border: none;
-	outline:none
+	/*line-height: 32px;*/
+}
+
+.cityinfo_hide_button {
+	float: right;
+	background: url(../img/close_button.png) no-repeat;
+	background-size: 100% 100%;
+	width: 30px;
+	height: 30px;
+	margin-right: 10px;
+	margin-top: 10px;
+	border: none;
+	outline: none
 }
 /*城市介绍页面布局 end*/
 
 /*奖状页面*/
-#div_show_certificate_page{
-	display:none;
-	z-index:1002;
-	background:url(../img/certificate.png) no-repeat;  
-    width:80%;  
-    height:65%;  
-    background-size:100% 100%;  
+#div_show_certificate_page {
+	display: none;
+	z-index: 1002;
+	background: url(../img/certificate.png) no-repeat;
+	width: 80%;
+	height: 65%;
+	background-size: 100% 100%;
 	position: absolute;
-
 	/*左右居中*/
 	left: 0;
 	right: 0;
 	top: 10%;
-    bottom: 10%;
-	margin-left: auto; 
+	bottom: 10%;
+	margin-left: auto;
 	margin-right: auto;
+}
+.certificate_word_style{
+	font: 16px SourceHanSans;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	color: #666;
+	margin-left: 20px;
+	margin-right: 20px;
+	line-height: 32px;
 }
 
 /*排名弹窗start*/
-#div_ranking_list_page{
-	display:none;
-	z-index:1003;
-	background:url(../img/ranking_list.png) no-repeat;  
-    width:80%;  
-    height:75%;  
-    background-size:100% 100%;  
+#div_ranking_list_page {
+	display: none;
+	z-index: 1001;
+	background: #e2e2e2;
+	width: 80%;
+	height: 480px;
+	background-size: 100% 100%;
 	position: absolute;
-
 	/*左右居中*/
 	left: 0;
 	right: 0;
-	top: 10%;
-    bottom: 10%;
-	margin-left: auto; 
+	top: 5%;
+	bottom: 10%;
+	margin-left: auto;
 	margin-right: auto;
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 	border-radius: 1em;
 }
-.div_left_top_logo{
+.div_left_top_logo {
+	/*上下居中*/
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	/*左右居中*/
+	left: 0;
+	right: 0;
+	bottom: 5px;
+	margin-left: auto;
+	margin-right: auto;
 	width: 112px;
 	height: 40px;
 	position: absolute;
-    left: 5px;
-    top: 10px;
-	background:url(../img/logo_bottom.png) no-repeat;
+	/*left: 5px;
+	top: 10px;*/
+	background: url(../img/logo_bottom.png) no-repeat;
 	background-size: 100% 100%;
+}
+.inner {
+	/*background: green;*/
+	width: 100%;
+	height: 450px;
+	margin-top: 55px;
+}
+.div_my_ranking_style {
+	background: red;
+	width: 100%;
+	height: 50px;
+}
+.rank_list {
+	color: #898989;
+	font-style: normal;
+	font-size: 14px;
+	font-family: SourceHanSans;
+	
+	line-height: 14px;
+	margin: auto;
+	padding-top: 5px;
+	padding-start: 0px;
+	-webkit-padding-start: 0px;
+	list-style: none;
+}
+.rank_list li {
+	background: #FFF;
+	height: 35px;
+	margin-bottom: 2px;
+	/*padding-left: 20px;*/
+	white-space: nowrap;
+	overflow: hidden;
+	position: relative;
+	text-align: right;
+}
+.rank_list li a {
+	line-height: 35px;
+	right: 60px;
+	position: absolute;
+}
+.rank_list li p{
+-webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    line-height: 35px;
+    margin-right: 8px;
+}
+/*.rank_list a.r_d {
+	right: 60px;
+	position: absolute;
+}
+.rank_list a.r_t {
+	margin-right: 8px;
+}*/
+.rank_list li.rank_me {
+	background-color: #f29300;
+	/*font-size: 16px;*/
+	color: #FFF;
+}
+.rank_list li.top1 em {
+	height: 35px;
+	width: 29px;
+	border: none;
+	background: url(../img/ranking_1.png) no-repeat;
+	background-size: 100% 100%;
+	margin-left: 8px;
+}
+.rank_list li.top2 em {
+	height: 35px;
+	width: 29px;
+	border: none;
+	background: url(../img/ranking_2.png) no-repeat;
+	background-size: 100% 100%;
+	margin-left: 8px;
+}
+.rank_list li.top3 em {
+	height: 35px;
+	width: 29px;
+	border: none;
+	background: url(../img/ranking_3.png) no-repeat;
+	background-size: 100% 100%;
+	margin-left: 8px;
+}
+.rank_list em {
+	position: absolute;
+	left: 0;
+	top: 0;
+	/*border: 1px solid #B1E0F4;
+	background: #E6F0FD;*/
+	text-align: center;
+	line-height: 35px;
+	overflow: hidden;
+	margin-left: 13px;
+	font-style: normal;
+}
+/*微信头像*/
+.rank_list div {
+	/* background-color: green;background: #898989;;*/
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	/*background-position: left 1px top 1px;*/
+	/*上下居中*/
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	/*左右居中*/
+	margin-top: 2px;
+	left: 45px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 50%;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border: 1px solid #898989;
+}
+.rank_list span {
+	position: absolute;
+	width: 60px;
+	height: 14px;
+	left: 80px;
+	line-height: 35px;
 }
 /*排名弹窗end*/
 
 /*限制窗口*/
-#div_show_limit_window{
-	display:none;
-	z-index:1010;
-	background:url(../img/limit_warning.png) no-repeat;  
-    width:80%;  
-    height: 30%; 
-    background-size:100% 100%;  
+#div_show_limit_window {
+	display: none;
+	z-index: 1010;
+	background-color: #FFF;;
+	width: 80%;
+	height: 188px;
+	background-size: 100% 100%;
 	position: absolute;
-
 	/*左右居中*/
 	left: 0;
 	right: 0;
 	top: 35%;
-	margin-left: auto; 
+	margin-left: auto;
 	margin-right: auto;
+	text-align:center;
+	    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+    border-radius: 1em;
 }
 
-#div_show_limit_window button{
-border:none;
-    width: 98%;
-    height: 29%;
-    bottom: 1px;
-    position: absolute;
+#div_show_limit_window span{
+   font: 20px SourceHanSans;
+   color: #737373;
+} 
+
+.div_limit_window_name {
+	text-align: center;
+	font: 28px SourceHanSans;
+	margin-top: 12px;
+	margin-bottom: 8px;
+	color:#f39405;
+}
+
+#div_show_limit_window button {
+	border: none;
+	width: 98%;
+	height: 29%;
+	bottom: 1px;
+	position: absolute;
 	/*左右居中*/
 	left: 0;
-    right: 0;
-	margin-left: auto; 
+	right: 0;
+	margin-left: auto;
 	margin-right: auto;
-	
-	background-color: rgba(64, 224, 208, 0);
+	background-color: transparent;
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 	border-radius: 1em;
-    outline: none;
-	font: bold 20px arial,sans-serif;
+	outline: none;
+	font: bold 20px SourceHanSans;
 }
-
 /*模态弹窗*/
-.div_overlay
-{
-	display:none;
+.div_overlay {
+	display: none;
 	position: fixed;
 	top: 0%;
 	left: 0%;
 	width: 100%;
 	height: 100%;
 	background-color: black;
-	z-index:1000;
+	z-index: 1000;
 	-moz-opacity: 0.8;
-	opacity:.80;
+	opacity: .80;
 	filter: alpha(opacity=80);
 }

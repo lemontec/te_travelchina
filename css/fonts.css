@@ -1,0 +1,10 @@
+@charset "utf-8";
+/* CSS Document */
+/*统一字体*/
+
+@font-face {
+  font-family: 'SourceHanSans';
+  src:url('../font/SourceHanSansCN-Regular.otf'),
+  font-weight: normal;
+  font-style: normal;
+}

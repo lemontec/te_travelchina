@@ -34,7 +34,6 @@
 <meta name="msapplication-tap-highlight" content="no">
 <title>Demo</title>
 <script src="[:app]/js/jquery-1.11.1.min.js"></script>
-<script src="[:app]/js/main.js"></script>
 <link rel="stylesheet" type="text/css" href="[:app]/css/controller-styles.css"/>
 </head>
 <body>
@@ -64,12 +63,15 @@
   <div class="div_bottom_log"></div>
 </div>
 
-<div id="div_main_page" class="item">
-
-  <img id="main_map_img" src="![:app]/img/full_map_smal.png" onload="fullMapOnload()">
+<div id="div_main_page" class="main_map_item">
+  <div id="main_map_img_div">
+      <img id="main_map_img" src="[:app]/img/full_map_2.png" onload="fullMapOnload()">
+      <div class="map_arrived_city0"></div>
+  </div>
+ 
   <button class="btn_rank_list" onclick="showRanking()"></button>
-  <button id="btn_set3"   onClick="sharkeTest()">摇一摇</button>
-  <button id="btn_set4"   onClick="sharkeAllTest()">无限摇</button>
+  <button id="btn_set3"  style="top: 10px;left: 10px;" onClick="sharkeTest()">摇一摇</button>
+  <button id="btn_set4"  style="top: 10px;left: 10px;" onClick="sharkeAllTest()">无限摇</button>
   
   <div id="div_wechart_icon" class="wechart_icon"></div>
   <div class="div_main_flag"></div>
@@ -81,27 +83,40 @@
 </div>
 
 <div id="div_show_cityinfo_page">
-    <div style="clear:both"><p id="cityinfo_name">成都市</p>
-        <!--<div class="cityinfo_hide_button"  onclick="hideCityInfo()"></div>-->
+    <div style="clear:both"><p id="cityinfo_name" class="cityinfo_name_style">成都市</p>
         <button class="cityinfo_hide_button" onclick="hideCityInfo()"></button>
     </div>
-    <img id="cityinfo_img" src="[:app]/img/city/0.png"/>
-    <div ><p id="cityinfo_word" class="cityinfo_word_style">说到成都，你首先想到的火锅？熊猫？变脸？在这个火辣辣的城市坐落着TE精量电子成都工厂。其85%的员工源自四川省，“辣劲”是团队的主基调。</p></div>
+    <img id="cityinfo_img" />
+    <div class="cityinfo_word_div"><p id="cityinfo_word" class="cityinfo_word_style_city">说到成都，你首先想到的火锅？熊猫？变脸？在这个火辣辣的城市坐落着TE精量电子成都工厂。其85%的员工源自四川省，“辣劲”是团队的主基调。这位新晋成员，为当地解决就业起到一定作用的同时，先进的管理理念对带动上下游企业。</p></div>
     <div class="div_bottom_log"></div>
 </div>
 
 <div id="div_show_certificate_page">
     <button class="cityinfo_hide_button" onclick="hideCertificate()"></button>
-    <div style="margin:100px 20px 20px 20px;"><p id="cityinfo_word" class="cityinfo_word_style">恭喜恭喜，1988年，TE的开拓者在上海华亭宾馆开始了他们的深耕中国之旅。所以，我们的旅程也将从这里开始。</p></div>
+    <div style="margin:100px 20px 20px 20px;"><p id="cityinfo_word" class="certificate_word_style">恭喜恭喜，1988年，TE的开拓者在上海华亭宾馆开始了他们的深耕中国之旅。所以，我们的旅程也将从这里开始。</p></div>
 </div>
 
 <div id="div_show_limit_window">
+    <p class="div_limit_window_name">温馨提示</p>
+    <span>今日游戏次数已达上限，</span><br/>
+    <span>休息一下，明天再来</span>
+    <hr style="margin-top: 20px;"/>
     <button onclick="closeLimitWindow()">关闭</button>
 </div>
 
+
 <div id="div_ranking_list_page">
-    <button class="cityinfo_hide_button" onclick="hideRanking()"></button>
-    <div style="margin:100px 20px 20px 20px;"></div>
+    <div style="clear:both"><p class="cityinfo_name_style">排行榜</p>
+        
+        <!--<div class="cityinfo_hide_button"  onclick="hideCityInfo()"></div>-->
+        <button class="cityinfo_hide_button" onclick="hideRanking()"></button>
+    </div>
+    <div class="inner">
+      <ul id="rank_list_ul" class="rank_list">
+          <!--<li class="top1"><em></em><div style="background-image:url(img/wx_icon.jpg)"></div><span>用户名个</span><a>4322公里</a><p>未完成</p></li>-->
+     </ul>
+    </div>
+    <div class="div_left_top_logo"></div>
 </div>
 
 <!-- 模态窗口遮挡 -->
