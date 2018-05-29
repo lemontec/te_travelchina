@@ -34,5 +34,9 @@ class Player {
         db_player::inst()->update_distance($pid, $distance);
         db_move::inst()->add($pid, $loc1, $loc2);
     }
+
+    public static function rank() {
+        return db_move::inst()->rank();
+    }
 };
 

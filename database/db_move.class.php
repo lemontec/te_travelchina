@@ -76,6 +76,19 @@ class db_move extends database {
             "time" => time(),
         ));
     }
+
+    public function rank() {
+        $sql = "SELECT * from (
+            SELECT player,loc1,loc2,time,openid,nickname,headimgurl,distance from moves m 
+            LEFT JOIN players p 
+            on m.player = p.id
+            where m.id in (
+                SELECT max(id) from moves group by player
+            )
+        ) a where a.openid is not null 
+        order by loc1 desc, loc2 desc, time LIMIT 10";
+        return $this->doQuery($sql);
+    }
 };
 
 

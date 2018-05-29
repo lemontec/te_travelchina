@@ -69,6 +69,11 @@ class index_controller {
         return $player;
     }
 
+    public function rank_action() {
+        $rank = Player::rank();
+        return $rank;
+    }
+
 };
 
 
