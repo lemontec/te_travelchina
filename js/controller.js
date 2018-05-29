@@ -104,9 +104,13 @@ function nextPhase(){
 function startGame(){
     //alert("starting...");
 	nextPhase();
+	//初始化旗子和Wx_Icon位置
+	initFlagAndWxIcon();
 	//开始游戏
 	//首先移动到上一次的位置
 	moveStepsToNextCity(m_curr_city_index, m_curr_steps_to_lastcity);
+	//绘制已到达城市的初始橙色信息
+	initArrivedCityIcon(-1);
 	//绘制进度信息
 	drawProgressBar();
 }
@@ -164,6 +168,8 @@ function shakePhone(){
 			m_curr_dist_begin2last += m_city_list[m_curr_city_index].dist;//走完一个城市，加上路程
 			m_curr_steps_to_lastcity = 0;
 			m_curr_city_index++;
+			//已到达的城市显示橙色信息
+			initArrivedCityIcon(m_curr_city_index);
 			//拉取信息，显示城市介绍，延长100ms
 			showCityInfo();
 			showcity_delay_timer_event(1000);
@@ -265,22 +271,22 @@ function jRequest_error(){
 }
 
 var m_city_list = [
-    {index:0, name:"上海", position:{x:2010, y:1328}, dist:800 ,steps:8, limit_count:5},
-    {index:1, name:"厦门", position:{x:1960, y:1607}, dist:500 ,steps:5, limit_count:3},
-	{index:2, name:"东莞", position:{x:1806, y:1676}, dist:100 ,steps:5, limit_count:2},
-	{index:3, name:"深圳", position:{x:1810, y:1740}, dist:100 ,steps:5, limit_count:2},
-	{index:4, name:"广州", position:{x:1740, y:1636}, dist:100 ,steps:5, limit_count:2},
-	{index:5, name:"珠海", position:{x:1677, y:1754}, dist:100 ,steps:5, limit_count:2},
-	{index:6, name:"佛山", position:{x:1654, y:1667}, dist:1200,steps:12,limit_count:5},
-	{index:7, name:"成都", position:{x:1281, y:1354}, dist:1000,steps:10,limit_count:5},
-	{index:8, name:"武汉", position:{x:1564, y:1354}, dist:500 ,steps:5, limit_count:3},
-	{index:9, name:"南京", position:{x:1738, y:1263}, dist:200 ,steps:4, limit_count:2},
-	{index:10, name:"苏州", position:{x:1843, y:1327},dist:50  ,steps:5, limit_count:2},
-	{index:11, name:"昆山", position:{x:1911, y:1292},dist:600 ,steps:6, limit_count:3},
-	{index:12, name:"青岛", position:{x:1956, y:1103},dist:600 ,steps:6, limit_count:3},
-	{index:13, name:"北京", position:{x:1837, y:879}, dist:900 ,steps:9, limit_count:5},
-	{index:14, name:"长春", position:{x:2234, y:615}, dist:0   ,steps:1, limit_count:0}
-];
+    {index:0, name:"上海", position:{x:3351, y:2214}, dist:800 ,steps:8, limit_count:5},
+    {index:1, name:"厦门", position:{x:3268, y:2679}, dist:500 ,steps:5, limit_count:3},
+	{index:2, name:"东莞", position:{x:3012, y:2794}, dist:100 ,steps:5, limit_count:2},
+	{index:3, name:"深圳", position:{x:3018, y:2900}, dist:100 ,steps:5, limit_count:2},
+	{index:4, name:"广州", position:{x:2900, y:2729}, dist:100 ,steps:5, limit_count:2},
+	{index:5, name:"珠海", position:{x:2797, y:2923}, dist:100 ,steps:5, limit_count:2},
+	{index:6, name:"佛山", position:{x:2759, y:2778}, dist:1200,steps:12,limit_count:5},
+	{index:7, name:"成都", position:{x:2138, y:2248}, dist:1000,steps:10,limit_count:5},
+	{index:8, name:"武汉", position:{x:2608, y:2258}, dist:500 ,steps:5, limit_count:3},
+	{index:9, name:"南京", position:{x:2899, y:2105}, dist:200 ,steps:4, limit_count:2},
+	{index:10, name:"苏州", position:{x:3074, y:2211},dist:50  ,steps:5, limit_count:2},
+	{index:11, name:"昆山", position:{x:3179, y:2150},dist:600 ,steps:6, limit_count:3},
+	{index:12, name:"青岛", position:{x:3257, y:1842},dist:600 ,steps:6, limit_count:3},
+	{index:13, name:"北京", position:{x:3056, y:1458},dist:900 ,steps:9, limit_count:5},
+	{index:14, name:"长春", position:{x:3724, y:1025},dist:0   ,steps:1, limit_count:0}
+]; 
 
 /*数据信息 end*/
 
@@ -440,7 +446,7 @@ function enterCloseWindow(){
 /*辅助提示窗口 end*/
 
 /*游戏逻辑 start*/
-function fullMapOnload() {
+function fullMapOnload(){
 	var img = document.getElementById("main_map_img");
 	m_map_width = img.width;
 	m_map_height= img.height;
@@ -451,8 +457,9 @@ function fullMapOnload() {
 function moveStepsToNextCity(begin_city_index, curr_steps){
     if (begin_city_index == m_city_list.length - 1) {
 		//超出范围
-		moveAnimation(Math.floor(m_width/2  - m_city_list[begin_city_index].position.x ), 
-		              Math.floor(m_height/2 - m_city_list[begin_city_index].position.y  + 30));
+		moveAnimation(Math.floor(m_width/2  - m_city_list[begin_city_index].position.x/2 ), 
+		              Math.floor(m_height/2 - m_city_list[begin_city_index].position.y/2  + 30));
+		moveArrivedCityIcon();//移动之后立即更新CityIcon信息
 		return;
 	}
 	/*
@@ -461,10 +468,13 @@ function moveStepsToNextCity(begin_city_index, curr_steps){
 	*/
 	var currPos = calcCurrPosition(begin_city_index, curr_steps);
 	moveAnimation(Math.floor(m_width/2  - currPos.x ), Math.floor(m_height/2 - currPos.y  + 30));
+	moveArrivedCityIcon();//移动之后立即更新CityIcon信息
 }
 
 //回到移动地图前的位置，超时会走这里，移动之后第一次摇一摇也会走这里
 function goTodayCurrPosition(){
+	//首先初始化旗帜和Wx_Icon位置
+	initFlagAndWxIcon();
 	moveStepsToNextCity(m_curr_city_index, m_curr_steps_to_lastcity);
 }
 
@@ -478,7 +488,7 @@ function calcCurrPosition(begin_city_index, curr_steps){
     var t = curr_steps / m_city_list[begin_city_index].steps;
 	var pos_x = (1-t)*m_city_list[begin_city_index].position.x + t*m_city_list[begin_city_index + 1].position.x;
 	var pos_y = (1-t)*m_city_list[begin_city_index].position.y + t*m_city_list[begin_city_index + 1].position.y;
-	return {x:pos_x, y:pos_y};
+	return {x: pos_x/2, y: pos_y/2};
 }
 
 //绘制进度信息
@@ -500,8 +510,59 @@ function drawProgressBar(){
 //绘制微信图标
 function drawWeChartIcon(url){
 	//$("#div_wechart_icon").css("background","url(http://localhost/h5/wx_icon.jpg) no-repeat");
-    $("#div_wechart_icon").css("background-image", "url(" + url + ")");
+    document.getElementById("div_wechart_icon_id").src = url;
 }
+
+//城市橙色覆盖计算逻辑 start
+function initArrivedCityIcon(index){
+	if (index > 0){
+	    //每次到达一个城市，更新这个城市的橙色信息
+		$("#map_arrived_city" + index).show();
+	    return;
+	}
+	//初始化已走过的城市的橙色信息
+	for(var i=1; i <= m_curr_city_index; i++){
+	    $("#map_arrived_city" + i).show();
+	}
+}
+
+
+function moveArrivedCityIcon(){
+	//拿到当前的中心点坐标
+    //var m_curr_steps_to_lastcity = 0;//到上一个城市当前走了多
+	var center_pos = calcCurrPosition(m_curr_city_index ,m_curr_steps_to_lastcity);
+	var curr_x = 0;
+	var curr_y = 0;
+	var map_arrived_city = 0;
+	for(var i=1; i<15; i++) {
+		//var i = 12;
+		//计算offset，注意真实尺寸和移动尺寸差了2倍
+		curr_x = m_city_list[i].position.x/2 - center_pos.x + m_width /2;
+		curr_y = m_city_list[i].position.y/2 - center_pos.y + m_height/2 + 30;
+		//在这个基础上，做自己的偏移, 20为city图标宽度的一半
+		curr_x = curr_x  - 20;
+		curr_y = curr_y  - 20;
+		
+		//map_arrived_city1
+		//var map_arrived_city = document.getElementById("map_arrived_city" + i);
+		//map_arrived_city.style.left = curr_x +"px";
+		//map_arrived_city.style.top = curr_y +"px";
+		var map_arrived_city = "#map_arrived_city" + i;
+		$(map_arrived_city).stop(!0).animate({"left": curr_x, "top": curr_y});
+	}
+}
+
+function initFlagAndWxIcon(){
+	//flag 	    top: 266px; left: 181px;
+	//wx_icon  left: 145px; top: 277px;
+    document.getElementById("div_main_flag_id").style.top    = (m_height*0.5 - 67.5) + "px";
+	document.getElementById("div_main_flag_id").style.left   = (m_width*0.5  - 6.5)  + "px";
+	document.getElementById("div_wechart_icon_id").style.top = (m_height*0.5 - 56.5) + "px";
+	document.getElementById("div_wechart_icon_id").style.left =(m_width*0.5  - 42.5) + "px";
+	//182.5px
+	//0.4*height
+}
+//城市橙色覆盖计算逻辑 start
 
 //拖动地图逻辑 start
 var move_map_flag = false;
@@ -512,6 +573,31 @@ var move_cur_pos = {
 var map_nx,map_ny,map_dx,map_dy,map_move_x,map_move_y;
 //需要onload之后就绑定
 const map_img = document.getElementById("main_map_img");
+//拖动对象
+var m_gragObjs_const_count = 2;//拖动对象的常量值
+const m_gragObjs =[
+document.getElementById("div_main_flag_id"),
+document.getElementById("div_wechart_icon_id"),
+document.getElementById("map_arrived_city1"),
+                   document.getElementById("map_arrived_city2"),
+				   document.getElementById("map_arrived_city3"),
+				   document.getElementById("map_arrived_city4"),
+				   document.getElementById("map_arrived_city5"),
+				   document.getElementById("map_arrived_city6"),
+				   document.getElementById("map_arrived_city7"),
+				   document.getElementById("map_arrived_city8"),
+				   document.getElementById("map_arrived_city9"),
+				   document.getElementById("map_arrived_city10"),
+				   document.getElementById("map_arrived_city11"),
+				   document.getElementById("map_arrived_city12"),
+				   document.getElementById("map_arrived_city13"),
+				   document.getElementById("map_arrived_city14") ];
+var m_gragObjs_offset = [
+{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},
+{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},
+{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0}
+];
+
 function bindMapMoveEvent(){
 	//找到IMG
 	if ( map_img == undefined) {
@@ -537,6 +623,8 @@ function bindMapMoveEvent(){
     },false);
 }
 
+var action_move_down_i = 0;
+var action_move_move_i = 0;
 function action_down(){
 	//console.log("--->down" + new Date());
 	move_map_flag = true;
@@ -550,6 +638,11 @@ function action_down(){
 	move_cur_pos.y = touch.clientY;
 	map_dx = map_img.offsetLeft;
 	map_dy = map_img.offsetTop;
+	
+	for (action_move_down_i = 0; action_move_down_i < m_gragObjs_const_count + 14; action_move_down_i++){
+	    m_gragObjs_offset[action_move_down_i].x = m_gragObjs[action_move_down_i].offsetLeft;
+		m_gragObjs_offset[action_move_down_i].y = m_gragObjs[action_move_down_i].offsetTop;
+	}
 }
 
 function action_move(){
@@ -563,11 +656,20 @@ function action_move(){
 		}
 		map_nx = touch.clientX - move_cur_pos.x;
 		map_ny = touch.clientY - move_cur_pos.y;
-		map_move_x = map_dx+map_nx;
-		map_move_y = map_dy+map_ny;
+		map_move_x = map_dx + map_nx;
+		map_move_y = map_dy + map_ny;
 		map_img.style.left = map_move_x +"px";
 		map_img.style.top = map_move_y +"px";
-		
+		//console.log("--map_dx:" + map_dx + "|map_dy:" + map_dy + "|map_nx:" + map_nx + "|map_ny:" + map_ny);
+
+		for (action_move_move_i = 0; action_move_move_i <m_gragObjs_const_count + 14; action_move_move_i++){
+			//m_gragObjs_offset[i].x = m_gragObjs[i].offsetLeft;
+			//m_gragObjs_offset[i].y = m_gragObjs[i].offsetTop;
+			map_move_x = m_gragObjs_offset[action_move_move_i].x + map_nx;
+			map_move_y = m_gragObjs_offset[action_move_move_i].y + map_ny;
+			m_gragObjs[action_move_move_i].style.left = map_move_x +"px";
+			m_gragObjs[action_move_move_i].style.top  = map_move_y +"px";
+		}
 		//阻止页面的滑动默认事件
 		document.addEventListener("touchmove",function(){
 			event.preventDefault();
