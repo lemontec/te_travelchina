@@ -358,7 +358,7 @@ function requestRankData(retData){
         console.debug(res);
 
         var rank_innerHtml = "";
-        for (var i = 0; i < res.length; i++) {
+        for (var i in res) {
             console.debug(res[i]);
             var l_li = "";
             //top 1 2 3, self
@@ -397,6 +397,7 @@ function requestRankData(retData){
             }
             //处理name
             var l_name = res[i]["nickname"];
+            console.debug(l_name);
             if (l_name.length > 3){
                 l_name = l_name.substring(0, 3) + "..";
             }
@@ -729,3 +730,49 @@ var m_city_info = [
 	{index:13, name:"北京",head:"中国速度",         desc:"帝都不仅有我们的团队，更见证TE助力复兴号跑进350公里时代 - 2017年6月26日，由北京开往上海的中国标准动车组G123次“复兴号”动车稳步启动，领跑中国高铁新征程。"},
 	{index:14, name:"长春",head:"长春",             desc:"每个城市都有自己的性格，在长春，人们会高谈阔论三样东西：人情味、酒量和汽车。身披中国“汽车城”的铠甲，长春在一路高歌猛进的中国汽车行业持续沸腾。在这里，TE长春办事处的TE人练就了一身过人的技能，演绎着TE家庭里好爽而丰满的个性。"},
 ];
+
+
+// the following code is copied from: https://www.cnblogs.com/catEatBird/p/7123441.html
+function toShake(callBack) {
+    var RANGE = 60;//当用户摇晃的幅度超过这个值，我们认定用户在摇一摇
+    var isShake = false;//是否进行了摇一摇
+    var lastX,lastY,lastZ;
+    var lastTime = Date.now();
+    window.addEventListener('devicemotion', function(e) {
+        var nowTime = Date.now();
+        //拉开执行的间隔，让iso和安卓的执行频率接近一致
+        if(nowTime - lastTime < 100){
+            return;
+        }
+        lastTime = nowTime;
+        var motion = e.accelerationIncludingGravity;
+        var x = motion.x;
+        var y = motion.y;
+        var z = motion.z;
+        if(typeof lastX == "undefined"){//第一次进来还没有上一次的值
+            lastX = x;
+            lastY = y;
+            lastZ = z;
+            return;
+        }
+        var nowRange = Math.abs(x - lastX) + Math.abs(y - lastY) + Math.abs(z - lastZ);
+        if(nowRange > RANGE){
+            isShake = true;
+        } 
+        //当用户进行了剧烈的摇动，我们就认定用户进行了摇一摇，然后摇晃幅度慢下来之后，执行摇一摇函数
+        if(isShake&&nowRange < 20){
+            callBack&&callBack();
+            isShake = false;
+        }
+        lastX = x;
+        lastY = y;
+        lastZ = z;
+    });
+}
+
+toShake(function(){
+    // alert("shake shake.");
+    shakePhone();
+});
+
+

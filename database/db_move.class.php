@@ -105,7 +105,11 @@ class db_move extends database {
             where a.openid is not null
         ) aa 
         where aa.openid=$openid";
-        return $this->doQuery($sql);
+        $rank = $this->doQuery($sql);
+        if (empty($rank)) {
+            return $rank;
+        }
+        return array_shift($rank);
     }
 };
 
