@@ -354,65 +354,62 @@ function showRanking(){
 }
 
 function requestRankData(retData){
-    var jsonData = [
-			{"no":1, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
-			{"no":2, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
-			{"no":3, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
-			{"no":4, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
-			{"no":5, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
-			{"no":6, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
-			{"no":7, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
-			{"no":8, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
-			{"no":9, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
-		    {"no":10001, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":1}
-		];
-	var rank_innerHtml = "";
-	for (var i = 0; i < jsonData.length; i++) {
-		var l_li = "";
-		//top 1 2 3, self
-		if (jsonData[i]["self"] == 1) {
-			if (jsonData[i]["no"] == "1") {
-				l_li = "<li class='top1 rank_me'><em>";
-			} else if (jsonData[i]["no"] == "2") {
-				l_li = "<li class='top2 rank_me'><em>";
-			} else if (jsonData[i]["no"] == "3") {
-				l_li = "<li class='top3 rank_me'><em>";
-			} else {
-				var l_no = jsonData[i]["no"] + "";
-				if(l_no.length > 4) {
-					l_no = "100+"
-				}
-				l_li = "<li class='rank_me'><em>" + l_no;
-			}
-		} else {
-			if (jsonData[i]["no"] == "1") {
-				l_li = "<li class='top1'><em>";
-			} else if (jsonData[i]["no"] == "2") {
-				l_li = "<li class='top2'><em>";
-			} else if (jsonData[i]["no"] == "3") {
-				l_li = "<li class='top3'><em>";
-			} else {
-				var l_no = jsonData[i]["no"] + "";
-				if(l_no.length > 4) {
-					l_no = "100+"
-				}
-				l_li = "<li><em>" + l_no;
-			}
-		}
-		//处理name
-		var l_name = jsonData[i]["name"];
-		if (l_name.length > 3){
-			l_name = l_name.substring(0, 3) + "..";
-		}
+    __request("index.rank", {}, function(res) {
+        console.debug(res);
 
-		l_li += "</em><div style='background-image:url(" + base_img_url + jsonData[i]["icon"] + ")'></div><span>" + l_name
-		     + "</span><a>" + jsonData[i]["dist"] + "公里</a><p>" + jsonData[i]["date"] + "</p></li>";
-		rank_innerHtml += l_li;
-	}
-	document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
-	
-	$("#div_overlay_id").show();
-	$("#div_ranking_list_page").show();
+        var rank_innerHtml = "";
+        for (var i = 0; i < res.length; i++) {
+            console.debug(res[i]);
+            var l_li = "";
+            //top 1 2 3, self
+            if (res[i]["self"] == 1) {
+                if (res[i]["rank"] == "1") {
+                    l_li = "<li class='top1 rank_me'><em>";
+                } else if (res[i]["rank"] == "2") {
+                    l_li = "<li class='top2 rank_me'><em>";
+                } else if (res[i]["rank"] == "3") {
+                    l_li = "<li class='top3 rank_me'><em>";
+                } else if (res[i]["rank"] == "-1") {
+                    l_li = "<li class='rank_me'><em>100+";
+                } else {
+                    var l_no = res[i]["rank"] + "";
+                    if(l_no.length > 4) {
+                        l_no = "100+"
+                    }
+                    l_li = "<li class='rank_me'><em>" + l_no;
+                }
+            } else {
+                if (res[i]["rank"] == "1") {
+                    l_li = "<li class='top1'><em>";
+                } else if (res[i]["rank"] == "2") {
+                    l_li = "<li class='top2'><em>";
+                } else if (res[i]["rank"] == "3") {
+                    l_li = "<li class='top3'><em>";
+                } else if (res[i]["rank"] == "-1") {
+                    l_li = "<li><em>100+";
+                } else {
+                    var l_no = res[i]["rank"] + "";
+                    if(l_no.length > 4) {
+                        l_no = "100+"
+                    }
+                    l_li = "<li><em>" + l_no;
+                }
+            }
+            //处理name
+            var l_name = res[i]["nickname"];
+            if (l_name.length > 3){
+                l_name = l_name.substring(0, 3) + "..";
+            }
+
+            l_li += "</em><div style='background-image:url(" + res[i]["headimgurl"] + ")'></div><span>" + l_name
+                + "</span><a>" + res[i]["distance"] + "公里</a><p>" + res[i]["date"] + "</p></li>";
+            rank_innerHtml += l_li;
+        }
+        document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
+
+        $("#div_overlay_id").show();
+        $("#div_ranking_list_page").show();
+    });
 }
 
 function hideRanking(){
@@ -442,7 +439,7 @@ function enterCloseWindow(){
 /*辅助提示窗口 end*/
 
 /*游戏逻辑 start*/
-function fullMapOnload(){
+function fullMapOnload() {
 	var img = document.getElementById("main_map_img");
 	m_map_width = img.width;
 	m_map_height= img.height;

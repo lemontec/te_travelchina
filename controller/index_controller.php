@@ -75,6 +75,7 @@ class index_controller {
             return "fail: need login";
         }
         $openid = $player["openid"];
+        // $openid = "DemoA";
 
         $rank = Player::rank();
         $head10 = false;
@@ -85,6 +86,7 @@ class index_controller {
             } else {
                 $rank[$k]["self"] = 0;
             }
+            $rank[$k]["date"] = Date("m-d", $rank[$k]["time"]);
         }
         if (!$head10) {
             $selfrank = Player::selfrank($openid);
@@ -95,7 +97,9 @@ class index_controller {
                     "headimgurl" => $player["headimgurl"],
                     "loc1" => 0,
                     "loc2" => 0,
+                    "distance" => "0",
                     "time" => 0,
+                    "date" => Date("m-d"),
                 );
             }
             $selfrank["self"] = 1;

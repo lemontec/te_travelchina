@@ -86,7 +86,7 @@ function __request(action, data, success, fail) {
         type: 'post',
         data: data,
         success: function (data) {
-            if (!data.startsWith("{")) {
+            if (!data.startsWith("{") && !data.startsWith("[")) {
                 console.debug(data);
                 return;
             }

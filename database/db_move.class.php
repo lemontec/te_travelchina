@@ -95,7 +95,7 @@ class db_move extends database {
         $openid = $this->escape($openid);
         $sql = "SELECT * from (
             SELECT @rownum:=@rownum+1 as rank, a.* from (
-                SELECT m.player,m.loc1,m.loc2,m.time, p.nickname, p.openid
+                SELECT m.player,m.loc1,m.loc2,m.time, p.nickname, p.openid, p.headimgurl, p.distance
                 from moves m
                 left JOIN players p
                 on m.player=p.id
