@@ -4,7 +4,7 @@ include_once(dirname(__FILE__) . "/../config.php");
 
 class index_controller {
     public function index_action() {
-        header("Location: //www.xiaoningmengkeji.com/OAuthDispatcher/index.php?id=te.travelchina&userinfo=0");
+        header("Location: //www.xiaoningmengkeji.com/OAuthDispatcher/index.php?id=te.travelchina&userinfo=1");
         exit();
         // $tpl = new tpl();
         // $tpl->set("userinfo", $userinfo);
@@ -13,9 +13,10 @@ class index_controller {
 
     public function oauth_action() {
         $userinfo = get_request_assert("userinfo");
+        logging::d("OAuth-1", $userinfo);
         $userinfo = json_decode($userinfo, true);
         $openid = $userinfo["openid"];
-        $userinfo = WeChat::inst()->get_user_info($openid);
+        // $userinfo = WeChat::inst()->get_user_info($openid);
         logging::d("OAuth", $userinfo);
 
         $player = Player::playerinfo($userinfo["openid"], $userinfo["nickname"], $userinfo["headimgurl"]);
