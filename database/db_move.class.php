@@ -78,15 +78,33 @@ class db_move extends database {
     }
 
     public function rank() {
-        $sql = "SELECT * from (
+        $sql = "SELECT @rownum:=@rownum+1 as rank, a.* from (
             SELECT player,loc1,loc2,time,openid,nickname,headimgurl,distance from moves m 
             LEFT JOIN players p 
             on m.player = p.id
             where m.id in (
                 SELECT max(id) from moves group by player
             )
-        ) a where a.openid is not null 
+        ) a, (select @rownum:=0) t 
+        where a.openid is not null 
         order by loc1 desc, loc2 desc, time LIMIT 10";
+        return $this->doQuery($sql);
+    }
+
+    public function selfrank($openid) {
+        $openid = $this->escape($openid);
+        $sql = "SELECT * from (
+            SELECT @rownum:=@rownum+1 as rank, a.* from (
+                SELECT m.player,m.loc1,m.loc2,m.time, p.nickname, p.openid
+                from moves m
+                left JOIN players p
+                on m.player=p.id
+                where m.id in (SELECT max(id) from moves group by player)
+                order by m.loc1 desc, m.loc2 desc,m.time
+            ) a, (SELECT @rownum:=0) t
+            where a.openid is not null
+        ) aa 
+        where aa.openid=$openid";
         return $this->doQuery($sql);
     }
 };

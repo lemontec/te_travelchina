@@ -70,7 +70,38 @@ class index_controller {
     }
 
     public function rank_action() {
+        $player = get_session("current.player");
+        if ($player == null) {
+            return "fail: need login";
+        }
+        $openid = $player["openid"];
+
         $rank = Player::rank();
+        $head10 = false;
+        foreach ($rank as $k => $p) {
+            if ($p["openid"] == $openid) {
+                $rank[$k]["self"] = 1;
+                $head10 = true;
+            } else {
+                $rank[$k]["self"] = 0;
+            }
+        }
+        if (!$head10) {
+            $selfrank = Player::selfrank($openid);
+            if (empty($selfrank)) {
+                $selfrank = array(
+                    "rank" => "-1",
+                    "nickname" => $player["nickname"],
+                    "headimgurl" => $player["headimgurl"],
+                    "loc1" => 0,
+                    "loc2" => 0,
+                    "time" => 0,
+                );
+            }
+            $selfrank["self"] = 1;
+            array_pop($rank);
+            $rank [] = $selfrank;
+        }
         return $rank;
     }
 

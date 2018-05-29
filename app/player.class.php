@@ -38,5 +38,9 @@ class Player {
     public static function rank() {
         return db_move::inst()->rank();
     }
+
+    public static function selfrank($openid) {
+        return db_move::inst()->selfrank($openid);
+    }
 };
 
