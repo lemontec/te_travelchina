@@ -112,7 +112,7 @@ function startGame(){
 	//绘制已到达城市的初始橙色信息
 	initArrivedCityIcon(-1);
 	//绘制进度信息
-	drawProgressBar();
+	drawProgressBar(0);
 }
 
 function shakePhone(){
@@ -194,17 +194,18 @@ function shakePhone(){
 			"te_today_arrived_city":m_today_arrived_city
 		};//缺少数据上报时间，服务器端必须记录每次数据上报的时间，用来对比  te_upload_time
         //=======================================================================================syncData to server
-		jRequest("index_test", paramsData, function (){
+		//jRequest("index_test", paramsData, function (){
 		    //成功函数
-		}, jRequest_error);
-
+		//}, jRequest_error);
+        /*
         __request("index.move", {loc1: m_curr_city_index, loc2: m_curr_steps_to_lastcity, distance: 10}, function(res) {
             console.debug(res);
             // m_current_city_index = res.cityindex;
             // m_today_arrived_city = res.today_arrived_city;
         });
+        */
 	}
-	drawProgressBar();
+	drawProgressBar(1);
 }
 
 function calcNextGoSteps(m_curr_today_remaind_num, l_remaind_step_to_next_city){
@@ -243,12 +244,13 @@ function loadUserData(){
 	}
 
 	//test start
-	m_user_wx_token = "121312";
+	/*m_user_wx_token = "121312";
 	// m_user_wx_icon =  base_img_url + "wx_icon.jpg"; 
-	m_curr_city_index = 0;
+	//m_curr_city_index = 0;
 	m_curr_today_remaind_num = 5;//jsonData["today_remaind_num"];
 	m_curr_steps_to_lastcity = 0;
 	m_today_arrived_city = 0;
+    */
     //test end
 	//=======================================================================================getData from server end
 
@@ -492,7 +494,7 @@ function calcCurrPosition(begin_city_index, curr_steps){
 }
 
 //绘制进度信息
-function drawProgressBar(){
+function drawProgressBar(isInit){
     //总距离：m_total_distance
 	//当前走过距离：
 	//按照高度计算进度
@@ -505,6 +507,17 @@ function drawProgressBar(){
 	var bar_height = 100 - Math.floor(((m_curr_dist_begin2last + l_curr_dist)/m_total_distance) * 100);
 	var bar_rate = "rect(" + bar_height + "px 100px 100px 0px)";
 	bar.style.clip = bar_rate;
+
+		//jRequest("index_test", paramsData, function (){
+		    //成功函数
+		//}, jRequest_error);
+    if (isInit > 0){
+        __request("index.move", {loc1: m_curr_city_index, loc2: m_curr_steps_to_lastcity, distance: (m_curr_dist_begin2last + l_curr_dist) }, function(res) {
+            console.debug(res);
+            // m_current_city_index = res.cityindex;
+            // m_today_arrived_city = res.today_arrived_city;
+        });
+    }
 }
 
 //绘制微信图标
