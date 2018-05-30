@@ -574,10 +574,11 @@ var map_nx,map_ny,map_dx,map_dy,map_move_x,map_move_y;
 //需要onload之后就绑定
 const map_img = document.getElementById("main_map_img");
 //拖动对象
-var m_gragObjs_const_count = 2;//拖动对象的常量值
+//TE jiayazhou disable it for debug
+var m_gragObjs_const_count = 0;//拖动对象的常量值
 const m_gragObjs =[
-document.getElementById("div_main_flag_id"),
-document.getElementById("div_wechart_icon_id"),
+//document.getElementById("div_main_flag_id"),
+//document.getElementById("div_wechart_icon_id"),
 document.getElementById("map_arrived_city1"),
                    document.getElementById("map_arrived_city2"),
 				   document.getElementById("map_arrived_city3"),
