@@ -711,7 +711,7 @@ function map_reset_timer_event(delay) {
 function play_animation() {
     var framesUrl = [];
     for (var i = 0; i < 52; i++) {
-        framesUrl.push('img/close/te_00' + i + '.jpg');
+        framesUrl.push(base_img_url + "close/te_00" + i + ".jpg");
     }
 
     var that = this;
