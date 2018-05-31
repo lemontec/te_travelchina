@@ -773,7 +773,7 @@ function map_reset_timer_event(delay) {
 /*退出逻辑 start*/
 function play_animation() {
     var framesUrl = [];
-    for (var i = 0; i < 52; i++) {
+    for (var i = 0; i < 55; i++) {
         framesUrl.push(base_img_url + "close/te_00" + i + ".jpg");
     }
 
