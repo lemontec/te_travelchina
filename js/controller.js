@@ -457,16 +457,16 @@ function requestRankData(retData){
             //处理name
             console.debug(res[i]["nickname"]);
             //处理name
-	    var l_name = subStringName(res[i]["nickname"], 4);
+	        var l_name = subStringName(res[i]["nickname"], 4);
+            l_li += "</em><div style='background-image:url(" + res[i]["headimgurl"] + ")'></div><span>" + l_name
+                                + "</span><a class='a1'>" + res[i]["distance"] + "公里</a><a class='a2'>" + res[i]["date"] + "</a></li>";
+                        rank_innerHtml += l_li;
+        }
+        document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
 
-		l_li += "</em><div style='background-image:url(" + base_img_url + jsonData[i]["icon"] + ")'></div><span>" + l_name
-		     + "</span><a class='a1'>" + jsonData[i]["dist"] + "公里</a><a class='a2'>" + jsonData[i]["date"] + "</a></li>";
-		rank_innerHtml += l_li;
-	}
-	document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
-	
-	$("#div_overlay_id").show();
-	$("#div_ranking_list_page").show();
+        $("#div_overlay_id").show();
+        $("#div_ranking_list_page").show();
+    });
 }
 
 function hideRanking(){
