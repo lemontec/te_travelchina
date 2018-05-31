@@ -256,6 +256,11 @@
                  0, 0, this.canvasWidth, /this.canvasHeight/1437
                 );*/
 				//console.log("s.W:" + this.sourceWidth + ", s.H:" + this.sourceHeight + ",c.W:" + this.canvasWidth + ",c.H:" + this.canvasHeight);
+				//console.log("------" + this.currentTimes);
+				if(this.currentTimes == 49){
+				    $("#c-1").hide();
+				    console.log("show end image");
+				}
         }
 
         // 是否继续

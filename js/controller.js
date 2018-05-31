@@ -19,7 +19,7 @@ var m_curr_steps_to_lastcity = 0;//到上一个城市当前走了多少步
 var m_curr_city_index = 0;//当前城市的索引
 var m_today_arrived_city = 0;//今天到达的城市数
 
-var m_can_sharke_flag = true;
+var m_can_sharke_flag = false;
 var base_img_url = "";
 
 /*退出动画相关*/
@@ -105,7 +105,8 @@ function startGame(){
     //alert("starting...");
 	//初始化旗子和Wx_Icon位置
 	initFlagAndWxIcon();
-	
+	m_can_sharke_flag = true;
+	//下一阶段
 	nextPhase();
 	
 	//开始游戏
@@ -189,29 +190,6 @@ function shakePhone(){
 				}
 			}
 		}
-		
-//sync data, server
-/*
-    m_user_wx_token      = "[:te_wx_openid]";
-	m_user_wx_icon           = "[:te_wx_icon]";
-	m_curr_city_index        = "[:te_city_index]";
-	m_curr_today_remaind_num = "[:te_today_remaind_num]";
-	m_curr_steps_to_lastcity = "[:te_steps_2_lastcity]";////此属性特殊，第二天重置默认
-	m_today_arrived_city     = "[:te_today_arrived_city]";////此属性特殊，第二天重置默认
-    var l_not_today_data     = "[:te_not_today_data]";////与上次时间匹配，如果是同一天返回0，不是同一天返回1
-*/
-		//传递信息-：
-		var paramsData = {
-			"te_wx_openid:":m_user_wx_token,
-			"te_city_index":m_curr_city_index,
-			"te_today_remaind_num":m_curr_today_remaind_num,
-			"te_steps_2_lastcity":m_curr_steps_to_lastcity,
-			"te_today_arrived_city":m_today_arrived_city
-		};//缺少数据上报时间，服务器端必须记录每次数据上报的时间，用来对比  te_upload_time
-        //=======================================================================================syncData to server
-		//jRequest("index_test", paramsData, function (){
-		    //成功函数
-		//}, null);
 	}
 	drawProgressBar(1);
 }
@@ -236,6 +214,7 @@ function loadUserData(){
 	}
     //从网络拿数据
 	//=======================================================================================getData from server start
+	//public enable
 	m_user_wx_token          = "[:te_wx_openid]";
 	m_user_wx_icon           = g_headimgurl;
 	m_curr_city_index        = g_cityindex;
@@ -250,15 +229,16 @@ function loadUserData(){
 		m_today_arrived_city     = 0;////此属性特殊，第二天重置默认
 	}
 
-	//test start
-	/*m_user_wx_token = "121312";
-	// m_user_wx_icon =  base_img_url + "wx_icon.jpg"; 
-	//m_curr_city_index = 0;
+	//test start-------public disable
+	/*
+	m_user_wx_token = "121312";
+	m_user_wx_icon =  base_img_url + "wx_icon.jpg"; 
+	m_curr_city_index = 0;
 	m_curr_today_remaind_num = 5;//jsonData["today_remaind_num"];
 	m_curr_steps_to_lastcity = 0;
 	m_today_arrived_city = 0;
-    */
-    //test end
+        */
+        //test end
 	//=======================================================================================getData from server end
 
 	//计算m_curr_dist_begin2last
@@ -268,16 +248,6 @@ function loadUserData(){
 	}
 }
 
-//模拟异步网络请求
-function jRequest(url, params, success, error){
-	var type="POST";
-	//__request();
-	//=======================================================================================syncData to server
-}
-
-function jRequest_error(){
-	//失败函数，提示网络连接失败，请重试
-}
 
 var m_city_list = [
     {index:0, name:"上海", position:{x:3351, y:2214}, dist:800 ,steps:8, limit_count:5},
@@ -408,12 +378,71 @@ function showRanking(){
 	// 从服务器拿数据
 	//=======================================================================================requestData to server
 	//每次必须返回10条数据，后面的数据可以模拟，数据格式如下
-	//jRequest("index_test", "", requestRankData, jRequest_error);
 	requestRankData();
 }
 
 function requestRankData(retData){
-    __request("index.rank", {}, function(res) {
+    // 模拟数据 public disable
+    /*
+    var jsonData = [
+			{"no":1, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":2, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":3, "name":"西雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":4, "name":"西吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":5, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":6, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":7, "name":"吹雪", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":8, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+			{"no":9, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":0},
+		    {"no":10001, "name":"西门吹雪..", "icon":"wx_icon.jpg","dist":1200, "date":"05-26", "self":1}
+		];
+	var rank_innerHtml = "";
+	for (var i = 0; i < jsonData.length; i++) {
+		var l_li = "";
+		//top 1 2 3, self
+		if (jsonData[i]["self"] == 1) {
+			if (jsonData[i]["no"] == "1") {
+				l_li = "<li class='top1 rank_me'><em>";
+			} else if (jsonData[i]["no"] == "2") {
+				l_li = "<li class='top2 rank_me'><em>";
+			} else if (jsonData[i]["no"] == "3") {
+				l_li = "<li class='top3 rank_me'><em>";
+			} else {
+				var l_no = jsonData[i]["no"] + "";
+				if(l_no.length > 4) {
+					l_no = "100+"
+				}
+				l_li = "<li class='rank_me'><em>" + l_no;
+			}
+		} else {
+			if (jsonData[i]["no"] == "1") {
+				l_li = "<li class='top1'><em>";
+			} else if (jsonData[i]["no"] == "2") {
+				l_li = "<li class='top2'><em>";
+			} else if (jsonData[i]["no"] == "3") {
+				l_li = "<li class='top3'><em>";
+			} else {
+				var l_no = jsonData[i]["no"] + "";
+				if(l_no.length > 4) {
+					l_no = "100+"
+				}
+				l_li = "<li><em>" + l_no;
+			}
+		}
+		//处理name
+		var l_name = subStringName(jsonData[i]["name"],4);
+
+		l_li += "</em><div style='background-image:url(" + base_img_url + jsonData[i]["icon"] + ")'></div><span>" + l_name
+		     + "</span><a class='a1'>" + jsonData[i]["dist"] + "公里</a><a class='a2'>" + jsonData[i]["date"] + "</a></li>";
+		rank_innerHtml += l_li;
+	}
+	document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
+
+	$("#div_overlay_id").show();
+	$("#div_ranking_list_page").show();
+        */
+        // public enable
+        __request("index.rank", {}, function(res) {
         console.debug(res);
 
         var rank_innerHtml = "";
@@ -556,10 +585,10 @@ function drawProgressBar(isInit){
 	var bar_height = 100 - Math.floor(((m_curr_dist_begin2last + l_curr_dist)/m_total_distance) * 100);
 	var bar_rate = "rect(" + bar_height + "px 100px 100px 0px)";
 	bar.style.clip = bar_rate;
-
-		//jRequest("index_test", paramsData, function (){
-		    //成功函数
-		//}, jRequest_error);
+	
+	//sync data, server
+    //=======================================================================================syncData to server
+    //public enable
     if (isInit > 0){
         var dist = m_curr_dist_begin2last + l_curr_dist;
         dist = parseInt(dist);
@@ -638,10 +667,10 @@ var map_nx,map_ny,map_dx,map_dy,map_move_x,map_move_y;
 //需要onload之后就绑定
 const map_img = document.getElementById("main_map_img");
 //拖动对象
-var m_gragObjs_const_count = 0;//拖动对象的常量值
+var m_gragObjs_const_count = 2;//拖动对象的常量值
 const m_gragObjs =[
-//document.getElementById("div_main_flag_id"),
-//document.getElementById("div_wechart_icon_id"),
+document.getElementById("div_main_flag_id"),
+document.getElementById("div_wechart_icon_id"),
 document.getElementById("map_arrived_city1"),
                    document.getElementById("map_arrived_city2"),
 				   document.getElementById("map_arrived_city3"),
@@ -659,7 +688,7 @@ document.getElementById("map_arrived_city1"),
 var m_gragObjs_offset = [
 {x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},
 {x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},
-{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0}
+{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0}
 ];
 
 function bindMapMoveEvent(){
@@ -785,10 +814,11 @@ function play_animation() {
         loop: false, // if loop
         height: 1100, // source image's height (px)m_height
         width: 750, // source image's width (px)m_width
-        frequency: 17, // count of frames in one second
+        frequency: 20, // count of frames in one second
         audioIonName: null, // ion.sound audio name
         onComplete: function () { // complete callback
-            console.log("Animation loop.");
+			$("#c-1").hide();
+			console.log("Animation loop.");
 			//that.window.open('', '_self', '');
 			//that.window.close();
 			//open(location, '_self').close();
@@ -911,7 +941,7 @@ var m_city_info = [
 	{index:14, name:"长春",head:"长春",             desc:"每个城市都有自己的性格，在长春，人们会高谈阔论三样东西：人情味、酒量和汽车。身披中国“汽车城”的铠甲，长春在一路高歌猛进的中国汽车行业持续沸腾。在这里，TE长春办事处的TE人练就了一身过人的技能，演绎着TE家庭里好爽而丰满的个性。"},
 ];
 
-
+// public enable
 // the following code is copied from: https://www.cnblogs.com/catEatBird/p/7123441.html
 function toShake(callBack) {
     var RANGE = 60;//当用户摇晃的幅度超过这个值，我们认定用户在摇一摇
