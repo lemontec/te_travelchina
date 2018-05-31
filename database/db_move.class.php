@@ -111,6 +111,11 @@ class db_move extends database {
         }
         return array_shift($rank);
     }
+
+    public function clear($id) {
+        $id = (int)$id;
+        return $this->delete("moves", "id = $id");
+    }
 };
 
 

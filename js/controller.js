@@ -955,4 +955,14 @@ toShake(function(){
     shakePhone();
 });
 
+function resetAll() {
+    __request("index.reset", {}, function(res) {
+        console.debug(res);
+        m_curr_city_index = 0;
+        m_curr_steps_to_lastcity = 0;
+        m_today_arrived_city = 0;
+        m_curr_today_remaind_num = 5;
+        moveStepsToNextCity(0, 0);
+    });
+}
 

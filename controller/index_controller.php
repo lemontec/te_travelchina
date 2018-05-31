@@ -111,6 +111,16 @@ class index_controller {
         return $rank;
     }
 
+    public function reset_action() {
+        $player = get_session("current.player");
+        if ($player == null) {
+            return $this->index_action();
+        }
+        $id = $player["id"];
+        Player::clear($id);
+        return $player;
+    }
+
 };
 
 

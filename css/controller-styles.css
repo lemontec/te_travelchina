@@ -37,6 +37,14 @@ body {
 	position: absolute;
 	margin-left: 100px;
 }
+#btn_set5 {
+	font: bold 20px SourceHanSans;
+	height: 30px;
+	width: 80px;
+	position: absolute;
+	margin-left: 150px;
+}
+
 /*数据加载页面 start*/
 #div_load_progress_bar {
 	/* background-color: green;*/
