@@ -364,7 +364,8 @@ body {
 	background:#FFF;
 	width: 80%;
 	height: 480px;
-	background:url(../img/city_arrvied_logo_bg.png) repeat;
+	background:url(../img/city_arrvied_logo_bg2.png) no-repeat;
+    background-size: 100% 100%;
 	position: absolute;
 	/*左右居中*/
 	left: 0;
