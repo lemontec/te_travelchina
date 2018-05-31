@@ -785,7 +785,7 @@ function play_animation() {
         loop: false, // if loop
         height: 1100, // source image's height (px)m_height
         width: 750, // source image's width (px)m_width
-        frequency: 10, // count of frames in one second
+        frequency: 17, // count of frames in one second
         audioIonName: null, // ion.sound audio name
         onComplete: function () { // complete callback
             console.log("Animation loop.");
@@ -822,7 +822,7 @@ function moveTest(){
 
 function sharkeTest(){
 	if (m_GameOver) {
-		alert("Rravel End!");
+		alert("Travel End!");
 		return;
 	}
     shakePhone();
@@ -832,7 +832,7 @@ var sharkeAll = false;
 var m_GameOver = false;
 function sharkeAllTest() {
 	if (m_GameOver) {
-		alert("Rravel End!");
+		alert("Travel End!");
 		return;
 	}
 
@@ -962,6 +962,8 @@ function resetAll() {
         m_curr_steps_to_lastcity = 0;
         m_today_arrived_city = 0;
         m_curr_today_remaind_num = 5;
+        m_total_distance = 0;
+	    m_GameOver = false;
         moveStepsToNextCity(0, 0);
     });
 }
