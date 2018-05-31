@@ -103,7 +103,9 @@
   </div>
  
   <button class="btn_rank_list" onclick="showRanking()"></button>
-  <button id="btn_set3"  style="top: 10px;left: 10px;" onClick="sharkeTest()">摇一摇</button>
+  <button class="btn_show_help" onClick="showHelpInfo()"></button>
+ 
+  <button id="btn_set3"  style="top: 10px;left: 30px;" onClick="sharkeTest()">摇一摇</button>
   <button id="btn_set4"  style="top: 10px;left: 10px;" onClick="sharkeAllTest()">无限摇</button>
 
   <div class="div_progress">
@@ -117,14 +119,36 @@
     <div style="clear:both"><p id="cityinfo_name" class="cityinfo_name_style">成都市</p>
         <button class="cityinfo_hide_button" onclick="hideCityInfo()"></button>
     </div>
-    <img id="cityinfo_img" />
+    <img id="cityinfo_img"/>
     <div class="cityinfo_word_div"><p id="cityinfo_word" class="cityinfo_word_style_city">说到成都，你首先想到的火锅？熊猫？变脸？在这个火辣辣的城市坐落着TE精量电子成都工厂。其85%的员工源自四川省，“辣劲”是团队的主基调。这位新晋成员，为当地解决就业起到一定作用的同时，先进的管理理念对带动上下游企业。</p></div>
     <div class="div_bottom_log"></div>
 </div>
 
+<!-- 城市到达介绍 -->
+<div id="div_show_city_arrived_page">
+    <div class="div_city_arrived_logo"></div>
+    <div class="div_city_arrived_logo1"></div>
+    <div>
+        <a id="div_city_arrived_name">北京</a>
+        <div class="div_city_arrived_total"></div>
+        <a id="div_city_arrived_dist">4040公里</a>
+    </div>
+    <div class="div_city_arrived_btn"><button onclick="hideCityArrived()">确定</button></div>
+</div>
+
 <div id="div_show_certificate_page">
     <button class="cityinfo_hide_button" onclick="hideCertificate()"></button>
-    <div style="margin:100px 20px 20px 20px;"><p id="cityinfo_word" class="certificate_word_style">恭喜恭喜，1988年，TE的开拓者在上海华亭宾馆开始了他们的深耕中国之旅。所以，我们的旅程也将从这里开始。</p></div>
+    <div style="margin:100px 20px 20px 20px;"><p id="cityinfo_word" class="certificate_word_style">恭喜，1988年，TE的开拓者在上海华亭宾馆开始了他们的深耕中国之旅。所以，我们的旅程也将从这里开始。</p></div>
+</div>
+
+<!-- 游戏介绍 -->
+<div id="div_show_help">
+    <div style="clear:both"><p id="cityinfo_name" style="margin-left: 33%;" class="cityinfo_name_style">游戏规则</p>
+        <button class="cityinfo_hide_button" onclick="hideHelpInfo()"></button>
+    </div>
+    <hr style="margin-top: 60px;"/>
+    <div class="div_help_style"><p id="cityinfo_word" class="certificate_word_style">恭喜，1988年，TE的开拓者在上海华亭宾馆开始了他们的深耕中国之旅。这里放置游戏帮助说明。这里放置游戏帮助说明。这里放置游戏帮助说明。这里放置游戏帮助说明。这里放置游戏帮助说明。这里放置游戏帮助说明。</p></div>
+    <div class="div_bottom_log"></div>
 </div>
 
 <div id="div_show_limit_window">
@@ -135,7 +159,7 @@
     <button onclick="closeLimitWindow()">关闭</button>
 </div>
 
-
+<!-- 排行榜 -->
 <div id="div_ranking_list_page">
     <div style="clear:both"><p class="cityinfo_name_style">排行榜</p>
         
@@ -150,6 +174,7 @@
     <div class="div_left_top_logo"></div>
 </div>
 
+<!-- 关闭动画 -->
 <div id="close_window" class="container">
   <canvas id="c-1" class="main_canvas"></canvas>
 </div>

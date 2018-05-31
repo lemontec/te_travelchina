@@ -290,7 +290,7 @@ body {
 /*城市介绍页面 start*/
 #div_show_cityinfo_page {
 	display: none;
-	z-index: 1001;
+	z-index: 1002;
 	background: #FFF;
 	width: 80%;
 	height: 480px;
@@ -348,8 +348,146 @@ body {
 	border: none;
 	outline: none
 }
+
+/*城市到达提示页面*/
+#div_show_city_arrived_page {
+    display: none;
+	z-index: 1001;
+	background:#FFF;
+	width: 80%;
+	height: 480px;
+	background:url(../img/city_arrvied_logo_bg.png) repeat;
+	position: absolute;
+	/*左右居中*/
+	left: 0;
+	right: 0;
+	top: 5%;
+	bottom: 10%;
+	margin-left: auto;
+	margin-right: auto;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+	text-align: center;
+}
+
+#div_show_city_arrived_page .div_city_arrived_logo{
+    /*上下居中*/
+	position: absolute;
+	width: 100px;
+	height: 100px;
+	/*左右居中*/
+	width: 112px;
+	height: 40px;
+	position: absolute;
+	/*left: 5px;
+	top: 10px;*/
+	background: url(../img/logo_bottom.png) no-repeat;
+	background-size: 100% 100%;
+	right: 15px;
+}
+
+#div_show_city_arrived_page .div_city_arrived_logo1{
+    background:url(../img/city_arrvied_logo.png) no-repeat;
+	width: 230px;
+    height: 256px;
+	background-size: 100% 100%;
+	/*position: absolute;*/
+	/*左右居中*/
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 55px;
+}
+
+#div_show_city_arrived_page .div_city_arrived_total{
+    background:url(../img/city_arrvied_total.png) no-repeat;
+	width: 230px;
+    height: 21.4px;
+	background-size: 100% 100%;
+	/*position: absolute;*/
+	/*左右居中*/
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#div_city_arrived_name{
+	font: 30px SourceHanSans;
+	color: #f39405;
+}
+#div_city_arrived_dist{
+	font: 20px SourceHanSans;
+	color: #f39405;
+}
+.div_city_arrived_btn{
+    background-color: #f39405;
+    width: 100%;
+    height: 50px;
+    border-radius: 0 0 1em 1em/0 0 1em 1em;
+    bottom: 0px;
+    position: absolute;
+}
+#div_show_city_arrived_page button{
+	border: none;
+	width: 98%;
+	height: 100%;
+    /* bottom: 1px; */
+	position: absolute;
+	/*左右居中*/
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: transparent;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+	outline: none;
+	font: bold 20px SourceHanSans;
+	color:#FFF;
+}
 /*城市介绍页面布局 end*/
 
+/*帮助信息弹窗 及 布局 satrt*/
+.btn_show_help{
+    width: 50px;
+	height: 50px;
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	background: url(../img/help_button.png) no-repeat;
+	background-size: 100% 100%;
+	border: none;
+	outline: none;
+}
+#div_show_help{
+    display: none;
+	z-index: 1002;
+	background:#FFF;
+	width: 80%;
+	height: 65%;
+	background-size: 100% 100%;
+	position: absolute;
+	/*左右居中*/
+	left: 0;
+	right: 0;
+	top: 10%;
+	bottom: 10%;
+	margin-left: auto;
+	margin-right: auto;
+		-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+.div_help_style{
+    margin:20px 20px 20px 20px;
+	background:url(../img/help_bg.png) no-repeat;
+	background-size: 100% 100%;
+}
+/*帮助信息弹窗 及 布局 end*/
 /*奖状页面*/
 #div_show_certificate_page {
 	display: none;
@@ -445,18 +583,17 @@ body {
 	white-space: nowrap;
 	overflow: hidden;
 	position: relative;
-	text-align: right;
+	/*text-align: right;*/
 }
-.rank_list li a {
+.rank_list li .a1 {
 	line-height: 35px;
 	right: 60px;
 	position: absolute;
 }
-.rank_list li p{
--webkit-margin-before: 0;
-    -webkit-margin-after: 0;
+.rank_list li .a2{
     line-height: 35px;
-    margin-right: 8px;
+	right: 10px;
+	position: absolute;
 }
 /*.rank_list a.r_d {
 	right: 60px;

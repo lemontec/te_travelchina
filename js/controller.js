@@ -103,9 +103,11 @@ function nextPhase(){
 //游戏逻辑 start
 function startGame(){
     //alert("starting...");
-	nextPhase();
 	//初始化旗子和Wx_Icon位置
 	initFlagAndWxIcon();
+	
+	nextPhase();
+	
 	//开始游戏
 	//首先移动到上一次的位置
 	moveStepsToNextCity(m_curr_city_index, m_curr_steps_to_lastcity);
@@ -168,11 +170,24 @@ function shakePhone(){
 			m_curr_dist_begin2last += m_city_list[m_curr_city_index].dist;//走完一个城市，加上路程
 			m_curr_steps_to_lastcity = 0;
 			m_curr_city_index++;
-			//已到达的城市显示橙色信息
-			initArrivedCityIcon(m_curr_city_index);
+			
 			//拉取信息，显示城市介绍，延长100ms
 			showCityInfo();
 			showcity_delay_timer_event(1000);
+		}
+		/*中间显示城市介绍信息，规则：如果steps>=6, 在第二次弹出城市介绍，其余在第一次弹出城市介绍，如果没弹出，则先弹出城市介绍，再弹出城市到达*/
+		if (m_curr_steps_to_lastcity != 0){
+		    if (m_city_list[m_curr_city_index].steps >= 6){//第二次
+				if (m_curr_steps_to_lastcity > 3 && !isShowedCityInfo) {
+					showCityInfo();
+				    showcity_delay_timer_event(1000);
+				}
+			} else {//小于6，第一次
+			    if(!isShowedCityInfo) {
+					showCityInfo();
+				    showcity_delay_timer_event(1000);
+				}
+			}
 		}
 		
 //sync data, server
@@ -196,14 +211,7 @@ function shakePhone(){
         //=======================================================================================syncData to server
 		//jRequest("index_test", paramsData, function (){
 		    //成功函数
-		//}, jRequest_error);
-        /*
-        __request("index.move", {loc1: m_curr_city_index, loc2: m_curr_steps_to_lastcity, distance: 10}, function(res) {
-            console.debug(res);
-            // m_current_city_index = res.cityindex;
-            // m_today_arrived_city = res.today_arrived_city;
-        });
-        */
+		//}, null);
 	}
 	drawProgressBar(1);
 }
@@ -235,7 +243,6 @@ function loadUserData(){
 	m_curr_steps_to_lastcity = g_steps_2_lastcity;////此属性特殊，第二天重置默认
 	m_today_arrived_city     = g_today_arrived_city;////此属性特殊，第二天重置默认
     var l_is_today_data      = "[:te_is_today_data]";////与上次时间匹配，如果是同一天返回1，不是同一天返回0
-
 
 	//重置第二天属性
 	if (l_is_today_data == 0 || l_is_today_data == "0") {
@@ -305,11 +312,13 @@ function loadProgressBar(load_rate){
 function showCityInfo(){
     //与服务器通信，拿到数据
 	//cityinfo_name    cityinfo_img   cityinfo_word
-	var city_name = m_city_list[m_curr_city_index].name + "市";
-	var url_web = window.location.href;
-	//var url_web = url_web.substring(0, url_web.lastIndexOf("/"));
-	var city_img  = base_img_url + "city/" + m_curr_city_index + ".jpg";
-	var city_info = m_city_info[m_curr_city_index].desc;
+	var l_city_index = m_curr_city_index;
+	if(m_curr_steps_to_lastcity > 0){
+		l_city_index++;
+	}
+	var city_name = m_city_list[l_city_index].name + "市";
+	var city_img  = base_img_url + "city/" + l_city_index + ".jpg";
+	var city_info = m_city_info[l_city_index].desc;
 	
 	document.getElementById("cityinfo_name").innerHTML = city_name;
 	$("#cityinfo_img").attr("src", city_img); 
@@ -319,9 +328,11 @@ function showCityInfo(){
 function showCityInfoWindow(){
 	$("#div_overlay_id").show();
 	$("#div_show_cityinfo_page").show();
+	isShowedCityInfo = true;
 }
 
 //100ms后，再弹出城市介绍窗口
+var isShowedCityInfo = false;
 var showcity_delay_timer = 0;
 function showcity_delay_timer_event(delay) {
 
@@ -329,19 +340,49 @@ function showcity_delay_timer_event(delay) {
 
 	window.clearTimeout(showcity_delay_timer);
 	showcity_delay_timer = window.setTimeout(function (){
-		showCityInfoWindow();
+		//显示城市介绍信息
+		if (!isShowedCityInfo) {
+		    showCityInfoWindow();
+		}
+		//到达新的城市
+		if (m_curr_steps_to_lastcity == 0) {//确认到达新的城市
+		    //已到达的城市显示橙色信息
+		    initArrivedCityIcon(m_curr_city_index);
+			showCityArrived();//如果到达新城市,到达城市提示
+		}
 	},delay);
 }
 
 function hideCityInfo (){
 	$("#div_overlay_id").hide();
 	$("#div_show_cityinfo_page").hide();
-	if (m_curr_city_index == m_city_list.length - 1){
-		showCertificate();
+
+	if (m_curr_steps_to_lastcity == 0) {
+	    showCityArrived();//如果到达新城市,到达城市提示
 	}
 	m_can_sharke_flag = true;//显示完毕城市信息
 }
 
+//城市到达提示页
+function showCityArrived(){
+	m_can_sharke_flag = false;//不能摇一摇
+	//数据信息
+	var city_name = m_city_list[m_curr_city_index].name;
+	document.getElementById("div_city_arrived_name").innerHTML = city_name;
+	document.getElementById("div_city_arrived_dist").innerHTML = m_curr_dist_begin2last + "公里";
+
+    $("#div_overlay_id").show();
+	$("#div_show_city_arrived_page").show();
+}
+
+function hideCityArrived(){
+    $("#div_overlay_id").hide();
+	$("#div_show_city_arrived_page").hide();
+	isShowedCityInfo = false;///清除标记值
+	m_can_sharke_flag = true;//可以摇一摇
+}
+
+//完成奖杯
 function showCertificate(){
 	$("#div_overlay_id").show();
 	$("#div_show_certificate_page").show();
@@ -353,11 +394,21 @@ function hideCertificate(){
 	$("#div_show_certificate_page").hide();
 }
 
+function showHelpInfo(){
+    $("#div_overlay_id").show();
+	$("#div_show_help").show();
+}
+
+function hideHelpInfo(){
+    $("#div_overlay_id").hide();
+	$("#div_show_help").hide();
+}
+
 function showRanking(){
 	// 从服务器拿数据
 	//=======================================================================================requestData to server
 	//每次必须返回10条数据，后面的数据可以模拟，数据格式如下
-	jRequest("index_test", "", requestRankData, jRequest_error);
+	//jRequest("index_test", "", requestRankData, jRequest_error);
 	requestRankData();
 }
 
@@ -404,21 +455,18 @@ function requestRankData(retData){
                 }
             }
             //处理name
-            var l_name = res[i]["nickname"];
-            console.debug(l_name);
-            if (l_name.length > 3){
-                l_name = l_name.substring(0, 3) + "..";
-            }
+            console.debug(res[i]["nickname"]);
+            //处理name
+	    var l_name = subStringName(res[i]["nickname"], 4);
 
-            l_li += "</em><div style='background-image:url(" + res[i]["headimgurl"] + ")'></div><span>" + l_name
-                + "</span><a>" + res[i]["distance"] + "公里</a><p>" + res[i]["date"] + "</p></li>";
-            rank_innerHtml += l_li;
-        }
-        document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
-
-        $("#div_overlay_id").show();
-        $("#div_ranking_list_page").show();
-    });
+		l_li += "</em><div style='background-image:url(" + base_img_url + jsonData[i]["icon"] + ")'></div><span>" + l_name
+		     + "</span><a class='a1'>" + jsonData[i]["dist"] + "公里</a><a class='a2'>" + jsonData[i]["date"] + "</a></li>";
+		rank_innerHtml += l_li;
+	}
+	document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
+	
+	$("#div_overlay_id").show();
+	$("#div_ranking_list_page").show();
 }
 
 function hideRanking(){
@@ -459,9 +507,10 @@ function fullMapOnload(){
 function moveStepsToNextCity(begin_city_index, curr_steps){
     if (begin_city_index == m_city_list.length - 1) {
 		//超出范围
-		moveAnimation(Math.floor(m_width/2  - m_city_list[begin_city_index].position.x/2 ), 
-		              Math.floor(m_height/2 - m_city_list[begin_city_index].position.y/2  + 30));
-		moveArrivedCityIcon();//移动之后立即更新CityIcon信息
+		var currPos = {x:Math.floor(m_width/2  - m_city_list[begin_city_index].position.x/2 ),
+		               y:Math.floor(m_height/2 - m_city_list[begin_city_index].position.y/2  + 30) };
+		moveAnimation(currPos.x, currPos.y);
+		moveArrivedCityIcon(currPos);//移动之后立即更新CityIcon信息
 		return;
 	}
 	/*
@@ -470,7 +519,7 @@ function moveStepsToNextCity(begin_city_index, curr_steps){
 	*/
 	var currPos = calcCurrPosition(begin_city_index, curr_steps);
 	moveAnimation(Math.floor(m_width/2  - currPos.x ), Math.floor(m_height/2 - currPos.y  + 30));
-	moveArrivedCityIcon();//移动之后立即更新CityIcon信息
+	moveArrivedCityIcon(currPos);//移动之后立即更新CityIcon信息
 }
 
 //回到移动地图前的位置，超时会走这里，移动之后第一次摇一摇也会走这里
@@ -494,7 +543,7 @@ function calcCurrPosition(begin_city_index, curr_steps){
 }
 
 //绘制进度信息
-function drawProgressBar(isInit){
+function drawProgressBar(){
     //总距离：m_total_distance
 	//当前走过距离：
 	//按照高度计算进度
@@ -540,10 +589,10 @@ function initArrivedCityIcon(index){
 }
 
 
-function moveArrivedCityIcon(){
+function moveArrivedCityIcon(center_pos){
 	//拿到当前的中心点坐标
     //var m_curr_steps_to_lastcity = 0;//到上一个城市当前走了多
-	var center_pos = calcCurrPosition(m_curr_city_index ,m_curr_steps_to_lastcity);
+	//var center_pos = calcCurrPosition(m_curr_city_index ,m_curr_steps_to_lastcity);
 	var curr_x = 0;
 	var curr_y = 0;
 	var map_arrived_city = 0;
@@ -587,7 +636,6 @@ var map_nx,map_ny,map_dx,map_dy,map_move_x,map_move_y;
 //需要onload之后就绑定
 const map_img = document.getElementById("main_map_img");
 //拖动对象
-//TE jiayazhou disable it for debug
 var m_gragObjs_const_count = 0;//拖动对象的常量值
 const m_gragObjs =[
 //document.getElementById("div_main_flag_id"),
@@ -826,6 +874,20 @@ function testLoading(){
 }
 /*测试 end*/
 
+/*通用方法 按全角半角截取字符串*/
+function subStringName(str, num) {
+    var len = 0;
+    for (var i = 0; i < str.length; i++) {
+        if (str[i].match(/[^\x00-\xff]/ig) != null) //全角
+            len += 2;
+        else
+            len += 1;
+    }
+    if (len >= num) {
+        newStr = str.substring(0, num) + "..";
+    }
+    return newStr;
+}
 
 
 //存储城市介绍数据
