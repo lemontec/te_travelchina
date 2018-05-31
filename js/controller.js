@@ -543,7 +543,7 @@ function calcCurrPosition(begin_city_index, curr_steps){
 }
 
 //绘制进度信息
-function drawProgressBar(){
+function drawProgressBar(isInit){
     //总距离：m_total_distance
 	//当前走过距离：
 	//按照高度计算进度
@@ -561,7 +561,9 @@ function drawProgressBar(){
 		    //成功函数
 		//}, jRequest_error);
     if (isInit > 0){
-        __request("index.move", {loc1: m_curr_city_index, loc2: m_curr_steps_to_lastcity, distance: (m_curr_dist_begin2last + l_curr_dist) }, function(res) {
+        var dist = m_curr_dist_begin2last + l_curr_dist;
+        dist = parseInt(dist);
+        __request("index.move", {loc1: m_curr_city_index, loc2: m_curr_steps_to_lastcity, distance: dist }, function(res) {
             console.debug(res);
             // m_current_city_index = res.cityindex;
             // m_today_arrived_city = res.today_arrived_city;
