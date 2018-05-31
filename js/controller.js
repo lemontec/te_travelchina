@@ -72,8 +72,10 @@ function getWidthAndHeight(){
 	var view = getViewportSize();
 	m_width = view.width;
 	m_height = view.height;
-	cv.width = m_width - 30;
-	cv.height = m_height - 30;
+    document.getElementById("c-1").style.width = (m_width - 30) + "px";
+    document.getElementById("c-1").style.height= (m_height- 30) + "px";
+	cv.width = (m_width - 30)*2;
+	cv.height = (m_height - 30)*2;
 }
 function getViewportSize () {
     return {
@@ -817,7 +819,7 @@ function play_animation() {
         frequency: 20, // count of frames in one second
         audioIonName: null, // ion.sound audio name
         onComplete: function () { // complete callback
-			$("#c-1").hide();
+			//$("#c-1").hide();
 			console.log("Animation loop.");
 			//that.window.open('', '_self', '');
 			//that.window.close();
