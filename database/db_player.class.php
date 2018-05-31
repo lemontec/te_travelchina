@@ -42,10 +42,11 @@ class db_player extends database_table {
     }
 
     public function update_distance($id, $distance) {
+        $id = (int)$id;
         $distance = (int)$distance;
         return $this->update(array(
             "distance" => $distance
-        ));
+        ), "id = $id");
     }
 
 };
