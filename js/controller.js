@@ -106,7 +106,7 @@ function nextPhase(){
 function startGame(){
     //alert("starting...");
 	//初始化旗子和Wx_Icon位置
-	initFlagAndWxIcon();
+	initFlagAndWxIcon(0);
 	m_can_sharke_flag = true;
 	//下一阶段
 	nextPhase();
@@ -556,7 +556,7 @@ function moveStepsToNextCity(begin_city_index, curr_steps){
 //回到移动地图前的位置，超时会走这里，移动之后第一次摇一摇也会走这里
 function goTodayCurrPosition(){
 	//首先初始化旗帜和Wx_Icon位置
-	initFlagAndWxIcon();
+	initFlagAndWxIcon(1);
 	moveStepsToNextCity(m_curr_city_index, m_curr_steps_to_lastcity);
 }
 
@@ -647,15 +647,20 @@ function moveArrivedCityIcon(center_pos){
 	}
 }
 
-function initFlagAndWxIcon(){
+function initFlagAndWxIcon(isInit){
 	//flag 	    top: 266px; left: 181px;
 	//wx_icon  left: 145px; top: 277px;
-    document.getElementById("div_main_flag_id").style.top    = (m_height*0.5 - 67.5) + "px";
-	document.getElementById("div_main_flag_id").style.left   = (m_width*0.5  - 6.5)  + "px";
-	document.getElementById("div_wechart_icon_id").style.top = (m_height*0.5 - 56.5) + "px";
-	document.getElementById("div_wechart_icon_id").style.left =(m_width*0.5  - 42.5) + "px";
-	//182.5px
+    if(isInit == 0){
+        document.getElementById("div_main_flag_id").style.top    = (m_height*0.5 - 67.5) + "px";
+	    document.getElementById("div_main_flag_id").style.left   = (m_width*0.5  - 6.5)  + "px";
+	    document.getElementById("div_wechart_icon_id").style.top = (m_height*0.5 - 56.5) + "px";
+	    document.getElementById("div_wechart_icon_id").style.left =(m_width*0.5  - 42.5) + "px";
+    	return;
+    }
+    //182.5px
 	//0.4*height
+    $("#div_main_flag_id").stop(!0).animate({"left": (m_width*0.5  - 6.5), "top": (m_height*0.5 - 67.5)});
+    $("#div_wechart_icon_id").stop(!0).animate({"left": (m_width*0.5  - 42.5), "top": (m_height*0.5 - 56.5)});
 }
 //城市橙色覆盖计算逻辑 start
 
