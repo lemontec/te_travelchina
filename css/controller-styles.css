@@ -331,12 +331,12 @@ body {
 .cityinfo_word_div{
 	height: 220px;
     width: 100%;
-    background-color: #b2dbb2;
+    /*background-color: #b2dbb2;*/
 	overflow-x:auto;
 }
 
 .cityinfo_word_style_city {
-	font: 16px SourceHanSans;
+	font: 17px SourceHanSans;
 	margin-top: 0px;
 	margin-bottom: 10px;
 	color: #666;

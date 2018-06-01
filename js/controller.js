@@ -289,7 +289,7 @@ function showCityInfo(){
 		l_city_index++;
 	}
 	var city_name = m_city_list[l_city_index].name + "市";
-	var city_img  = base_img_url + "city/" + l_city_index + ".jpg";
+	var city_img  = base_img_url + "city/" + l_city_index + ".png";
 	var city_info = m_city_info[l_city_index].desc;
 	
 	document.getElementById("cityinfo_name").innerHTML = city_name;
