@@ -72,8 +72,8 @@ function getWidthAndHeight(){
 	var view = getViewportSize();
 	m_width = view.width;
 	m_height = view.height;
-    document.getElementById("c-1").style.width = (m_width - 30) + "px";
-    document.getElementById("c-1").style.height= (m_height- 30) + "px";
+	document.getElementById("c-1").style.width = (m_width - 30) + "px";
+	document.getElementById("c-1").style.height= (m_height- 30) + "px";
 	cv.width = (m_width - 30)*2;
 	cv.height = (m_height - 30)*2;
 }
@@ -116,53 +116,24 @@ function startGame(){
 	moveStepsToNextCity(m_curr_city_index, m_curr_steps_to_lastcity);
 	//绘制已到达城市的初始橙色信息
 	initArrivedCityIcon(-1);
-	//绘制进度信息
-	drawProgressBar(0);
+
+	//PRD:开始游戏到进入游戏之间先弹出排行榜
+	showRanking();
 }
 
-function shakePhone(){
-	//移动地图之后第一次摇一摇会回到之前的位置，不记录摇一摇次数
-	if (!m_can_sharke_flag) {
-		console.log("this sense cannot shake phone");
-	    return;
-	}
-	if (map_reset_flag) {
-		map_reset_flag = false;
-		goTodayCurrPosition();
-		return;
-	}
-	//如果已经在最后一座城市
-	if (m_curr_city_index == m_city_list.length - 1){
-		showCertificate();
-		return;
-	}
-    //剩余次数：
-	if (m_curr_today_remaind_num == 0){
-		if (!sharkeAll) {
-		    showLimitWarning();
-		    return;
-		} else {//无限摇一摇,重置剩余数量，并且将已经到达的城市数目变为0
-			m_curr_today_remaind_num = m_city_list[m_curr_city_index].limit_count;
-			m_today_arrived_city = 0;
-		}
-	}
-	var l_remaind_step_to_next_city = m_city_list[m_curr_city_index].steps - m_curr_steps_to_lastcity;
-	var next_go_steps = 0;
-	//如果今天未到达过城市，且剩余次数为1，则默认剩下全走
-	if (m_curr_today_remaind_num == 1 && m_today_arrived_city == 0) {
-	    next_go_steps = l_remaind_step_to_next_city;
-	} else {
-	    //calc next steps
-	    next_go_steps = calcNextGoSteps(m_curr_today_remaind_num, l_remaind_step_to_next_city);
-	}
-	if (next_go_steps == 0) {
+//开始移动的button
+var m_next_go_steps = 0;
+function startMoveSteps(){
+    //alert("开始移动");
+	if (m_next_go_steps <= 0 || m_can_sharke_flag) {
 	    //信息未同步 check and sync
 		//check server data,keep data uniformity
+		return;
 	} else {
-	    //moveStepsToNextCity(m_curr_city_index, next_go_steps);
+	    //moveStepsToNextCity(m_curr_city_index, m_next_go_steps);
 		//sync data, update local data
 		m_curr_today_remaind_num--;
-		m_curr_steps_to_lastcity += next_go_steps;
+		m_curr_steps_to_lastcity += m_next_go_steps;
 		
 		//移动地图
 		moveStepsToNextCity(m_curr_city_index, m_curr_steps_to_lastcity);
@@ -193,9 +164,117 @@ function shakePhone(){
 			}
 		}
 	}
-	drawProgressBar(1);
+	$("#div_main_progress_tips").hide();
+	drawEnergyProgressBar(-1);
+	m_next_go_steps = -1;
+	m_can_sharke_flag = true;//移动之后置摇一摇属性为true
 }
 
+function shakePhone(){
+	//移动地图之后第一次摇一摇会回到之前的位置，不记录摇一摇次数
+	if (!m_can_sharke_flag) {
+		console.log("this sense cannot shake phone");
+	    return;
+	}
+	if (map_reset_flag || map_zoom_inout_flag) {//放大缩小之后第一次摇一摇不计数，回到原来的尺寸与比例
+		backToTodayOriginPosition();
+		map_reset_flag = false;
+		return;
+	}
+	//如果已经在最后一座城市
+	if (m_curr_city_index == m_city_list.length - 1){
+		showCertificate();
+		return;
+	}
+    //剩余次数：
+	if (m_curr_today_remaind_num == 0){
+		if (!sharkeAll) {
+		    showLimitWarning();
+		    return;
+		} else {//无限摇一摇,重置剩余数量，并且将已经到达的城市数目变为0
+			m_curr_today_remaind_num = m_city_list[m_curr_city_index].limit_count;
+			m_today_arrived_city = 0;
+		}
+	}
+	var l_remaind_step_to_next_city = m_city_list[m_curr_city_index].steps - m_curr_steps_to_lastcity;
+	//var next_go_steps = 0;
+	//如果今天未到达过城市，且剩余次数为1，则默认剩下全走
+	if (m_curr_today_remaind_num == 1 && m_today_arrived_city == 0) {
+	    m_next_go_steps = l_remaind_step_to_next_city;
+	} else {
+	    //calc next steps
+	    m_next_go_steps = calcNextGoSteps(m_curr_today_remaind_num, l_remaind_step_to_next_city);
+	}
+	//获取当前需要移动的步数之后,tips alert,能量条填充
+	$("#div_main_progress_tips").show();
+	drawEnergyProgressBar(m_next_go_steps);
+	m_can_sharke_flag = false;//摇一摇一次之后
+/*	if (next_go_steps == 0) {
+	    //信息未同步 check and sync
+		//check server data,keep data uniformity
+	} else {
+	    //moveStepsToNextCity(m_curr_city_index, next_go_steps);
+		//sync data, update local data
+		m_curr_today_remaind_num--;
+		m_curr_steps_to_lastcity += next_go_steps;
+		
+		//移动地图
+		moveStepsToNextCity(m_curr_city_index, m_curr_steps_to_lastcity);
+	
+		if (m_curr_steps_to_lastcity == m_city_list[m_curr_city_index].steps) {
+			//到达下一个城市
+			m_today_arrived_city += 1;
+			m_curr_dist_begin2last += m_city_list[m_curr_city_index].dist;//走完一个城市，加上路程
+			m_curr_steps_to_lastcity = 0;
+			m_curr_city_index++;
+			
+			//拉取信息，显示城市介绍，延长100ms
+			showCityInfo();
+			showcity_delay_timer_event(1000);
+		}
+		//中间显示城市介绍信息，规则：如果steps>=6, 在第二次弹出城市介绍，其余在第一次弹出城市介绍，如果没弹出，则先弹出城市介绍，再弹出城市到达
+		if (m_curr_steps_to_lastcity != 0){
+		    if (m_city_list[m_curr_city_index].steps >= 6){//第二次
+				if (m_curr_steps_to_lastcity > 3 && !isShowedCityInfo) {
+					showCityInfo();
+				    showcity_delay_timer_event(1000);
+				}
+			} else {//小于6，第一次
+			    if(!isShowedCityInfo) {
+					showCityInfo();
+				    showcity_delay_timer_event(1000);
+				}
+			}
+		}
+	}
+	*/
+}
+
+function backToTodayOriginPosition(){
+    if (map_reset_flag){
+		if (map_zoom_inout_flag){
+			hideOrShowCityIcon(false);
+		}
+		goTodayCurrPosition();
+	}
+	if (map_zoom_inout_flag){
+		backToOriginSizeAndLoc();
+		goTodayCurrPosition();
+		//hideOrShowCityIcon(true);
+		show_city_icon_timer_event(1000);
+	}
+}
+
+var show_city_icon_timer = 0;
+function show_city_icon_timer_event(delay) {
+	window.clearTimeout(show_city_icon_timer);
+	show_city_icon_timer = window.setTimeout(function (){
+		//显示城市ICON信息
+		hideOrShowCityIcon(true);
+	},delay);
+}
+
+//计算下一次摇一摇走的步数
 function calcNextGoSteps(m_curr_today_remaind_num, l_remaind_step_to_next_city){
     //生成随机数的范围为1-向上取整[剩余步数/剩余次数]+1
 	if (l_remaind_step_to_next_city == 0) {
@@ -439,6 +518,7 @@ function requestRankData(retData){
 		rank_innerHtml += l_li;
 	}
 	document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
+    document.getElementById("div_rank_total_dist").innerHTML = "当前共累计: 20000公里";
 
 	$("#div_overlay_id").show();
 	$("#div_ranking_list_page").show();
@@ -494,6 +574,8 @@ function requestRankData(retData){
                         rank_innerHtml += l_li;
         }
         document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
+        //建议服务端处理，返回5-6位字符串，5位一下直接显示，5-10显示XXX万，10位以上显示XXXX亿，XXXX千亿, wuhanyong
+		document.getElementById("div_rank_total_dist").innerHTML = "当前共累计: 20000公里";
 
         $("#div_overlay_id").show();
         $("#div_ranking_list_page").show();
@@ -525,6 +607,85 @@ function enterCloseWindow(){
 }
 
 /*辅助提示窗口 end*/
+
+/*放大缩小逻辑处理 start*/
+var map_obj_origin_size = [
+{width:0, height:0,top:0,left:0},//map
+{width:0, height:0,top:0,left:0},//city1
+{width:0, height:0,top:0,left:0},//city2
+{width:0, height:0,top:0,left:0},//city3
+{width:0, height:0,top:0,left:0},//city4
+{width:0, height:0,top:0,left:0},//city5
+{width:0, height:0,top:0,left:0},//city6
+{width:0, height:0,top:0,left:0},//city7
+{width:0, height:0,top:0,left:0},//city8
+{width:0, height:0,top:0,left:0},//city9
+{width:0, height:0,top:0,left:0},//city10
+{width:0, height:0,top:0,left:0},//city11
+{width:0, height:0,top:0,left:0},//city12
+{width:0, height:0,top:0,left:0},//city13
+{width:0, height:0,top:0,left:0},//city14
+{width:0, height:0,top:0,left:0},//flag
+{width:0, height:0,top:0,left:0},//icon
+];
+var map_zoom_in_rate = 1.0;
+var map_zoom_inout_flag = false;
+function mapZoomIn(){
+    map_zoom_in_rate += 0.05;
+	if(map_zoom_in_rate > 2){
+	    map_zoom_in_rate = 2;
+	}
+	mapZoomRate(map_zoom_in_rate);
+}
+function mapZoomOut(){
+	map_zoom_in_rate -= 0.05;
+	if(map_zoom_in_rate < 0.5){
+	    map_zoom_in_rate = 0.5;
+	}
+	mapZoomRate(map_zoom_in_rate);
+}
+function backToOriginSizeAndLoc(){
+	mapZoomRate(1);
+	map_zoom_inout_flag = false;
+	map_zoom_in_rate    = 1.0;
+}
+function mapZoomRate(rate){
+	if(!map_zoom_inout_flag){//如果未进行过放大缩小，则先获取坐标信息
+	    map_zoom_inout_flag = true;
+		getOriginMapSize();
+	}
+	//放大缩小改变的是height,width  同时left,top均会更改
+    //width，height等比例缩小
+	var l_map = document.getElementById("main_map_img");
+	l_map.style.width  = map_obj_origin_size[0].width *rate + "px";
+	l_map.style.height = map_obj_origin_size[0].height*rate + "px";
+	l_map.style.top    = map_obj_origin_size[0].top   *rate + "px";
+	l_map.style.left   = map_obj_origin_size[0].left  *rate + "px";
+
+	for (var i=0;i<m_gragObjs.length;i++){
+		m_gragObjs[i].style.width  = map_obj_origin_size[i+1].width *rate + "px";
+		m_gragObjs[i].style.height = map_obj_origin_size[i+1].height*rate + "px";
+		m_gragObjs[i].style.top    = map_obj_origin_size[i+1].top   *rate + "px";
+		m_gragObjs[i].style.left   = map_obj_origin_size[i+1].left  *rate + "px";
+	}
+}
+function getOriginMapSize(){
+	//放大缩小改变的是height,width
+	var l_map = document.getElementById("main_map_img");
+	map_obj_origin_size[0].width  = parseFloat(l_map.width);
+	map_obj_origin_size[0].height = parseFloat(l_map.height);
+	map_obj_origin_size[0].top    = parseFloat(l_map.style.top.replace("px", "") );
+	map_obj_origin_size[0].left   = parseFloat(l_map.style.left.replace("px", ""));
+	
+	for (var i=0;i<m_gragObjs.length;i++){
+		map_obj_origin_size[i+1].width  = parseFloat(m_gragObjs[i].width );
+		map_obj_origin_size[i+1].height = parseFloat(m_gragObjs[i].height);
+		map_obj_origin_size[i+1].top    = parseFloat(m_gragObjs[i].style.top.replace("px", "") );
+		map_obj_origin_size[i+1].left   = parseFloat(m_gragObjs[i].style.left.replace("px", ""));
+	}
+}
+
+/*放大缩小逻辑处理 end*/
 
 /*游戏逻辑 start*/
 function fullMapOnload(){
@@ -574,7 +735,33 @@ function calcCurrPosition(begin_city_index, curr_steps){
 }
 
 //绘制进度信息
-function drawProgressBar(isInit){
+function drawEnergyProgressBar(steps){
+	if (steps < 0){
+	    uploadEverySteps();
+		steps = 0;
+	}
+	var bar = document.getElementById("div_main_progress_rate");
+
+	var bar_height = 100 - Math.floor(steps/m_city_list[m_curr_city_index].steps * 100);
+	var bar_rate = "rect(" + bar_height + "px 100px 100px 0px)";
+	bar.style.clip = bar_rate;
+}
+
+function uploadEverySteps(){
+    	//sync data, server
+    //=======================================================================================syncData to server
+    //public enable
+    var l_curr_dist = m_city_list[m_curr_city_index].dist * (m_curr_steps_to_lastcity / m_city_list[m_curr_city_index].steps);
+	var dist = m_curr_dist_begin2last + l_curr_dist;
+	dist = parseInt(dist);
+	__request("index.move", {loc1: m_curr_city_index, loc2: m_curr_steps_to_lastcity, distance: dist }, function(res) {
+		console.debug(res);
+		// m_current_city_index = res.cityindex;
+		// m_today_arrived_city = res.today_arrived_city;
+	});
+}
+
+function drawProgressBar(isInit){//abandon this method
     //总距离：m_total_distance
 	//当前走过距离：
 	//按照高度计算进度
@@ -588,18 +775,7 @@ function drawProgressBar(isInit){
 	var bar_rate = "rect(" + bar_height + "px 100px 100px 0px)";
 	bar.style.clip = bar_rate;
 	
-	//sync data, server
-    //=======================================================================================syncData to server
-    //public enable
-    if (isInit > 0){
-        var dist = m_curr_dist_begin2last + l_curr_dist;
-        dist = parseInt(dist);
-        __request("index.move", {loc1: m_curr_city_index, loc2: m_curr_steps_to_lastcity, distance: dist }, function(res) {
-            console.debug(res);
-            // m_current_city_index = res.cityindex;
-            // m_today_arrived_city = res.today_arrived_city;
-        });
-    }
+
 }
 
 //绘制微信图标
@@ -612,15 +788,26 @@ function drawWeChartIcon(url){
 function initArrivedCityIcon(index){
 	if (index > 0){
 	    //每次到达一个城市，更新这个城市的橙色信息
-		$("#map_arrived_city" + index).show();
+		//$("#map_arrived_city" + index).show();
+		//document.getElementById("map_arrived_city12").src = 'img/maps_city_lock2.png'
+		$("#map_arrived_city" + index).attr('src' , base_img_url + 'maps_city_arrvied_80.png');
 	    return;
 	}
 	//初始化已走过的城市的橙色信息
 	for(var i=1; i <= m_curr_city_index; i++){
-	    $("#map_arrived_city" + i).show();
+	   $("#map_arrived_city" + i).attr('src' , base_img_url + 'maps_city_arrvied_80.png');
 	}
 }
 
+function hideOrShowCityIcon(showing){
+	for(var i=1; i <= 14; i++){
+		if (showing){
+			$("#map_arrived_city" + i).show();
+		} else {
+			$("#map_arrived_city" + i).hide();
+		}
+	}
+}
 
 function moveArrivedCityIcon(center_pos){
 	//拿到当前的中心点坐标
@@ -642,25 +829,26 @@ function moveArrivedCityIcon(center_pos){
 		//var map_arrived_city = document.getElementById("map_arrived_city" + i);
 		//map_arrived_city.style.left = curr_x +"px";
 		//map_arrived_city.style.top = curr_y +"px";
-		var map_arrived_city = "#map_arrived_city" + i;
-		$(map_arrived_city).stop(!0).animate({"left": curr_x, "top": curr_y});
+		//var map_arrived_city = "#map_arrived_city" + i;
+		$("#map_arrived_city" + i).stop(!0).animate({"left": curr_x, "top": curr_y});
 	}
 }
 
 function initFlagAndWxIcon(isInit){
 	//flag 	    top: 266px; left: 181px;
 	//wx_icon  left: 145px; top: 277px;
-    if(isInit == 0){
-        document.getElementById("div_main_flag_id").style.top    = (m_height*0.5 - 67.5) + "px";
-	    document.getElementById("div_main_flag_id").style.left   = (m_width*0.5  - 6.5)  + "px";
-	    document.getElementById("div_wechart_icon_id").style.top = (m_height*0.5 - 56.5) + "px";
-	    document.getElementById("div_wechart_icon_id").style.left =(m_width*0.5  - 42.5) + "px";
-    	return;
-    }
-    //182.5px
+	if(isInit == 0){
+		document.getElementById("div_main_flag_id").style.top    = (m_height*0.5 - 67.5) + "px";
+		document.getElementById("div_main_flag_id").style.left   = (m_width*0.5  - 6.5)  + "px";
+		document.getElementById("div_wechart_icon_id").style.top = (m_height*0.5 - 56.5) + "px";
+		document.getElementById("div_wechart_icon_id").style.left =(m_width*0.5  - 42.5) + "px";
+		return;
+	}
+	//182.5px
 	//0.4*height
-    $("#div_main_flag_id").stop(!0).animate({"left": (m_width*0.5  - 6.5), "top": (m_height*0.5 - 67.5)});
-    $("#div_wechart_icon_id").stop(!0).animate({"left": (m_width*0.5  - 42.5), "top": (m_height*0.5 - 56.5)});
+	//var map_arrived_city = "#map_arrived_city" + i;
+	$("#div_main_flag_id").stop(!0).animate({"left": (m_width*0.5  - 6.5), "top": (m_height*0.5 - 67.5)});
+	$("#div_wechart_icon_id").stop(!0).animate({"left": (m_width*0.5  - 42.5), "top": (m_height*0.5 - 56.5)});
 }
 //城市橙色覆盖计算逻辑 start
 
@@ -679,19 +867,19 @@ const m_gragObjs =[
 document.getElementById("div_main_flag_id"),
 document.getElementById("div_wechart_icon_id"),
 document.getElementById("map_arrived_city1"),
-                   document.getElementById("map_arrived_city2"),
-				   document.getElementById("map_arrived_city3"),
-				   document.getElementById("map_arrived_city4"),
-				   document.getElementById("map_arrived_city5"),
-				   document.getElementById("map_arrived_city6"),
-				   document.getElementById("map_arrived_city7"),
-				   document.getElementById("map_arrived_city8"),
-				   document.getElementById("map_arrived_city9"),
-				   document.getElementById("map_arrived_city10"),
-				   document.getElementById("map_arrived_city11"),
-				   document.getElementById("map_arrived_city12"),
-				   document.getElementById("map_arrived_city13"),
-				   document.getElementById("map_arrived_city14") ];
+document.getElementById("map_arrived_city2"),
+document.getElementById("map_arrived_city3"),
+document.getElementById("map_arrived_city4"),
+document.getElementById("map_arrived_city5"),
+document.getElementById("map_arrived_city6"),
+document.getElementById("map_arrived_city7"),
+document.getElementById("map_arrived_city8"),
+document.getElementById("map_arrived_city9"),
+document.getElementById("map_arrived_city10"),
+document.getElementById("map_arrived_city11"),
+document.getElementById("map_arrived_city12"),
+document.getElementById("map_arrived_city13"),
+document.getElementById("map_arrived_city14") ];
 var m_gragObjs_offset = [
 {x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},
 {x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},{x:0, y:0},
@@ -758,6 +946,24 @@ function action_move(){
 		map_ny = touch.clientY - move_cur_pos.y;
 		map_move_x = map_dx + map_nx;
 		map_move_y = map_dy + map_ny;
+		//添加移动边界保护
+		if (map_move_x < (-2250*map_zoom_in_rate + m_width)){
+			map_move_x = (-2250*map_zoom_in_rate + m_width);
+			map_nx = map_move_x - map_dx;
+		}
+		if (map_move_y < (-1748.5*map_zoom_in_rate + m_height)){
+			map_move_y = (-1748.5*map_zoom_in_rate + m_height);
+			map_ny = map_move_y - map_dy;
+		}
+		if (map_move_x > 0){
+		    map_move_x = 0;
+			map_nx = map_move_x - map_dx;
+		}
+		if (map_move_y > 0){
+		    map_move_y = 0;
+			map_ny = map_move_y - map_dy;
+		}
+		//console.log("----move:map_move_x:" + map_move_x + "|map_move_y:" + map_move_y)
 		map_img.style.left = map_move_x +"px";
 		map_img.style.top = map_move_y +"px";
 		//console.log("--map_dx:" + map_dx + "|map_dy:" + map_dy + "|map_nx:" + map_nx + "|map_ny:" + map_ny);
@@ -795,8 +1001,12 @@ function map_reset_timer_event(delay) {
 	window.clearTimeout(map_reset_timer);
 	map_reset_timer = window.setTimeout(function (){
 		if (map_reset_flag) {
+			backToTodayOriginPosition();
 			map_reset_flag = false;
-            goTodayCurrPosition();
+			/*if (map_zoom_inout_flag){
+			    backToOriginSizeAndLoc();
+			}
+            goTodayCurrPosition();*/
 		}
 	},delay);
 }
@@ -928,23 +1138,22 @@ function subStringName(str, num) {
     return newStr;
 }
 
-
 //存储城市介绍数据
 var m_city_info = [
-    {index:0, name:"上海", head:"TE荣耀之城",       desc:"上海坐拥TE全球六大研发中心之一的研发工程中心、先进制造实验室，和500多位工程师。每年七月的中国创新大会更是一场工程师的盛宴。智慧的碰撞，创新的孵化…在这里，洞见TE的创新力量。"},
-	{index:1, name:"厦门", head:"工业双引擎",       desc:"TE厦门工厂，是TE在中国的第一家专注于工业领域的生产工厂。与苏州工厂南北呼应，双引擎助力TE在工业市场的布局。"},
+    {index:0, name:"上海", head:"TE荣耀之城",       desc:"上海坐拥TE全球六大研发中心之一的研发工程中心、先进制造实验室、先进材料实验室，和500多位工程师。每年七月的中国创新大会更是一场工程师的盛宴。智慧的碰撞，创新的孵化…在这里，洞见TE的创新力量。"},
+	{index:1, name:"厦门", head:"工业双引擎",       desc:"TE厦门是TE在中国的第一家专注于工业领域的先进制造基地。与苏州先进制造基地和客户体验中心南北呼应，双引擎助力TE在工业市场的布局。"},
     {index:2, name:"东莞", head:"东莞",             desc:"在位于珠江口东方的“明珠城市”东莞，坐落了一家集生产制造、创新研发、服务于一体的基地——TE东莞工厂。成立于2002年，TE东莞不仅仅关注客户，在履行企业社会责任方面也非常积极突出。 在东莞检验检疫局2017年“中国质量诚信企业”授牌仪式上被授予“中国质量诚信企业”的称号。"},
-	{index:3, name:"深圳", head:"传感器“视”界",     desc:"来深圳绝不能错过TE传感器深圳工厂。在这里，你可以轻松进入传感器的“视”界，感知细微的温度、压力或者高度变化，上天、入地、下海，观你所不敢想。"},
-	{index:4, name:"广州", head:"华南大本营",       desc:"26年的沉淀、五大生产基地遍布深圳、东莞、顺德、珠海，并在广州坐拥一个办事处，持续的研发投入和人才培养，广东省是当之无愧的TE华南大本营。"},
-	{index:5, name:"珠海", head:"助飞国之重器",     desc:"在百岛之市珠海坐落着TE珠海工厂。也是在这里，TE助攻了一个国产大项目 –鲲龙号AG600。2017年12月，这架中国自行研发的大型水路两栖飞机在珠海首飞。"},
+	{index:3, name:"深圳", head:"传感器“视”界",     desc:"来深圳绝不能错过TE传感器深圳先进制造基地和研发中心。在这里，你可以轻松进入传感器的“视”界，感知细微的温度、压力或者高度变化，上天、入地、下海，带你探索新“视”界。"},
+	{index:4, name:"广州", head:"华南大本营",       desc:"26年的沉淀、五大先进制造基地分布于深圳、东莞、顺德、珠海，并在广州拥有一个办事处，持续的研发投入和人才培养，广东省是当之无愧的TE华南大本营。"},
+	{index:5, name:"珠海", head:"助飞国之重器",     desc:"在百岛之市珠海坐落着TE珠海先进制造基地。也是在这里，TE助攻了一个国产大项目–鲲龙号AG600。2017年12月，这架中国自行研发的大型水路两栖飞机在珠海首飞。"},
 	{index:6, name:"佛山", head:"佛山顺德",         desc:"坐落于佛山顺德的TE广东工厂已过弱冠之年（建立于1995年），占地面积20,000平方米，主要从事连接器的制造和线束组装，产品在业内享负盛名。在2014年获得TEOA 4星工厂认证。员工从100多人发展到2000多人，正在自己最好的年华展现自己的能量。"},
-	{index:7, name:"成都", head:"Chengdu, CAN DO!", desc:"这是曾亮相纽约时代广场电子屏的宣传语，TE成都工厂就用敢拼的个性诠释着他们的“CAN DO”精神：自2015年正式启动TEOA，短短2年，他们就完成了TEOA四星认证。"},
+	{index:7, name:"成都", head:"Chengdu, CAN DO!", desc:"这是曾亮相纽约时代广场电子屏的宣传语，TE成都先进制造基地就用敢拼的个性诠释着他们的“CAN DO”精神：自2015年正式启动TEOA，短短2年，他们就完成了TEOA四星认证。"},
 	{index:8, name:"武汉", head:"未来工程师",       desc:"TE“未来工程师”项目正在武汉进行时。2016年，TE与武汉理工大学签订校企合作项目协议书，共同推进人才培养及大学教育的可持续发展。"},
 	{index:9, name:"南京", head:"南京",             desc:"1.在六朝古都南京你也找到TE的办事处。TE“未来工程师”项目也在这里落地生根。2017年TE与南京理工大学电光学院召开了“人才培养座谈会”，就TE创意竞赛、学生就业以及联合培养事宜进行了深入的探讨。当高精尖工程师人才的孵化器，我们是认真的。"},
-	{index:10, name:"苏州",head:"TE的苏州情缘",     desc:"苏州，这座历史名城，是TE全球在单一城市最大的生产基地之一。TE在苏州工业园区、相城区和昆山市拥有8个先进制造基地、1个财务共享中心和1个物流分拨中心。"},
+	{index:10, name:"苏州",head:"TE的苏州情缘",     desc:"历史名城苏州是TE全球在单一城市最大的生产基地之一。TE在苏州工业园区、相城区和昆山市拥有8个先进制造基地、1个财务共享中心和1个物流分拨中心。"},
 	{index:11, name:"昆山",head:"昆山",             desc:"“百戏之祖”的昆曲故乡，“第一水乡”的周庄隶属。昆山可谓充满了发展机遇。除了工厂，TE作为美商会会员公司，于2016年有幸出席了首届上海美国商会昆山市交流会，收获满满。"},
-	{index:12, name:"青岛",head:"有故事的青岛",     desc:"TE在大美青岛有两家工厂、一个办事处，以及无数精彩的故事。比如，TE的产品被应用在青岛3号线上，助力山东步入了地铁时代。3号线也成为了我们新员工培训的特别所在。"},
-	{index:13, name:"北京",head:"中国速度",         desc:"帝都不仅有我们的团队，更见证TE助力复兴号跑进350公里时代 - 2017年6月26日，由北京开往上海的中国标准动车组G123次“复兴号”动车稳步启动，领跑中国高铁新征程。"},
+	{index:12, name:"青岛",head:"有故事的青岛",     desc:"TE在大美青岛有两家先进制造基地、一个办事处，以及无数精彩的故事。比如，TE的产品被应用在青岛3号线上，助力山东步入地铁时代。3号线也成为了我们新员工培训的特别场所"},
+	{index:13, name:"北京",head:"中国速度",         desc:"帝都不仅有我们的办事处，还见证了TE助力“复兴号”驰入时速350公里的时代 - 2017年6月26日，由北京开往上海的中国标准动车组G123次“复兴号”动车稳步启动，领跑中国高铁新征程。"},
 	{index:14, name:"长春",head:"长春",             desc:"每个城市都有自己的性格，在长春，人们会高谈阔论三样东西：人情味、酒量和汽车。身披中国“汽车城”的铠甲，长春在一路高歌猛进的中国汽车行业持续沸腾。在这里，TE长春办事处的TE人练就了一身过人的技能，演绎着TE家庭里好爽而丰满的个性。"},
 ];
 

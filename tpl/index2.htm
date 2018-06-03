@@ -84,34 +84,40 @@
 <div id="div_main_page" class="main_map_item">
   <div id="main_map_img_div">
       <img id="main_map_img" src="[:app]/img/full_map_4500.png" onload="fullMapOnload()" />
-      <img id="map_arrived_city1" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city2" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city3" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city4" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city5" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city6" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city7" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city8" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city9" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city10" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city11" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city12" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city13" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
-      <img id="map_arrived_city14" src="[:app]/img/maps_city_arrvied_80.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city1" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city2" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city3" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city4" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city5" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city6" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city7" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city8" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city9" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city10" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city11" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city12" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city13" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
+      <img id="map_arrived_city14" src="[:app]/img/maps_city_lock1.png" class="map_arrived_style_city" />
       <img id="div_main_flag_id" src="[:app]/img/flag.png" class="div_main_flag_style"/>
       <img id="div_wechart_icon_id" class="div_wechart_icon_style"/>
   </div>
  
   <button class="btn_rank_list" onclick="showRanking()"></button>
   <button class="btn_show_help" onClick="showHelpInfo()"></button>
- 
+  <div style="top:45%;width:40px; height:90px;position: absolute;right: 20px;">
+      <button class="btn_zoom_in"   onClick="mapZoomIn()"></button>
+      <button class="btn_zoom_out"  onClick="mapZoomOut()"></button>
+  </div>
+
   <button id="btn_set3"  style="top: 10px;left: 30px;" onClick="sharkeTest()">摇一摇</button>
   <button id="btn_set4"  style="top: 10px;left: 10px;" onClick="sharkeAllTest()">无限摇</button>
   <button id="btn_set5"  style="top: 10px;left: 50px;" onClick="resetAll()">清空</button>
 
   <div class="div_progress">
+     <div id="div_main_progress_tips"></div>
      <div id="div_main_progress_rate" class="div_progress_rate"></div>
-     <div class="div_progress_bar"></div>
+     <!--<div class="div_progress_bar"></div>-->
+     <button class="div_progress_bar" onClick="startMoveSteps()"></button>
   </div>
   <div class="div_bottom_log"></div>
 </div>
@@ -172,12 +178,14 @@
           <!--<li class="top1"><em></em><div style="background-image:url(img/wx_icon.jpg)"></div><span>用户名个</span><a>4322公里</a><p>未完成</p></li>-->
      </ul>
     </div>
+    <a id="div_rank_total_dist">当前共累计: 20000公里</a>
     <div class="div_left_top_logo"></div>
 </div>
 
 <!-- 关闭动画 -->
 <div id="close_window" class="container">
   <canvas id="c-1" class="main_canvas"></canvas>
+  <!--<div id="close_window_end"></div>-->
 </div>
 
 <!-- 模态窗口遮挡 -->

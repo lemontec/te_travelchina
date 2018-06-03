@@ -247,11 +247,12 @@
             // console.log("画了一帧！现在在第：" + this.currentTimes + "帧！");
             this.ctx.clearRect(0, 0, this.width, this.height);
             // console.log(this.canvasWidth, this.canvasHeight);
-            if (this.currentTimes == 54) {
-                this.sourceWidth = 2000;
-                this.sourceHeight = 2933;
-                console.log("s.W:" + this.sourceWidth + ", s.H:" + this.sourceHeight + ",c.W:" + this.canvasWidth + ",c.H:" + this.canvasHeight);
-            }
+			if (this.currentTimes == 54) {
+			    this.sourceWidth = 2000;
+				this.sourceHeight = 2933;
+				//console.log("s.W:" + this.sourceWidth + ", s.H:" + this.sourceHeight + ",c.W:" + this.canvasWidth + ",c.H:" + this.canvasHeight);
+			}
+			
             this.ctx.drawImage(this.frames[this.currentTimes],
                  this.showX, this.showY, this.sourceWidth, this.sourceHeight,
                  0, 0, this.canvasWidth*2, this.canvasHeight*2
@@ -264,9 +265,9 @@
 				/*console.log("------" + this.currentTimes);
 				if(this.currentTimes == 49){
 				    $("#c-1").hide();
-				    console.log("show end image");
+					console.log("show end image");
 				}
-                */
+				*/
         }
 
         // 是否继续
