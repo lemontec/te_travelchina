@@ -790,12 +790,12 @@ function initArrivedCityIcon(index){
 	    //每次到达一个城市，更新这个城市的橙色信息
 		//$("#map_arrived_city" + index).show();
 		//document.getElementById("map_arrived_city12").src = 'img/maps_city_lock2.png'
-		$("#map_arrived_city" + index).attr('src' , base_img_url + 'maps_city_arrvied_80.png');
+		$("#map_arrived_city" + index).hide();
 	    return;
 	}
 	//初始化已走过的城市的橙色信息
 	for(var i=1; i <= m_curr_city_index; i++){
-	   $("#map_arrived_city" + i).attr('src' , base_img_url + 'maps_city_arrvied_80.png');
+	   $("#map_arrived_city" + i).hide();
 	}
 }
 
