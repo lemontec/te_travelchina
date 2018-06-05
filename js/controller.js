@@ -718,8 +718,8 @@ function fullMapOnload(){
 function moveStepsToNextCity(begin_city_index, curr_steps){
     if (begin_city_index == m_city_list.length - 1) {
 		//超出范围
-		var currPos = {x:Math.floor(m_width/2  - m_city_list[begin_city_index].position.x/2 ),
-		               y:Math.floor(m_height/2 - m_city_list[begin_city_index].position.y/2  + 30) };
+		var currPos = {x:(m_width/2  - m_city_list[begin_city_index].position.x/2 ),
+		               y:(m_height/2 - m_city_list[begin_city_index].position.y/2  + 30) };
 		moveAnimation(currPos.x, currPos.y);
 		moveArrivedCityIcon(currPos);//移动之后立即更新CityIcon信息
 		return;
@@ -729,7 +729,7 @@ function moveStepsToNextCity(begin_city_index, curr_steps){
     m_map_height 2098
 	*/
 	var currPos = calcCurrPosition(begin_city_index, curr_steps);
-	moveAnimation(Math.floor(m_width/2  - currPos.x ), Math.floor(m_height/2 - currPos.y  + 30));
+	moveAnimation((m_width/2  - currPos.x ), Math.floor(m_height/2 - currPos.y  + 30));
 	moveArrivedCityIcon(currPos);//移动之后立即更新CityIcon信息
 }
 

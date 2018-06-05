@@ -117,42 +117,46 @@ body {
 	height: 100%;
 	background-size: 100% 100%;
 	position: absolute;
- filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/start_bg.png', sizingMethod='scale');
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/start_bg.png', sizingMethod='scale');
+	text-align: center;
 }
+#div_start_page .div_start_text{
+	font: bold 34px SourceHanSans;
+	color: #f39405;
+	margin-top: 100px;
+}
+
 .div_start_log1 {
 	/*background-color: green;*/
 	background: url(../img/start_center_logo.png) no-repeat;
 	background-size: 100% 100%;
 	/*上下居中*/
-	position: absolute;
-	width: 240px;
-	height: 306px;
-	top: 30%;
-	margin-top: -120px;
+
+	width: 160px;
+    height: 204px;
+
 	/*左右居中*/
 	left: 0;
 	right: 0;
 	margin-left: auto;
 	margin-right: auto;
 }
-#div_start_page button {
+.div_start_page_btn {
 	width: 200px;
 	height: 60px;
-	position: absolute;
 	/*左右居中*/
 	left: 0;
 	right: 0;
 	margin-left: auto;
 	margin-right: auto;
 	background: #f39300;
-	-moz-border-radius: 1em;
-	-webkit-border-radius: 1em;
-	border-radius: 1em;
-	outline: none;
-	border: none;
-	font: bold 24px SourceHanSans;
+	outline: none;	font: bold 24px SourceHanSans;
 	color: #FFF;
-	margin-top: 320px;
+	margin-top: 40px;
+        -moz-border-radius: 0.6em;
+	-webkit-border-radius: 0.6em;
+	border-radius: 0.6em;
+	border: 1px solid #FFF;
 }
 .div_bottom_log {
 	width: 112px;
@@ -280,8 +284,8 @@ body {
 	background-size: 100% 100%;
 	/*上下居中*/
 	position: absolute;
-	width: 98px;
-	height: 98px;
+	width: 100px;
+	height: 100px;
 	/*左右居中*/
 	left: 0;
 	right: 0;
@@ -291,7 +295,6 @@ body {
 	border-radius: 50%;
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
-	border: none; 
 	outline: none; 
 }
 .div_progress {
