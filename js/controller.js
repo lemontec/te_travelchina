@@ -800,7 +800,7 @@ function initArrivedCityIcon(index){
 }
 
 function hideOrShowCityIcon(showing){
-	for(var i=1; i <= 14; i++){
+	for(var i=m_curr_city_index + 1; i <= 14; i++){
 		if (showing){
 			$("#map_arrived_city" + i).show();
 		} else {
