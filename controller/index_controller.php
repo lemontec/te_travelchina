@@ -111,6 +111,50 @@ class index_controller {
         return $rank;
     }
 
+    public function rank2_action() {
+        $player = get_session("current.player");
+        if ($player == null) {
+            return "fail: need login";
+        }
+        $openid = $player["openid"];
+        // $openid = "ojLZa0qymX-Eo2FZSvdY03MVVt5E";
+
+        $rank = Player::rank2();
+        $head10 = false;
+        foreach ($rank as $k => $p) {
+            if ($p["openid"] == $openid) {
+                $rank[$k]["self"] = 1;
+                $head10 = true;
+            } else {
+                $rank[$k]["self"] = 0;
+            }
+            $rank[$k]["date"] = Date("m-d", $rank[$k]["time"]);
+        }
+        if (!$head10) {
+            $selfrank = Player::selfrank2($openid);
+            if (empty($selfrank)) {
+                $selfrank = array(
+                    "rank" => "-1",
+                    "nickname" => $player["nickname"],
+                    "headimgurl" => $player["headimgurl"],
+                    "loc1" => 0,
+                    "loc2" => 0,
+                    "distance" => "0",
+                    "time" => 0,
+                    "date" => Date("m-d"),
+                );
+            } else {
+                $selfrank["date"] = Date("m-d", $selfrank["time"]);
+            }
+            $selfrank["self"] = 1;
+            array_pop($rank);
+            $rank [] = $selfrank;
+        }
+        return $rank;
+    }
+
+
+
     public function reset_action() {
         $player = get_session("current.player");
         if ($player == null) {
@@ -119,6 +163,11 @@ class index_controller {
         $id = $player["id"];
         Player::clear($id);
         return $player;
+    }
+
+    public function totaldistance_action() {
+        $dist = Player::totaldistance();
+        return $dist;
     }
 
 };

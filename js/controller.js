@@ -524,7 +524,11 @@ function requestRankData(retData){
 	$("#div_ranking_list_page").show();
         */
         // public enable
-        __request("index.rank", {}, function(res) {
+        var request_url = "index.rank";
+        if (m_curr_city_index == 14){
+            request_url = "index.rank2";
+        }
+        __request(request_url, {}, function(res) {
         console.debug(res);
 
         var rank_innerHtml = "";
@@ -569,8 +573,14 @@ function requestRankData(retData){
             console.debug(res[i]["nickname"]);
             //处理name
 	        var l_name = subStringName(res[i]["nickname"], 4);
+            var l_loc1 = parseInt(res[i]["loc1"]);
+            var l_loc2 = parseInt(res[i]["loc2"]);
+            //var l_curr_dist = m_city_list[m_curr_city_index].dist * (m_curr_steps_to_lastcity / m_city_list[m_curr_city_index].steps);
+            //var dist = m_curr_dist_begin2last + l_curr_dist;
+            var dist = calcDistance(l_loc1, l_loc2);
+
             l_li += "</em><div style='background-image:url(" + res[i]["headimgurl"] + ")'></div><span>" + l_name
-                                + "</span><a class='a1'>" + res[i]["distance"] + "公里</a><a class='a2'>" + res[i]["date"] + "</a></li>";
+                                + "</span><a class='a1'>" + dist + "公里</a><a class='a2'>" + res[i]["date"] + "</a></li>";
                         rank_innerHtml += l_li;
         }
         document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
@@ -580,6 +590,15 @@ function requestRankData(retData){
         $("#div_overlay_id").show();
         $("#div_ranking_list_page").show();
     });
+}
+
+function calcDistance(loc1, loc2){
+    var dist = 0;
+    for(var i=0; i< loc1; i++){
+        dist += m_city_list[i].dist;
+    }
+    dist += m_city_list[loc1].dist * (loc2 / m_city_list[m_curr_city_index].steps);
+    return dist;
 }
 
 function hideRanking(){
@@ -754,6 +773,7 @@ function uploadEverySteps(){
     var l_curr_dist = m_city_list[m_curr_city_index].dist * (m_curr_steps_to_lastcity / m_city_list[m_curr_city_index].steps);
 	var dist = m_curr_dist_begin2last + l_curr_dist;
 	dist = parseInt(dist);
+    console.log("index.move:   dist:" + dist);
 	__request("index.move", {loc1: m_curr_city_index, loc2: m_curr_steps_to_lastcity, distance: dist }, function(res) {
 		console.debug(res);
 		// m_current_city_index = res.cityindex;

@@ -43,9 +43,21 @@ class Player {
         return db_move::inst()->selfrank($openid);
     }
 
+    public static function rank2() {
+        return db_move::inst()->rank2();
+    }
+
+    public static function selfrank2($openid) {
+        return db_move::inst()->selfrank2($openid);
+    }
+
     public static function clear($id) {
         db_player::inst()->update_distance($id, 0);
         return db_move::inst()->clear($id);
+    }
+
+    public static function totaldistance() {
+        return db_move::inst()->totaldistance();
     }
 };
 
