@@ -539,9 +539,9 @@ function requestRankData(retData){
 	$("#div_ranking_list_page").show();
         */
         // public enable
-        var request_url = "index.rank";
+        var request_url = "index.rank2";
         if (m_curr_city_index == 14){
-            request_url = "index.rank2";
+            request_url = "index.rank";
         }
         __request(request_url, {}, function(res) {
         console.debug(res);
@@ -600,11 +600,34 @@ function requestRankData(retData){
         }
         document.getElementById("rank_list_ul").innerHTML = rank_innerHtml;
         //建议服务端处理，返回5-6位字符串，5位一下直接显示，5-10显示XXX万，10位以上显示XXXX亿，XXXX千亿, wuhanyong
-		document.getElementById("div_rank_total_dist").innerHTML = "当前共累计: 20000公里";
+		document.getElementById("div_rank_total_dist").innerHTML = "当前共累计: " + getTotalDistanceDesc(total_dist) + "公里";
 
         $("#div_overlay_id").show();
         $("#div_ranking_list_page").show();
     });
+        //get total distance
+        var total_dist = "121111";
+        __request("index.totaldistance", {}, function(res){
+            total_dist = res["dist"];
+            //console.log(dist);
+            //建议服务端处理，返回5-6位字符串，5位一下直接显示，5-10显示XXX万，10位以上显示XXXX亿，XXXX千亿, wuhanyong
+		    document.getElementById("div_rank_total_dist").innerHTML = "当前共累计: " + getTotalDistanceDesc(total_dist) + "公里";
+        });
+}
+
+function getTotalDistanceDesc(total_dist){
+    total_dist = total_dist + "";
+    if (total_dist.length <= 5){
+        return total_dist;
+    } else if (total_dist.length < 9) {
+        total_dist = total_dist.substring(0, total_dist.length - 4);
+        return total_dist + "万";
+    } else if (total_dist.length < 13){
+        total_dist = total_dist.substring(0, total_dist.length - 8);
+        return total_dist + "亿";
+    } else {
+        return "9999亿";
+    }
 }
 
 function calcDistance(loc1, loc2){

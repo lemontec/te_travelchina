@@ -86,7 +86,7 @@ class db_move extends database {
                 SELECT max(id) from moves group by player
             )
         ) a, (select @rownum:=0) t 
-        where a.openid is not null 
+        where a.openid is not null AND loc1 = 14
         order by loc1 desc, loc2 desc, time LIMIT 10";
         return $this->doQuery($sql);
     }

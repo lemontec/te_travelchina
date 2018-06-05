@@ -167,7 +167,8 @@ class index_controller {
 
     public function totaldistance_action() {
         $dist = Player::totaldistance();
-        return $dist;
+        logging::d("--dist", $dist);
+        return array('dist' => $dist);
     }
 
 };
