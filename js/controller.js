@@ -156,6 +156,11 @@ function startMoveSteps(){
 					showCityInfo();
 				    showcity_delay_timer_event(1000);
 				}
+				//第一次走一步，显示上海的介绍
+				if (m_curr_city_index == 0 && m_curr_steps_to_lastcity == 1){
+				    showCityInfo();
+				    showcity_delay_timer_event(1000);
+				}
 			} else {//小于6，第一次
 			    if(!isShowedCityInfo) {
 					showCityInfo();
@@ -204,6 +209,9 @@ function shakePhone(){
 	} else {
 	    //calc next steps
 	    m_next_go_steps = calcNextGoSteps(m_curr_today_remaind_num, l_remaind_step_to_next_city);
+	}
+	if (m_curr_city_index == 0 && m_curr_steps_to_lastcity == 0){//第一次摇一摇只走一步，显示上海的介绍
+	    m_next_go_steps = 1;
 	}
 	//获取当前需要移动的步数之后,tips alert,能量条填充
 	$("#div_main_progress_tips").show();
@@ -366,6 +374,9 @@ function showCityInfo(){
 	var l_city_index = m_curr_city_index;
 	if(m_curr_steps_to_lastcity > 0){
 		l_city_index++;
+		if(m_curr_city_index == 0 && m_curr_steps_to_lastcity == 1){//第一次第一步显示上海的信息
+		    l_city_index = 0;
+		}
 	}
 	var city_name = m_city_list[l_city_index].name + "市";
 	var city_img  = base_img_url + "city/" + l_city_index + ".png";
@@ -380,6 +391,10 @@ function showCityInfoWindow(){
 	$("#div_overlay_id").show();
 	$("#div_show_cityinfo_page").show();
 	isShowedCityInfo = true;
+	//第一次走一步，显示上海的介绍
+	if (m_curr_city_index == 0 && m_curr_steps_to_lastcity == 1){
+		isShowedCityInfo = false;
+	}
 }
 
 //100ms后，再弹出城市介绍窗口
