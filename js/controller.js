@@ -470,13 +470,18 @@ function hideCertificate(){
 }
 
 function showHelpInfo(){
+    var w = m_width * 0.73;
+    var h = w * 802 / 550;
+    var th = (m_height - h) / 4;
+    $("#div_show_help2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
     $("#div_overlay_id").show();
-	$("#div_show_help").show();
+	$("#div_show_help2").removeClass("hidden");
 }
 
 function hideHelpInfo(){
     $("#div_overlay_id").hide();
 	$("#div_show_help").hide();
+	$("#div_show_help2").addClass("hidden");
 }
 
 function showRanking(){
