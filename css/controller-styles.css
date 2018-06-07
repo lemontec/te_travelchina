@@ -112,12 +112,12 @@ body {
 #div_start_page {
 	display: none;
 	z-index: 90;
-	background: url(../img/start_bg.png) no-repeat;
+	background: url(../img/start_bg.jpg) no-repeat;
 	width: 100%;
 	height: 100%;
 	background-size: 100% 100%;
 	position: absolute;
-    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/start_bg.png', sizingMethod='scale');
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/start_bg.jpg', sizingMethod='scale');
 	text-align: center;
 }
 #div_start_page .div_start_text{
