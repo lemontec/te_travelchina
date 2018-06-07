@@ -339,21 +339,21 @@ function loadUserData(){
 
 
 var m_city_list = [
-    {index:0, name:"上海", position:{x:3351, y:2214}, dist:800 ,steps:8, limit_count:5},
-    {index:1, name:"厦门", position:{x:3268, y:2679}, dist:500 ,steps:5, limit_count:3},
-	{index:2, name:"东莞", position:{x:3012, y:2794}, dist:100 ,steps:5, limit_count:2},
-	{index:3, name:"深圳", position:{x:3018, y:2900}, dist:100 ,steps:5, limit_count:2},
-	{index:4, name:"广州", position:{x:2900, y:2729}, dist:100 ,steps:5, limit_count:2},
-	{index:5, name:"珠海", position:{x:2797, y:2923}, dist:100 ,steps:5, limit_count:2},
-	{index:6, name:"佛山", position:{x:2759, y:2778}, dist:1200,steps:12,limit_count:5},
-	{index:7, name:"成都", position:{x:2138, y:2248}, dist:1000,steps:10,limit_count:5},
-	{index:8, name:"武汉", position:{x:2608, y:2258}, dist:500 ,steps:5, limit_count:3},
-	{index:9, name:"南京", position:{x:2899, y:2105}, dist:200 ,steps:4, limit_count:2},
-	{index:10, name:"苏州", position:{x:3074, y:2211},dist:50  ,steps:5, limit_count:2},
-	{index:11, name:"昆山", position:{x:3179, y:2150},dist:600 ,steps:6, limit_count:3},
-	{index:12, name:"青岛", position:{x:3257, y:1842},dist:600 ,steps:6, limit_count:3},
-	{index:13, name:"北京", position:{x:3056, y:1458},dist:900 ,steps:9, limit_count:5},
-	{index:14, name:"长春", position:{x:3724, y:1025},dist:0   ,steps:1, limit_count:0}
+    {index:0, name:"上海", position:{x:3351, y:2214}, dist:800 ,steps:8, limit_count:5, img: "/img/city/shanghai.png"},
+    {index:1, name:"厦门", position:{x:3268, y:2679}, dist:500 ,steps:5, limit_count:3, img: "/img/city/xiamen.png"},
+	{index:2, name:"东莞", position:{x:3012, y:2794}, dist:100 ,steps:5, limit_count:2, img: "/img/city/dongguan.png"},
+	{index:3, name:"深圳", position:{x:3018, y:2900}, dist:100 ,steps:5, limit_count:2, img: "/img/city/shenzhen.png"},
+	{index:4, name:"广州", position:{x:2900, y:2729}, dist:100 ,steps:5, limit_count:2, img: "/img/city/guangzhou.png"},
+	{index:5, name:"珠海", position:{x:2797, y:2923}, dist:100 ,steps:5, limit_count:2, img: "/img/city/zhuhai.png"},
+	{index:6, name:"佛山", position:{x:2759, y:2778}, dist:1200,steps:12,limit_count:5, img: "/img/city/foshan.png"},
+	{index:7, name:"成都", position:{x:2138, y:2248}, dist:1000,steps:10,limit_count:5, img: "/img/city/chengdu.png"},
+	{index:8, name:"武汉", position:{x:2608, y:2258}, dist:500 ,steps:5, limit_count:3, img: "/img/city/wuhan.png"},
+	{index:9, name:"南京", position:{x:2899, y:2105}, dist:200 ,steps:4, limit_count:2, img: "/img/city/nanjing.png"},
+	{index:10, name:"苏州", position:{x:3074, y:2211},dist:50  ,steps:5, limit_count:2, img: "/img/city/suzhou.png"},
+	{index:11, name:"昆山", position:{x:3179, y:2150},dist:600 ,steps:6, limit_count:3, img: "/img/city/kunshan.png"},
+	{index:12, name:"青岛", position:{x:3257, y:1842},dist:600 ,steps:6, limit_count:3, img: "/img/city/qingdao.png"},
+	{index:13, name:"北京", position:{x:3056, y:1458},dist:900 ,steps:9, limit_count:5, img: "/img/city/beijing.png"},
+	{index:14, name:"长春", position:{x:3724, y:1025},dist:0   ,steps:1, limit_count:0, img: "/img/city/changchun.png"}
 ]; 
 
 /*数据信息 end*/
@@ -434,6 +434,10 @@ function showCityArrived(){
 	m_can_sharke_flag = false;//不能摇一摇
 	//数据信息
 	var city_name = m_city_list[m_curr_city_index].name;
+    var img = m_city_list[m_curr_city_index].img;
+    img = g_appurl + img;
+    console.log(img);
+
 	document.getElementById("div_city_arrived_name").innerHTML = city_name;
 	document.getElementById("div_city_arrived_dist").innerHTML = m_curr_dist_begin2last + "公里";
 
@@ -445,6 +449,7 @@ function showCityArrived(){
     var dh = (m_height - h) / 4;
     $("#div_overlay_id").show();
     $("#div_arrived_city").css("margin-top", dh + "px");
+	$("#div_arrived_city img").attr("src", img);
 	$("#div_arrived_city").removeClass("hidden");
 
 }
@@ -459,14 +464,19 @@ function hideCityArrived(){
 
 //完成奖杯
 function showCertificate(){
+    var w = m_width * 0.66;
+    var h = w * 837 / 494;
+    var th = (m_height - h) / 4;
+
+    $("#div_show_certificate_page2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
 	$("#div_overlay_id").show();
-	$("#div_show_certificate_page").show();
+	$("#div_show_certificate_page2").removeClass("hidden");
 	
 	m_GameOver = true;
 }
 function hideCertificate(){
 	$("#div_overlay_id").hide();
-	$("#div_show_certificate_page").hide();
+	$("#div_show_certificate_page2").addClass("hidden");
 }
 
 function showHelpInfo(){
@@ -1150,16 +1160,17 @@ function sharkeTest(){
 var sharkeAll = false;
 var m_GameOver = false;
 function sharkeAllTest() {
-	if (m_GameOver) {
-		alert("Travel End!");
-		return;
-	}
+	// if (m_GameOver) {
+	// 	alert("Travel End!");
+	// 	return;
+	// }
 
-    sharkeAll = true;
-	shakePhone();
-	sharkeAll = false;
+    // sharkeAll = true;
+	// shakePhone();
+	// sharkeAll = false;
 
     showCityArrived();
+    // showCertificate();
 }
 
 function printState(){

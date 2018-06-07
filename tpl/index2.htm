@@ -32,13 +32,14 @@
 <meta name="x5-page-mode" content="app">
 <!-- windows phone 点击无高光 -->
 <meta name="msapplication-tap-highlight" content="no">
-<title>TE</title>
+<title>TE 连动 走起</title>
 <script src="[:app]/js/jquery-1.11.1.min.js"></script>
 <script src="[:app]/js/main.js"></script>
 <link rel="stylesheet" type="text/css" href="[:app]/css/controller-styles.css"/>
 <link rel="stylesheet" href="[:vendor]/bootstrap/css/bootstrap.css" type="text/css">
 <script src="[:vendor]/bootstrap/js/bootstrap.min.js"></script>
     <script>
+        var g_appurl = "[:app]";
         var g_headimgurl = "[:headimgurl]";
         var g_nickname = "[:nickname]";
         var g_cityindex = [:cityindex];
@@ -155,6 +156,10 @@
 <div id="div_show_certificate_page">
     <button class="cityinfo_hide_button" onclick="hideCertificate()"></button>
     <div style="margin:100px 20px 20px 20px;"><p id="cityinfo_word" class="certificate_word_style">恭喜，1988年，TE的开拓者在上海华亭宾馆开始了他们的深耕中国之旅。所以，我们的旅程也将从这里开始。</p></div>
+</div>
+
+<div id="div_show_certificate_page2" class="hidden">
+    <img src="[:app]/img/sc.png" onclick="hideCertificate()"/>
 </div>
 
 <!-- 游戏介绍 -->
