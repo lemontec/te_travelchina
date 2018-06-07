@@ -389,6 +389,10 @@ function showCityInfo(){
 
     var img = g_appurl + "/img/cityinfo/" + m_city_list[l_city_index].name + ".png";
     console.log(img);
+    var w = m_width * 0.67;
+    var h = w * 709 / 494;
+    var th = (m_height - h) / 4;
+    $("#div_show_cityinfo_page2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
     $("#div_show_cityinfo_page2 img").attr("src", img);
     
 }
