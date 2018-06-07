@@ -36,6 +36,8 @@
 <script src="[:app]/js/jquery-1.11.1.min.js"></script>
 <script src="[:app]/js/main.js"></script>
 <link rel="stylesheet" type="text/css" href="[:app]/css/controller-styles.css"/>
+<link rel="stylesheet" href="[:vendor]/bootstrap/css/bootstrap.css" type="text/css">
+<script src="[:vendor]/bootstrap/js/bootstrap.min.js"></script>
     <script>
         var g_headimgurl = "[:headimgurl]";
         var g_nickname = "[:nickname]";
@@ -53,6 +55,7 @@
         console.debug(g_today_arrived_city);
         console.debug(g_distance);
     </script>
+
 </head>
 <body>
 <div class="div_front"> <!--<a>模拟动态调整<br>长宽</a>-->
@@ -143,6 +146,10 @@
         <a id="div_city_arrived_dist">4040公里</a>
     </div>
     <div class="div_city_arrived_btn"><button onclick="hideCityArrived()">确定</button></div>
+</div>
+
+<div id="div_arrived_city" class="hidden">
+    <img src="[:app]/img/city/beijing.jpg" onclick="hideCityArrived()"/>
 </div>
 
 <div id="div_show_certificate_page">

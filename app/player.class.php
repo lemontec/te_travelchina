@@ -6,6 +6,11 @@ class Player {
     public static function playerinfo($openid, $nickname, $headimgurl) {
         $player = db_player::inst()->get_by_openid($openid);
         if ($player == null) {
+            $nn = iconv("GBK", "UTF-8//IGNORE", $nickname);
+            logging::d("Debug", "conv from gbk($nickname) to utf-8($nn).");
+            if (empty($nn)) {
+                $nn = $nickname;
+            }
             $pid = db_player::inst()->add($openid, $nickname, $headimgurl);
             return array(
                 "id" => $pid,

@@ -437,13 +437,22 @@ function showCityArrived(){
 	document.getElementById("div_city_arrived_name").innerHTML = city_name;
 	document.getElementById("div_city_arrived_dist").innerHTML = m_curr_dist_begin2last + "公里";
 
+    // $("#div_overlay_id").show();
+	// $("#div_show_city_arrived_page").show();
+
+    var w = m_width * 0.67;
+    var h = w * 709 / 494;
+    var dh = (m_height - h) / 4;
     $("#div_overlay_id").show();
-	$("#div_show_city_arrived_page").show();
+    $("#div_arrived_city").css("margin-top", dh + "px");
+	$("#div_arrived_city").removeClass("hidden");
+
 }
 
 function hideCityArrived(){
     $("#div_overlay_id").hide();
 	$("#div_show_city_arrived_page").hide();
+    $("#div_arrived_city").addClass("hidden");
 	isShowedCityInfo = false;///清除标记值
 	m_can_sharke_flag = true;//可以摇一摇
 }
@@ -636,7 +645,7 @@ function calcDistance(loc1, loc2){
         dist += m_city_list[i].dist;
     }
     dist += m_city_list[loc1].dist * (loc2 / m_city_list[m_curr_city_index].steps);
-    return dist;
+    return Math.floor(dist);
 }
 
 function hideRanking(){
@@ -1144,6 +1153,8 @@ function sharkeAllTest() {
     sharkeAll = true;
 	shakePhone();
 	sharkeAll = false;
+
+    showCityArrived();
 }
 
 function printState(){
