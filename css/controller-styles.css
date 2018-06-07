@@ -333,6 +333,32 @@ body {
 	z-index: 70;
 }
 /*城市介绍页面 start*/
+#div_show_cityinfo_page2 {
+	z-index: 1002;
+	background: #FFF;
+	width: 80%;
+	height: 480px;
+	background-size: 100% 100%;
+	position: absolute;
+	/*左右居中*/
+	left: 0;
+	right: 0;
+	top: 5%;
+	bottom: 10%;
+	margin-left: auto;
+	margin-right: auto;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+
+#div_show_cityinfo_page2 img {
+    width: 100%;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+}
+
 #div_show_cityinfo_page {
 	display: none;
 	z-index: 1002;

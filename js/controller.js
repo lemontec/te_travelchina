@@ -382,14 +382,21 @@ function showCityInfo(){
 	var city_img  = base_img_url + "city/" + l_city_index + ".png";
 	var city_info = m_city_info[l_city_index].desc;
 	
+
 	document.getElementById("cityinfo_name").innerHTML = city_name;
 	$("#cityinfo_img").attr("src", city_img); 
 	document.getElementById("cityinfo_word").innerHTML = city_info;  
+
+    var img = g_appurl + "/img/cityinfo/" + city_name + ".png";
+    console.log(img);
+    $("#div_show_cityinfo_page2 img").attr("src", img);
+    
 }
 
 function showCityInfoWindow(){
 	$("#div_overlay_id").show();
-	$("#div_show_cityinfo_page").show();
+	// $("#div_show_cityinfo_page").show();
+    $("#div_show_cityinfo_page2").removeClass("hidden");
 	isShowedCityInfo = true;
 	//第一次走一步，显示上海的介绍
 	if (m_curr_city_index == 0 && m_curr_steps_to_lastcity == 1){
@@ -422,6 +429,8 @@ function showcity_delay_timer_event(delay) {
 function hideCityInfo (){
 	$("#div_overlay_id").hide();
 	$("#div_show_cityinfo_page").hide();
+    $("#div_show_cityinfo_page2").addClass("hidden");
+    console.log("hide cityinfo");
 
 	if (m_curr_steps_to_lastcity == 0) {
 	    showCityArrived();//如果到达新城市,到达城市提示
@@ -1169,7 +1178,9 @@ function sharkeAllTest() {
 	// shakePhone();
 	// sharkeAll = false;
 
-    showCityArrived();
+    // showCityArrived();
+    showCityInfo();
+    showCityInfoWindow();
     // showCertificate();
 }
 
