@@ -387,7 +387,7 @@ function showCityInfo(){
 	$("#cityinfo_img").attr("src", city_img); 
 	document.getElementById("cityinfo_word").innerHTML = city_info;  
 
-    var img = g_appurl + "/img/cityinfo/" + city_name + ".png";
+    var img = g_appurl + "/img/cityinfo/" + m_city_list[l_city_index].name + ".png";
     console.log(img);
     $("#div_show_cityinfo_page2 img").attr("src", img);
     
