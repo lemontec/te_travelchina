@@ -149,13 +149,21 @@ function startMoveSteps(){
 			showCityInfo();
 			showcity_delay_timer_event(1000);
 		}
+        console.log("steps_to_lastcity"+m_curr_steps_to_lastcity);
 		/*中间显示城市介绍信息，规则：如果steps>=6, 在第二次弹出城市介绍，其余在第一次弹出城市介绍，如果没弹出，则先弹出城市介绍，再弹出城市到达*/
 		if (m_curr_steps_to_lastcity != 0){
 		    if (m_city_list[m_curr_city_index].steps >= 6){//第二次
-				if (m_curr_steps_to_lastcity > 3 && !isShowedCityInfo) {
-					showCityInfo();
-				    showcity_delay_timer_event(1000);
-				}
+                if (m_curr_steps_to_lastcity > 2 && !isShowedCityInfo) {
+				    showCityInfo();
+			        showcity_delay_timer_event(1000);
+                    if (m_curr_city_index == 0) {
+                        needShowCityInfo_shanghai3 = true;
+                    }
+
+			    }else if(needShowCityInfo_shanghai3){//弹出上海3的信息
+                    showCityInfo_shanghai3();
+                    showcity_delay_timer_event(1000);
+                }
 				//第一次走一步，显示上海的介绍
 				if (m_curr_city_index == 0 && m_curr_steps_to_lastcity == 1){
 				    //showCityInfo();
@@ -392,6 +400,35 @@ function showCityInfo_shanghai1(){
     $("#div_show_cityinfo_page2").removeClass("hidden");
 }
 
+var needShowCityInfo_shanghai3 = false;
+function showCityInfo_shanghai3(){
+        var l_city_index = m_curr_city_index;
+        isShowedCityInfo = false;
+        if (m_curr_steps_to_lastcity == 0 && !isShowedCityInfo){
+            l_city_index--;
+            if (l_city_index < 0){
+                l_city_index = 0;
+            }
+        }
+        var city_name = m_city_list[l_city_index].name + "市";
+        var city_img  = base_img_url + "city/" + l_city_index + ".png";
+        var city_info = m_city_info[l_city_index].desc;
+
+        document.getElementById("cityinfo_name").innerHTML = city_name;
+        $("#cityinfo_img").attr("src", city_img); 
+        document.getElementById("cityinfo_word").innerHTML = city_info;  
+
+    var img = g_appurl + "/img/cityinfo/" + m_city_list[l_city_index].name + "3.png";
+    console.log(img);
+    var w = m_width * 0.67;
+    var h = w * 709 / 494;
+    var th = (m_height - h) / 4;
+    $("#div_show_cityinfo_page2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
+    $("#div_show_cityinfo_page2 img").attr("src", img);
+
+    needShowCityInfo_shanghai3 = false;
+}
+
 function showCityInfo(){
     //与服务器通信，拿到数据
 	//cityinfo_name    cityinfo_img   cityinfo_word
@@ -419,6 +456,7 @@ function showCityInfo(){
 
     var img = g_appurl + "/img/cityinfo/" + m_city_list[l_city_index].name + ".png";
     console.log(img);
+    
     var w = m_width * 0.67;
     var h = w * 709 / 494;
     var th = (m_height - h) / 4;
@@ -516,6 +554,7 @@ function hideCityArrived(){
         //showCertificate();
         //$("#div_overlay_id").show();
         $("#close_window").show();
+        document.getElementById("div_overlay_id").style.opacity = 1;
         play_animation();
         m_can_sharke_flag = false;
     }
@@ -1208,6 +1247,7 @@ function play_animation() {
 			//that.window.close();
 			//open(location, '_self').close();
             $("#close_window").hide();
+            document.getElementById("div_overlay_id").style.opacity = 0.8;
             showCertificate();
         },
     });
