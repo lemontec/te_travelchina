@@ -14,6 +14,10 @@ body {
 	margin: inherit;
 	/*background-color: black;*/
 }
+body a{
+    color:#898989;
+}
+
 .div_front {
 	display: none;
 	position: absolute;
@@ -609,46 +613,121 @@ body {
 }
 /*帮助信息弹窗 及 布局 end*/
 /*奖状页面*/
+/*new modify 0610*/
 #div_show_certificate_page2 {
-	z-index: 1002;
-	background: url(../img/certificate.png) no-repeat;
-	width: 80%;
-	height: 65%;
-	background-size: 100% 100%;
-	position: absolute;
-	/*左右居中*/
-	left: 0;
-	right: 0;
-	margin-left: auto;
-	margin-right: auto;
+    z-index: 1002;
+    background:url(../img/certificate_bg.png) no-repeat;
+    width: 280px;
+    height: 468px;
+    background-size: 100% 100%;
+    position: absolute;
+    /*左右居中*/
+    left: 0;
+    right: 0;
+    top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.div_show_certificate_close{
+    float: right;
+    background: url(../img/close_button.png) no-repeat;
+    background-size: 100% 100%;
+        width: 20px;
+        height: 20px;
+        margin-right: 25px;
+        margin-top: 25px;
+        border: none;
+        outline: none;
+}
+#div_show_certificate_page2 .div_show_certi_name_style{
+   line-height: 20px;
+   margin-top: 145px;
+   text-align: center;
+     color: #898989;
+     font-style: normal;
+     font-size: 20px;
+     font-family: SourceHanSans;
+         
+ }
+#div_show_certificate_page2 .div_show_certi_style1 {
+    width: 260px;
+    height: 180px;
+    margin-left: 10px;
 }
 
-#div_show_certificate_page2 img {
-    width: 100%;
-	-moz-border-radius: 1em;
-	-webkit-border-radius: 1em;
-	border-radius: 1em;
+#div_show_certificate_page2 .div_show_certi_style2 {
+    width: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin-top: 180px;
+
 }
+#div_show_certificate_page2 .div_show_certi_btn_down{
+    background: url(../img/certificate_down.png) no-repeat;
+    background-size: 100% 100%;
+    width: 60px;
+    height: 67px;
+    border: none;
+    outline: none;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+    bottom: -75px;
+}
+
+
 #div_show_inputinfo_page2 {
-	z-index: 1002;
-	background: url(../img/inputinfo2.png) no-repeat;
-	width: 80%;
-	height: 65%;
-	background-size: 100% 100%;
-	position: absolute;
-	/*左右居中*/
-	left: 0;
-	right: 0;
-	margin-left: auto;
-	margin-right: auto;
+    z-index: 1002;
+    background:url(../img/inputinfo_bg.png) no-repeat;
+    width: 310px;
+    height: 520px;
+    background-size: 100% 100%;
+    position: absolute;
+    /*左右居中*/
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top:40px;
 }
 
-#div_show_inputinfo_page2 img {
-    width: 100%;
-	-moz-border-radius: 1em;
-	-webkit-border-radius: 1em;
-	border-radius: 1em;
+#div_show_inputinfo_page2 .div_show_input_name{
+    margin-left: 106px;
+    height: 30px;
+    width: 150px;
+    margin-top: 137px;
+    border: none;
 }
+
+#div_show_inputinfo_page2 .div_show_input_phone{
+        margin-left: 106px;
+        height: 30px;
+        width: 150px;
+    margin-top: 29px;
+    border: none;
+}
+#div_show_inputinfo_page2 .div_show_input_btn{
+    background: url(../img/inputinfo_btn.png) no-repeat;
+    background-size: 100% 100%;
+    width: 151px;
+    height: 50px;
+    border: none;
+    outline: none;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin-top: 140px;
+}
+                            
+
+/*new modify 0610 end*/
 
 #div_show_certificate_page {
 	display: none;

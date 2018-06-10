@@ -115,7 +115,7 @@
       <button class="btn_zoom_out"  onClick="mapZoomOut()"></button>
   </div>
 
-  <div ><!--class="hidden">-->
+  <div class="hidden">
   <button id="btn_set3"  style="top: 10px;left: 30px;" onClick="sharkeTest()">摇一摇</button>
   <button id="btn_set4"  style="top: 10px;left: 10px;" onClick="sharkeAllTest()">无限摇</button>
   </div>
@@ -140,7 +140,7 @@
 </div>
 
 <div id="div_show_cityinfo_page2" class="hidden">
-    <img src="[:app]/img/cityinfo/beijing.jpg" onclick="hideCityInfo()"/>
+    <img onclick="hideCityInfo()"/>
 </div>
 
 <!-- 城市到达介绍 -->
@@ -156,7 +156,7 @@
 </div>
 
 <div id="div_arrived_city" class="hidden">
-    <img src="[:app]/img/city/beijing.jpg" onclick="hideCityArrived()"/>
+    <img onclick="hideCityArrived()"/>
 </div>
 
 <div id="div_show_certificate_page">
@@ -164,11 +164,28 @@
     <div style="margin:100px 20px 20px 20px;"><p id="cityinfo_word" class="certificate_word_style">恭喜，1988年，TE的开拓者在上海华亭宾馆开始了他们的深耕中国之旅。所以，我们的旅程也将从这里开始。</p></div>
 </div>
 
+<!--
 <div id="div_show_certificate_page2" class="hidden">
     <img src="[:app]/img/sc.png" onclick="hideCertificate()"/>
 </div>
 
 <div id="div_show_inputinfo_page2" class="hidden">
+</div>
+-->
+<div id="div_show_certificate_page2" class="hidden">
+    <button class="div_show_certificate_close" onclick="hideCertificate()"></button>
+    <div class="div_show_certi_name_style">
+       <p id="div_show_certi_name">JerryChia</p>
+    </div>
+    <img class="div_show_certi_style1" src="[:app]/img/certificate_txt.png" />
+    <img class="div_show_certi_style2" src="[:app]/img/certificate_ma.png" />
+    <button class="div_show_certi_btn_down" onClick="saveCertificationBtn()"></button>
+</div>
+
+<div id="div_show_inputinfo_page2" class="hidden">
+    <input type="text" id="inputinfo_name" class="div_show_input_name">
+    <input type="text" id="inputinfo_phone" class="div_show_input_phone">
+    <button class="div_show_input_btn" onClick="saveInputInfo()"></button>
 </div>
 
 <div id="div_show_inputinfo_page1" class="hidden">

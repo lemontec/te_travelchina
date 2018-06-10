@@ -230,7 +230,15 @@ function shakePhone(){
 	}
 	if (m_curr_city_index == 0 && m_curr_steps_to_lastcity == 0){//第一次摇一摇只走一步，显示上海的介绍
 	    m_next_go_steps = 1;
-	}
+	} //厦门之后的第一步显示广东，第二步显示厦门
+    else if (m_curr_city_index == 1 && m_curr_steps_to_lastcity == 0){//第一步显示广东
+        needShowCityInfo_guangdong = true;
+        isShowedCityInfo = true;
+        m_next_go_steps = 1;
+    } else if (m_curr_city_index == 1 && m_curr_steps_to_lastcity == 1){//第二步显示厦门提示
+       isShowedCityInfo = false;
+    }
+
 	//获取当前需要移动的步数之后,tips alert,能量条填充
 	$("#div_main_progress_tips").show();
 	drawEnergyProgressBar(m_next_go_steps);
@@ -483,6 +491,7 @@ function showCityInfo(){
             }
         }
 	//}
+    /*
 	var city_name = m_city_list[l_city_index].name + "市";
 	var city_img  = base_img_url + "city/" + l_city_index + ".png";
 	var city_info = m_city_info[l_city_index].desc;
@@ -491,6 +500,10 @@ function showCityInfo(){
 	document.getElementById("cityinfo_name").innerHTML = city_name;
 	$("#cityinfo_img").attr("src", city_img); 
 	document.getElementById("cityinfo_word").innerHTML = city_info;  
+    */
+    if (m_city_list[l_city_index].showinfo == 0){
+        return;
+    }
 
     var img = g_appurl + "/img/cityinfo/" + m_city_list[l_city_index].name + ".png";
     console.log(img);
@@ -501,9 +514,6 @@ function showCityInfo(){
     $("#div_show_cityinfo_page2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
     $("#div_show_cityinfo_page2 img").attr("src", img);
     
-    if (l_city_index == 1){
-        needShowCityInfo_guangdong = true;
-    }
 }
 
 function showCityInfoWindow(){
@@ -603,11 +613,13 @@ function hideCityArrived(){
 
 //完成奖杯
 function showCertificate(){
-    var w = m_width * 0.66;
+    /*var w = m_width * 0.66;
     var h = w * 837 / 494;
     var th = (m_height - h) / 4;
 
     $("#div_show_certificate_page2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
+    */
+    document.getElementById("div_show_certi_name").innerHTML = g_nickname;
 	$("#div_overlay_id").show();
 	$("#div_show_certificate_page2").removeClass("hidden");
 	
@@ -621,23 +633,31 @@ function hideCertificate(){
         showInputInfo();
     }
 }
+function saveCertificationBtn(){
+    alert("保存图片...");
+}
 
 //输入页面
 function showInputInfo(){
-    var w = m_width * 0.66;
+    /*var w = m_width * 0.66;
     var h = w * 837 / 494;
     var th = (m_height - h) / 4;
 
     $("#div_show_inputinfo_page2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
+    */
 	$("#div_overlay_id").show();
 	$("#div_show_inputinfo_page2").removeClass("hidden");
 	
 	//m_GameOver = true;
 }
 function hideInputInfo(){
-    return;
 	$("#div_overlay_id").hide();
 	$("#div_show_inputinfo_page2").addClass("hidden");
+}
+function saveInputInfo(){
+    alert("保存个人信息...");
+    //jiayazhou 0610 test
+    hideInputInfo();
 }
 
 
@@ -833,6 +853,9 @@ function hideRanking(){
         //jiayazhou add 0608
         showCityInfo_shanghai1();
     }
+    if (m_curr_city_index == 14){//完成后第一次打开显示奖状信息
+        showCertificate();
+    }
 }
 
 function showLimitWarning(){
@@ -886,8 +909,11 @@ function mapZoomIn(){
 }
 function mapZoomOut(){
 	map_zoom_in_rate -= 0.05;
-	if(map_zoom_in_rate < 0.5){
-	    map_zoom_in_rate = 0.5;
+    if (map_zoom_in_rate == 0.85){
+        return;
+    }
+	if(map_zoom_in_rate < 0.85){
+	    map_zoom_in_rate = 0.85;
 	}
 	mapZoomRate(map_zoom_in_rate);
 }
