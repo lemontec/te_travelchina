@@ -175,6 +175,11 @@ function startMoveSteps(){
 				    showcity_delay_timer_event(1000);
 				}
 			}
+            if (m_curr_city_index == 1  && needShowCityInfo_guangdong){//广东的提示
+                isShowedCityInfo = false;
+                showCityInfo_guangdong();
+                showcity_delay_timer_event(1000);
+            }
 		}
 	}
 	$("#div_main_progress_tips").hide();
@@ -199,6 +204,10 @@ function shakePhone(){
 		//showCertificate();
 		return;
 	}
+    // jiayazhou add for no limit shark
+    if (sharkeAll) {
+       m_curr_today_remaind_num = 5;
+    }
     //剩余次数：
 	if (m_curr_today_remaind_num == 0){
 		if (!sharkeAll) {
@@ -207,6 +216,7 @@ function shakePhone(){
 		} else {//无限摇一摇,重置剩余数量，并且将已经到达的城市数目变为0
 			m_curr_today_remaind_num = m_city_list[m_curr_city_index].limit_count;
 			m_today_arrived_city = 0;
+            m_curr_today_remaind_num = 5;
 		}
 	}
 	var l_remaind_step_to_next_city = m_city_list[m_curr_city_index].steps - m_curr_steps_to_lastcity;
@@ -351,7 +361,7 @@ var m_city_list = [
     {index:1, name:"厦门", position:{x:3268, y:2679}, dist:500 ,steps:5, limit_count:3, img: "/img/city/xiamen.png"  , showinfo:1},
 	{index:2, name:"东莞", position:{x:3012, y:2794}, dist:100 ,steps:5, limit_count:2, img: "/img/city/dongguan.png", showinfo:0},
 	{index:3, name:"深圳", position:{x:3018, y:2900}, dist:100 ,steps:5, limit_count:2, img: "/img/city/shenzhen.png", showinfo:1},
-	{index:4, name:"广州", position:{x:2900, y:2729}, dist:100 ,steps:5, limit_count:2, img: "/img/city/guangzhou.png", showinfo:1},
+	{index:4, name:"广州", position:{x:2900, y:2729}, dist:100 ,steps:5, limit_count:2, img: "/img/city/guangzhou.png", showinfo:0},
 	{index:5, name:"珠海", position:{x:2797, y:2923}, dist:100 ,steps:5, limit_count:2, img: "/img/city/zhuhai.png", showinfo:1},
 	{index:6, name:"佛山", position:{x:2759, y:2778}, dist:1200,steps:12,limit_count:5, img: "/img/city/foshan.png", showinfo:0},
 	{index:7, name:"成都", position:{x:2138, y:2248}, dist:1000,steps:10,limit_count:5, img: "/img/city/chengdu.png", showinfo:1},
@@ -428,6 +438,34 @@ function showCityInfo_shanghai3(){
 
     needShowCityInfo_shanghai3 = false;
 }
+var neddShowCityInfo_guangdong = false;
+function showCityInfo_guangdong(){
+        var l_city_index = m_curr_city_index;
+        isShowedCityInfo = false;
+        if (m_curr_steps_to_lastcity == 0 && !isShowedCityInfo){
+            l_city_index--;
+            if (l_city_index < 0){
+                l_city_index = 0;
+            }
+        }
+        var city_name = m_city_list[l_city_index].name + "市";
+        var city_img  = base_img_url + "city/" + l_city_index + ".png";
+        var city_info = m_city_info[l_city_index].desc;
+
+        document.getElementById("cityinfo_name").innerHTML = city_name;
+        $("#cityinfo_img").attr("src", city_img); 
+        document.getElementById("cityinfo_word").innerHTML = city_info;  
+
+    var img = g_appurl + "/img/cityinfo/广东.png";
+    console.log(img);
+    var w = m_width * 0.67;
+    var h = w * 709 / 494;
+    var th = (m_height - h) / 4;
+    $("#div_show_cityinfo_page2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
+    $("#div_show_cityinfo_page2 img").attr("src", img);
+
+    needShowCityInfo_guangdong = false;
+}
 
 function showCityInfo(){
     //与服务器通信，拿到数据
@@ -463,6 +501,9 @@ function showCityInfo(){
     $("#div_show_cityinfo_page2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
     $("#div_show_cityinfo_page2 img").attr("src", img);
     
+    if (l_city_index == 1){
+        needShowCityInfo_guangdong = true;
+    }
 }
 
 function showCityInfoWindow(){
