@@ -368,6 +368,15 @@ function loadUserData(){
 	for (var i = 0; i < m_curr_city_index; i++) {
 	    m_curr_dist_begin2last += m_city_list[i].dist;
 	}
+
+    //如果当前城市index为14，拿一下是否填写信息的状态
+    if (m_curr_city_index == 14) {
+        checkInputInfoRecord(function(ret){
+            if (ret['ret'] == 1){
+                is_save_personal_info = true;
+            }
+        });
+    }
 }
 
 
@@ -636,38 +645,61 @@ function hideCertificate(){
 	$("#div_overlay_id").hide();
 	$("#div_show_certificate_page2").addClass("hidden");
     //如果已经在最后一座城市
-    if (m_curr_city_index == m_city_list.length - 1){
+    if (m_curr_city_index == m_city_list.length - 1 && !is_save_personal_info){
+        //并且检测是否填写真实信息
+        checkInputInfoRecord(checkCertifInputInfoCallbak);
+    }
+}
+
+var is_save_personal_info = false;
+function checkCertifInputInfoCallbak(ret){
+    if (ret["ret"] != 1){
+        is_save_personal_info = true;
         showInputInfo();
     }
 }
+
 function saveCertificationBtn(){
-    alert("保存图片...");
+    //alert("保存图片...");
 }
 
 //输入页面
 function showInputInfo(){
+    //m_width:414|m_height736
+    var w = m_width;
+    var h = m_width * 1100 / 750;
     /*var w = m_width * 0.66;
     var h = w * 837 / 494;
     var th = (m_height - h) / 4;
-
-    $("#div_show_inputinfo_page2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
     */
+    $("#div_show_inputinfo_page2").css({"width": w + "px", "height": h + "px"});
+    $("#div_overlay_id").css({"background-color":"#69696b", "opacity":1});
 	$("#div_overlay_id").show();
 	$("#div_show_inputinfo_page2").removeClass("hidden");
 	
 	//m_GameOver = true;
 }
 function hideInputInfo(){
+    $("#div_overlay_id").css({"background-color":"black", "opacity":0.8});
 	$("#div_overlay_id").hide();
 	$("#div_show_inputinfo_page2").addClass("hidden");
 }
 function saveInputInfo(){
-    console.log("保存个人信息...");
+    //console.log("保存个人信息...");
     var name = $("#inputinfo_name").val();
     var phone = $("#inputinfo_phone").val();
 
-    console.log(name);
-    console.log(phone);
+    if (!isPoneAvailable(phone)){
+        alert("请输入正确的手机号！");
+        return;
+    }
+    l_name_reg = /^[\u4E00-\u9FA5]{2,6}$/;
+    if (!l_name_reg.test(name)){
+        alert("请输入正确的真实姓名！");
+        return;
+    }
+    //console.log(name);
+    //console.log(phone);
 
     __request("index.saveplayerinfo", {realname: name, telephone: phone}, function(res) {
         console.log(res);
@@ -675,6 +707,13 @@ function saveInputInfo(){
 
     //jiayazhou 0610 test
     hideInputInfo();
+}
+
+function checkInputInfoRecord(callback){
+     __request("index.hasplayerinfo", {}, function(res) {
+         console.log(res);
+         callback(res);
+    });
 }
 
 
@@ -879,6 +918,7 @@ function showLimitWarning(){
 	$("#div_overlay_id").show();
     $("#div_show_limit_window").show();
 }
+
 function closeLimitWindow(){
 	$("#div_overlay_id").hide();
     $("#div_show_limit_window").hide();
@@ -1460,6 +1500,15 @@ function subStringName(str, num) {
         newStr = str.substring(0, num) + "..";
     }
     return newStr;
+}
+
+function isPoneAvailable(str) {  
+    var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;  
+    if (!myreg.test(str)) {  
+          return false;  
+    } else {  
+          return true;  
+    }  
 }
 
 //存储城市介绍数据

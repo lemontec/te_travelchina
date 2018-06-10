@@ -115,7 +115,7 @@
       <button class="btn_zoom_out"  onClick="mapZoomOut()"></button>
   </div>
 
-  <div class="hidden">
+<div ><!--class="hidden"-->
   <button id="btn_set3"  style="top: 10px;left: 30px;" onClick="sharkeTest()">摇一摇</button>
   <button id="btn_set4"  style="top: 10px;left: 10px;" onClick="sharkeAllTest()">无限摇</button>
   </div>
@@ -140,7 +140,8 @@
 </div>
 
 <div id="div_show_cityinfo_page2" class="hidden">
-    <img onclick="hideCityInfo()"/>
+    <img />
+    <button class="div_show_help2_btn" onclick="hideCityInfo()"></button>
 </div>
 
 <!-- 城市到达介绍 -->
@@ -156,7 +157,7 @@
 </div>
 
 <div id="div_arrived_city" class="hidden">
-    <img onclick="hideCityArrived()"/>
+    <img style="pointer-events: auto;" onclick="hideCityArrived()"/>
 </div>
 
 <div id="div_show_certificate_page">
@@ -182,6 +183,7 @@
     <img class="div_show_certi_style2" src="[:app]/img/certificate_ma.png" />
     <img class="div_show_certi_style3" src="[:app]/img/certificate_qr_code.png" />
     -->
+    <img src="[:app]/img/certificate_qr_code_bg.png" class="div_show_certi_style4"/>
     <a class="div_show_certi_btn_down" href="/?index/certificate" download="证书.png"></a>
 </div>
 

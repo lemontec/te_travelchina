@@ -178,7 +178,7 @@ class index_controller {
         }
         $id = $player["id"];
         $ret = Player::has_player_info($id);
-        return $ret ? "true" : "false";
+        return array('ret' => ($ret ? 1 : 0));
     }
 
     public function saveplayerinfo_action() {
@@ -191,7 +191,7 @@ class index_controller {
         }
         $id = $player["id"];
         Player::save_player_info($id, $name, $phone);
-        return "OK";
+        return array('ret' => 1);
     }
 
 
