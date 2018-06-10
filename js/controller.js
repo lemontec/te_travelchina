@@ -91,6 +91,7 @@ function nextPhase(){
     if (m_current_phase == 1) {
 	    $("#div_resoure_load").hide();
 		$("#div_start_page").show();
+        showHelpInfo();
 	} else if(m_current_phase == 2){
 		$("#div_start_page").hide();
 	    $("#div_main_page").show();
@@ -231,12 +232,12 @@ function shakePhone(){
 	if (m_curr_city_index == 0 && m_curr_steps_to_lastcity == 0){//第一次摇一摇只走一步，显示上海的介绍
 	    m_next_go_steps = 1;
 	} //厦门之后的第一步显示广东，第二步显示厦门
-    else if (m_curr_city_index == 1 && m_curr_steps_to_lastcity == 0){//第一步显示广东
-        needShowCityInfo_guangdong = true;
-        isShowedCityInfo = true;
+    else if (m_curr_city_index == 1 && m_curr_steps_to_lastcity == 0){//第一步显示厦门
+        needShowCityInfo_guangdong = false;
+        isShowedCityInfo = false;
         m_next_go_steps = 1;
-    } else if (m_curr_city_index == 1 && m_curr_steps_to_lastcity == 1){//第二步显示厦门提示
-       isShowedCityInfo = false;
+    } else if (m_curr_city_index == 1 && m_curr_steps_to_lastcity == 1){//第二步显示广东提示
+       needShowCityInfo_guangdong = true;
     }
 
 	//获取当前需要移动的步数之后,tips alert,能量条填充
@@ -284,7 +285,10 @@ function shakePhone(){
 	*/
 }
 
+//此属性标志在形变和移动自动返回时，不能操作放大和移动
+var isBackingOriginPosition = false;
 function backToTodayOriginPosition(){
+    isBackingOriginPosition = true;
     if (map_reset_flag){
 		if (map_zoom_inout_flag){
 			hideOrShowCityIcon(false);
@@ -296,7 +300,9 @@ function backToTodayOriginPosition(){
 		goTodayCurrPosition();
 		//hideOrShowCityIcon(true);
 		show_city_icon_timer_event(1000);
-	}
+	} else {
+        isBackingOriginPosition = false;
+    }
 }
 
 var show_city_icon_timer = 0;
@@ -305,6 +311,7 @@ function show_city_icon_timer_event(delay) {
 	show_city_icon_timer = window.setTimeout(function (){
 		//显示城市ICON信息
 		hideOrShowCityIcon(true);
+        isBackingOriginPosition = false;
 	},delay);
 }
 
@@ -901,6 +908,10 @@ var map_obj_origin_size = [
 var map_zoom_in_rate = 1.0;
 var map_zoom_inout_flag = false;
 function mapZoomIn(){
+    if (isBackingOriginPosition){
+        console.log("...is auto resizeing");
+        return;
+    }
     map_zoom_in_rate += 0.05;
 	if(map_zoom_in_rate > 2){
 	    map_zoom_in_rate = 2;
@@ -908,6 +919,10 @@ function mapZoomIn(){
 	mapZoomRate(map_zoom_in_rate);
 }
 function mapZoomOut(){
+    if (isBackingOriginPosition){
+        console.log("...is auto resizeing");
+        return;
+    }
 	map_zoom_in_rate -= 0.05;
     if (map_zoom_in_rate == 0.85){
         return;
@@ -1208,6 +1223,10 @@ function action_down(){
 }
 
 function action_move(){
+    if (isBackingOriginPosition){
+        console.log("...is auto resizeing");
+        return;
+    }
 	if(move_map_flag){
 		//console.log("---------move");
 		var touch ;
