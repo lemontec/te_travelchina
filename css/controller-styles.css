@@ -18,6 +18,8 @@ body a{
     color:#898989;
 }
 
+img{  }/*保证所有图片不会点击放大，qr除外*/
+
 .div_front {
 	display: none;
 	position: absolute;
@@ -663,8 +665,18 @@ body a{
     right: 0;
     position: absolute;
     margin-top: 180px;
-
 }
+
+#div_show_certificate_page2 .div_show_certi_style3{
+    width: 56px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin-top: 182px;
+}
+
 #div_show_certificate_page2 .div_show_certi_btn_down{
     background: url(../img/certificate_down.png) no-repeat;
     background-size: 100% 100%;

@@ -160,6 +160,25 @@ class db_move extends database {
         $dist = $res["dist"];
         return $dist;
     }
+
+    public function save_player_info($id, $realname, $telephone) {
+        $id = (int)$id;
+        return $this->insert("players_info", array(
+            "player" => $id,
+            "realname" => $realname,
+            "telephone" => $telephone
+        ));
+    }
+
+    public function has_player_info($id) {
+        $id = (int)$id;
+        if ($id == 0) {
+            return true;
+        }
+        $sql = "SELECT * FROM players_info WHERE player = $id";
+        $res = $this->doQuery($sql);
+        return !empty($res);
+    }
 };
 
 

@@ -171,6 +171,29 @@ class index_controller {
         return array('dist' => $dist);
     }
 
+    public function hasplayerinfo_action() {
+        $player = get_session("current.player");
+        if ($player == null) {
+            return $this->index_action();
+        }
+        $id = $player["id"];
+        $ret = Player::has_player_info($id);
+        return $ret ? "true" : "false";
+    }
+
+    public function saveplayerinfo_action() {
+        $name = get_request_assert("realname");
+        $phone = get_request_assert("telephone");
+
+        $player = get_session("current.player");
+        if ($player == null) {
+            return $this->index_action();
+        }
+        $id = $player["id"];
+        Player::save_player_info($id, $name, $phone);
+        return "OK";
+    }
+
 };
 
 

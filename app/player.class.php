@@ -64,5 +64,14 @@ class Player {
     public static function totaldistance() {
         return db_move::inst()->totaldistance();
     }
+
+    public static function has_player_info($id) {
+        return db_move::inst()->has_player_info($id);
+    }
+
+    public static function save_player_info($id, $name, $phone) {
+        return db_move::inst()->save_player_info($id, $name, $phone);
+    }
+
 };
 

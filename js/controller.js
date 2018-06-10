@@ -662,7 +662,17 @@ function hideInputInfo(){
 	$("#div_show_inputinfo_page2").addClass("hidden");
 }
 function saveInputInfo(){
-    alert("保存个人信息...");
+    console.log("保存个人信息...");
+    var name = $("#inputinfo_name").val();
+    var phone = $("#inputinfo_phone").val();
+
+    console.log(name);
+    console.log(phone);
+
+    __request("index.saveplayerinfo", {realname: name, telephone: phone}, function(res) {
+        console.log(res);
+    });
+
     //jiayazhou 0610 test
     hideInputInfo();
 }
@@ -1396,9 +1406,10 @@ function sharkeAllTest() {
 	// sharkeAll = false;
 
     // showCityArrived();
-    showCityInfo();
-    showCityInfoWindow();
+    // showCityInfo();
+    // showCityInfoWindow();
     // showCertificate();
+    showInputInfo();
 }
 
 function printState(){
