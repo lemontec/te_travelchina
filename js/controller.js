@@ -1005,13 +1005,18 @@ function moveStepsToNextCity(begin_city_index, curr_steps){
 //回到移动地图前的位置，超时会走这里，移动之后第一次摇一摇也会走这里
 function goTodayCurrPosition(){
 	//首先初始化旗帜和Wx_Icon位置
-	initFlagAndWxIcon(1);
+	initFlagAndWxIcon(0);
 	moveStepsToNextCity(m_curr_city_index, m_curr_steps_to_lastcity);
 }
 
 function moveAnimation(x, y){
     var left = x + "px";
 	var top =  y + "px"; 
+    if (isBackingOriginPosition) {
+        document.getElementById("main_map_img").style.left = left;
+        document.getElementById("main_map_img").style.top = top;
+        return;
+    }
     $("#main_map_img").stop(!0).animate({"left": left, "top": top});
 }
 
@@ -1119,7 +1124,12 @@ function moveArrivedCityIcon(center_pos){
 		//map_arrived_city.style.left = curr_x +"px";
 		//map_arrived_city.style.top = curr_y +"px";
 		//var map_arrived_city = "#map_arrived_city" + i;
-		$("#map_arrived_city" + i).stop(!0).animate({"left": curr_x, "top": curr_y});
+        if (isBackingOriginPosition) {
+            document.getElementById("map_arrived_city" + i).style.left = curr_x + "px";
+            document.getElementById("map_arrived_city" + i).style.top = curr_y + "px";
+        } else {
+		    $("#map_arrived_city" + i).stop(!0).animate({"left": curr_x, "top": curr_y});
+        }
 	}
 }
 
