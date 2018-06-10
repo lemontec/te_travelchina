@@ -174,13 +174,15 @@
 -->
 <div id="div_show_certificate_page2" class="hidden">
     <button class="div_show_certificate_close" onclick="hideCertificate()"></button>
+    <!--
     <div class="div_show_certi_name_style">
        <p id="div_show_certi_name">JerryChia</p>
     </div>
     <img class="div_show_certi_style1" src="[:app]/img/certificate_txt.png" />
     <img class="div_show_certi_style2" src="[:app]/img/certificate_ma.png" />
     <img class="div_show_certi_style3" src="[:app]/img/certificate_qr_code.png" />
-    <button class="div_show_certi_btn_down" onClick="saveCertificationBtn()"></button>
+    -->
+    <a class="div_show_certi_btn_down" href="/?index/certificate" download="证书.png"></a>
 </div>
 
 <div id="div_show_inputinfo_page2" class="hidden">
@@ -203,7 +205,8 @@
 </div>
 
 <div id="div_show_help2" class="hidden">
-    <img src="[:app]/img/te_game_rule.jpg" onclick="hideHelpInfo()" />
+    <img src="[:app]/img/te_game_rule.jpg" />
+    <button class="div_show_help2_btn" onclick="hideHelpInfo()"></button>
 </div>
 
 <div id="div_show_limit_window">

@@ -15,6 +15,7 @@ include_once(FRAMEWORK_PATH . "/cache.php");
 include_once(dirname(__FILE__) . "/database/db_player.class.php");
 include_once(dirname(__FILE__) . "/database/db_move.class.php");
 include_once(dirname(__FILE__) . "/app/player.class.php");
+include_once(dirname(__FILE__) . "/app/certificate.php");
 
 include_once(dirname(__FILE__) . "/libs/Lock.php");
 include_once(dirname(__FILE__) . "/libs/WeChat.php");

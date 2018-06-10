@@ -626,7 +626,7 @@ function showCertificate(){
 
     $("#div_show_certificate_page2").css({"width": w + "px", "height": h + "px", "margin-top": th + "px"});
     */
-    document.getElementById("div_show_certi_name").innerHTML = g_nickname;
+    // document.getElementById("div_show_certi_name").innerHTML = g_nickname;
 	$("#div_overlay_id").show();
 	$("#div_show_certificate_page2").removeClass("hidden");
 	
@@ -1408,8 +1408,8 @@ function sharkeAllTest() {
     // showCityArrived();
     // showCityInfo();
     // showCityInfoWindow();
-    // showCertificate();
-    showInputInfo();
+    showCertificate();
+    // showInputInfo();
 }
 
 function printState(){

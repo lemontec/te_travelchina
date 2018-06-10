@@ -194,6 +194,16 @@ class index_controller {
         return "OK";
     }
 
+
+    public function certificate_action() {
+        $player = get_session("current.player");
+        if ($player == null) {
+            return $this->index_action();
+        }
+        $name = $player["nickname"];
+        create_certificate($name);
+        return "";
+    }
 };
 
 

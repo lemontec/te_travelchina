@@ -18,7 +18,7 @@ body a{
     color:#898989;
 }
 
-img{  }/*保证所有图片不会点击放大，qr除外*/
+img{ /*pointer-events: none;*/ }/*保证所有图片不会点击放大，qr除外*/
 
 .div_front {
 	display: none;
@@ -587,6 +587,20 @@ img{  }/*保证所有图片不会点击放大，qr除外*/
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
 	border-radius: 1em;
+    position: absolute;
+}
+.div_show_help2_btn{
+    float: right;
+    background: url(../img/close_button2.png) no-repeat;
+    background-size: 100% 100%;
+    width: 30px;
+    height: 30px;
+    /* margin-right: 10px; */
+    border: none;
+    outline: none;
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }
 
 #div_show_help{
@@ -618,7 +632,7 @@ img{  }/*保证所有图片不会点击放大，qr除外*/
 /*new modify 0610*/
 #div_show_certificate_page2 {
     z-index: 1002;
-    background:url(../img/certificate_bg.png) no-repeat;
+    background:url(/?index/certificate) no-repeat;
     width: 280px;
     height: 468px;
     background-size: 100% 100%;
