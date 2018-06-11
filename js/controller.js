@@ -1236,6 +1236,10 @@ var m_gragObjs_offset = [
 ];
 
 function bindMapMoveEvent(){
+    $("#main_map_img").click(function() { 
+        console.log("click.");
+        return false;
+    });
 	//找到IMG
 	if ( map_img == undefined) {
 	    map_img = document.getElementById("main_map_img");
