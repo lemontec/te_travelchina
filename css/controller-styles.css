@@ -959,6 +959,49 @@ img{ pointer-events: none; }/*保证所有图片不会点击放大，qr除外*/
 }
 /*排名弹窗end*/
 
+/*提交成功窗口*/
+#div_show_submit_succ_window {
+	display: none;
+	z-index: 1010;
+	background-color: #FFF;;
+	width: 80%;
+	height: 188px;
+	background-size: 100% 100%;
+	position: absolute;
+	/*左右居中*/
+	left: 0;
+	right: 0;
+	top: 35%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align:center;
+	    -moz-border-radius: 1em;
+    -webkit-border-radius: 1em;
+    border-radius: 1em;
+}
+#div_show_submit_succ_window span{
+   font: 20px SourceHanSans;
+   color: #737373;
+}
+#div_show_submit_succ_window button {
+	border: none;
+	width: 98%;
+	height: 29%;
+	bottom: 1px;
+	position: absolute;
+	/*左右居中*/
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: transparent;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	border-radius: 1em;
+	outline: none;
+	font: bold 20px SourceHanSans;
+}
+
 /*限制窗口*/
 #div_show_limit_window {
 	display: none;

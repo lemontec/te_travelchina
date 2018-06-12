@@ -155,10 +155,12 @@ function startMoveSteps(){
 		if (m_curr_steps_to_lastcity != 0){
 		    if (m_city_list[m_curr_city_index].steps >= 6){//第二次
                 if (m_curr_steps_to_lastcity > 2 && !isShowedCityInfo) {
-				    showCityInfo();
-			        showcity_delay_timer_event(1000);
+                    if (m_curr_city_index != 0){
+				        showCityInfo();
+			            showcity_delay_timer_event(1000);
+                    }
                     if (m_curr_city_index == 0) {
-                        needShowCityInfo_shanghai3 = true;
+                        //needShowCityInfo_shanghai3 = true;
                     }
 
 			    }else if(needShowCityInfo_shanghai3){//弹出上海3的信息
@@ -167,8 +169,9 @@ function startMoveSteps(){
                 }
 				//第一次走一步，显示上海的介绍
 				if (m_curr_city_index == 0 && m_curr_steps_to_lastcity == 1){
-				    //showCityInfo();
-				    //showcity_delay_timer_event(1000);
+				    showCityInfo();
+				    showcity_delay_timer_event(1000);
+                    needShowCityInfo_shanghai3 = true;
 				}
 			} else {//小于6，第一次
 			    if(!isShowedCityInfo) {
@@ -316,14 +319,47 @@ function show_city_icon_timer_event(delay) {
 }
 
 //计算下一次摇一摇走的步数
+var m_next_steps = [
+    [1, 4, 3],
+    [1, 2, 2],
+    [3, 2, 0],
+    [2,2,1],
+    [3,2,0],
+    [3,1,1],
+    [7,5,0],
+    [4,3,3],
+    [2,2,1],
+    [3,1,0],
+    [2,2,1],
+    [4,2,0],
+    [3,2,1],
+    [4,3,2]
+];
 function calcNextGoSteps(m_curr_today_remaind_num, l_remaind_step_to_next_city){
     //生成随机数的范围为1-向上取整[剩余步数/剩余次数]+1
 	if (l_remaind_step_to_next_city == 0) {
 	    return 0;
 	}
+    var ret = 0;
+    if (m_curr_steps_to_lastcity == 0){
+        ret = m_next_steps[m_curr_city_index][0];
+    } else if (m_curr_steps_to_lastcity == m_next_steps[m_curr_city_index][0]){
+        ret = m_next_steps[m_curr_city_index][1];
+    } else {
+        ret = m_next_steps[m_curr_city_index][2];
+    }
+    return ret;
+
+    /*
 	var seed = Math.ceil(l_remaind_step_to_next_city/m_curr_today_remaind_num) + 1;
-	var ret = Math.floor(Math.random()*seed + 1);
+	var ret = Math.floor(Math.random()*seed + 2);
 	return ( ret > l_remaind_step_to_next_city) ? l_remaind_step_to_next_city : ret;
+    */
+    /*
+    var seed =  Math.ceil(l_remaind_step_to_next_city/m_curr_today_remaind_num);
+    var ret = Math.floor(Math.random()*seed*2/3 + Math.random()*seed*2/3 + Math.random()*seed*2/3) + 1;
+    return ( ret > l_remaind_step_to_next_city) ? l_remaind_step_to_next_city : ret;
+    */
 }
 //游戏逻辑 end
 
@@ -689,12 +725,15 @@ function saveInputInfo(){
     var name = $("#inputinfo_name").val();
     var phone = $("#inputinfo_phone").val();
 
-    if (!isPoneAvailable(phone)){
-        alert("请输入正确的手机号！");
+    var l_phone_reg = /^((\+?86)|(\(\+86\)))?1\d{10}$/;
+    var l_tele_reg  = /^((\+?86)|(\(\+86\)))?\d{3,4}-\d{7,8}(-\d{3,4})?$/;
+    if ( !l_phone_reg.test(phone) && !l_tele_reg.test(phone)){
+        alert("请输入正确的联系电话！");
         return;
     }
-    l_name_reg = /^[\u4E00-\u9FA5]{2,6}$/;
-    if (!l_name_reg.test(name)){
+    var l_name_reg = /^[\u4E00-\u9FA5]{2,6}$/;
+    var l_en_name_reg = /^[A-Za-z]+$/;
+    if (!l_name_reg.test(name) && !l_en_name_reg.test(name) && !(name.length < 12)){
         alert("请输入正确的真实姓名！");
         return;
     }
@@ -703,10 +742,11 @@ function saveInputInfo(){
 
     __request("index.saveplayerinfo", {realname: name, telephone: phone}, function(res) {
         console.log(res);
+        showSubmitSuccWindow();
     });
 
     //jiayazhou 0610 test
-    hideInputInfo();
+    //hideInputInfo();
 }
 
 function checkInputInfoRecord(callback){
@@ -925,6 +965,16 @@ function closeLimitWindow(){
 	//window.location.href='';
 	$("#div_overlay_id").css("opacity",'1');
 	enterCloseWindow();
+}
+
+function showSubmitSuccWindow(){
+    $("#div_overlay_id").show();
+    $("#div_show_submit_succ_window").show();
+}
+
+function hideSubmitSuccWindow(){
+
+    WeixinJSBridge.call('closeWindow');
 }
 
 function enterCloseWindow(){

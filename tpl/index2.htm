@@ -115,7 +115,7 @@
       <button class="btn_zoom_out"  onClick="mapZoomOut()"></button>
   </div>
 
-<div class="hidden">
+<div><!-- class="hidden"-->
   <button id="btn_set3"  style="top: 10px;left: 30px;" onClick="sharkeTest()">摇一摇</button>
   <button id="btn_set4"  style="top: 10px;left: 10px;" onClick="sharkeAllTest()">无限摇</button>
   </div>
@@ -209,6 +209,15 @@
 <div id="div_show_help2" class="hidden">
     <img src="[:app]/img/te_game_rule.jpg" />
     <button class="div_show_help2_btn" onclick="hideHelpInfo()"></button>
+</div>
+
+
+<div id="div_show_submit_succ_window">
+    <p class="div_limit_window_name">提交成功</p>
+    <span>恭喜，您已完成挑战，</span><br/>
+    <span>点击关闭按钮退出游戏</span>
+    <hr style="margin-top: 20px;"/>
+    <button onclick="hideSubmitSuccWindow()">关闭</button>
 </div>
 
 <div id="div_show_limit_window">
