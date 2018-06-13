@@ -21,6 +21,7 @@ var m_today_arrived_city = 0;//今天到达的城市数
 
 var m_can_sharke_flag = false;
 var base_img_url = "";
+var m_has_sound_flag = true;
 
 /*退出动画相关*/
 const cv = document.getElementById("c-1");
@@ -1643,3 +1644,21 @@ function resetAll() {
     });
 }
 
+// 0:mute, 1:unmute, 2:!last status
+function changeSoundStyle(type){
+    if (type == 0){
+        m_has_sound_flag = false;
+        $(".btn_show_sound").css({"background-image": "url(" + base_img_url + "sound_mute.png)"}); 
+    } else if (type == 1){
+        m_has_sound_flag = true;
+        $(".btn_show_sound").css({"background-image": "url(" + base_img_url + "sound_unmute.png)"}); 
+    } else if (type == 2){
+        if (m_has_sound_flag) {
+            $(".btn_show_sound").css({"background-image": "url(" + base_img_url + "sound_mute.png)"});
+        } else {
+            $(".btn_show_sound").css({"background-image": "url(" + base_img_url + "sound_unmute.png)"}); 
+        }
+        m_has_sound_flag = !m_has_sound_flag;
+    }
+    console.log("curr sound state:" + m_has_sound_flag);
+}
