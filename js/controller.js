@@ -121,6 +121,7 @@ function startGame(){
 
 	//PRD:开始游戏到进入游戏之间先弹出排行榜
 	showRanking();
+    initSoundInfo(true);
 }
 
 //开始移动的button
@@ -323,18 +324,18 @@ function show_city_icon_timer_event(delay) {
 var m_next_steps = [
     [1, 4, 3],
     [1, 2, 2],
-    [3, 2, 0],
-    [2,2,1],
+    [5, 0, 0],
+    [2,3,0],
+    [5,0,0],
+    [5,0,0],
+    [12,0,0],
+    [5,5,0],
+    [2,3,0],
+    [4,0,0],
     [3,2,0],
-    [3,1,1],
-    [7,5,0],
-    [4,3,3],
-    [2,2,1],
-    [3,1,0],
-    [2,2,1],
-    [4,2,0],
-    [3,2,1],
-    [4,3,2]
+    [6,0,0],
+    [3,3,0],
+    [4,5,0]
 ];
 function calcNextGoSteps(m_curr_today_remaind_num, l_remaind_step_to_next_city){
     //生成随机数的范围为1-向上取整[剩余步数/剩余次数]+1
@@ -423,7 +424,7 @@ var m_city_list = [
 	{index:2, name:"东莞", position:{x:3012, y:2794}, dist:100 ,steps:5, limit_count:2, img: "/img/city/dongguan.png", showinfo:0},
 	{index:3, name:"深圳", position:{x:3018, y:2900}, dist:100 ,steps:5, limit_count:2, img: "/img/city/shenzhen.png", showinfo:1},
 	{index:4, name:"广州", position:{x:2900, y:2729}, dist:100 ,steps:5, limit_count:2, img: "/img/city/guangzhou.png", showinfo:0},
-	{index:5, name:"珠海", position:{x:2797, y:2923}, dist:100 ,steps:5, limit_count:2, img: "/img/city/zhuhai.png", showinfo:1},
+	{index:5, name:"珠海", position:{x:2797, y:2923}, dist:100 ,steps:5, limit_count:2, img: "/img/city/zhuhai.png", showinfo:0},
 	{index:6, name:"佛山", position:{x:2759, y:2778}, dist:1200,steps:12,limit_count:5, img: "/img/city/foshan.png", showinfo:0},
 	{index:7, name:"成都", position:{x:2138, y:2248}, dist:1000,steps:10,limit_count:5, img: "/img/city/chengdu.png", showinfo:1},
 	{index:8, name:"武汉", position:{x:2608, y:2258}, dist:500 ,steps:5, limit_count:3, img: "/img/city/wuhan.png", showinfo:1},
@@ -1660,5 +1661,43 @@ function changeSoundStyle(type){
         }
         m_has_sound_flag = !m_has_sound_flag;
     }
+    initSoundInfo(m_has_sound_flag);
     console.log("curr sound state:" + m_has_sound_flag);
+}
+
+const m_audio = document.getElementById( "audioPlay" );
+
+function initSoundInfo(isPlay){
+    if (isPlay){
+        m_audio.play();
+    } else {
+        m_audio.pause();
+    }
+}
+
+function playSound()
+{
+    var borswer = window.navigator.userAgent.toLowerCase();
+    if ( borswer.indexOf( "ie" ) >= 0 )
+    {
+        //IE内核浏览器
+        var strEmbed = '<embed name="embedPlay" src="music_bg.mp3" autostart="true" hidden="true" loop="false"></embed>';
+        if ( $( "body" ).find( "embed" ).length <= 0 ){
+           $( "body" ).append( strEmbed );
+        }
+        var embed = document.embedPlay;
+        //
+        ////浏览器不支持 audion，则使用 embed 播放
+        embed.volume = 100;
+        //embed.play();这个不需要
+     } else {
+         //非IE内核浏览器
+         var strAudio = "<audio id='audioPlay' src='music_bg.mp3' hidden='true'>";
+         if ( $( "body" ).find( "audio" ).length <= 0 ){
+              $( "body" ).append( strAudio );
+         }
+         var audio = document.getElementById( "audioPlay" );
+         //浏览器支持 audion
+         audio.play();
+     }
 }

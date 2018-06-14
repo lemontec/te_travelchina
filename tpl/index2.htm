@@ -44,7 +44,7 @@
         var g_nickname = "[:nickname]";
         var g_cityindex = [:cityindex];
         var g_steps_2_lastcity = [:steps_2_lastcity];
-        var g_today_remaind_num = 5 - [:today_steps];
+        var g_today_remaind_num = 12 - [:today_steps];
         var g_today_arrived_city = [:today_arrived_city];
         var g_distance = [:distance];
 
@@ -116,7 +116,7 @@
       <button class="btn_zoom_out"  onClick="mapZoomOut()"></button>
   </div>
 
-<div><!-- class="hidden"-->
+<div class="hidden">
   <button id="btn_set3"  style="top: 10px;left: 30px;" onClick="sharkeTest()">摇一摇</button>
   <button id="btn_set4"  style="top: 10px;left: 10px;" onClick="sharkeAllTest()">无限摇</button>
   </div>
@@ -185,7 +185,7 @@
     <img class="div_show_certi_style3" src="[:app]/img/certificate_qr_code.png" />
     -->
     <img src="/?index/certificate" class="div_show_certi_style4"/>
-    <a class="div_show_certi_btn_down" href="/?index/certificate" ></a>
+    <a class="div_show_certi_btn_down" ></a><!--href="/?index/certificate" ></a> -->
 </div>
 
 <div id="div_show_inputinfo_page2" class="hidden">
@@ -254,7 +254,7 @@
 <!-- 模态窗口遮挡 -->
 <div id="div_overlay_id" class="div_overlay">
 </div>
-
+<audio id='audioPlay' src='[:app]/music_bg.mp3' loop="loop" hidden='true'/>
 <script type="text/javascript" src="[:app]/js/controller.js?"></script>
 <script type="text/javascript" src="[:app]/js/frame-animation.js"></script> 
 </body>

@@ -584,9 +584,9 @@ img{ pointer-events: none; }/*保证所有图片不会点击放大，qr除外*/
 	position: absolute;
 	left: 20px;
 	top: 20px;
-	/*background: url(../img/help_button.png) no-repeat;*/
+	background: url(../img/sound_unmute.png) no-repeat;
     background-repeat: no-repeat;
-    background-image: url(../img/sound_unmute.png);
+    /*background-image: url(../img/sound_unmute.png);*/
 	background-size: 100% 100%;
 	border: none;
 	outline: none;
@@ -619,16 +619,17 @@ img{ pointer-events: none; }/*保证所有图片不会点击放大，qr除外*/
 }
 .div_show_help2_btn{
     float: right;
-    background: url(../img/close_button2.png) no-repeat;
+    /*background: url(../img/close_button2.png) no-repeat;*/
     background-size: 100% 100%;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     /* margin-right: 10px; */
     border: none;
     outline: none;
     position: absolute;
     right: 10px;
     top: 10px;
+    opacity: 0;
 }
 
 #div_show_help{
@@ -675,16 +676,17 @@ img{ pointer-events: none; }/*保证所有图片不会点击放大，qr除外*/
 .div_show_certificate_close {
     position: absolute;
     z-index: 1002;
-    background: url(../img/close_button.png) no-repeat;
+    /*background: url(../img/close_button.png) no-repeat;*/
     background-size: 100% 100%;
     right: 0px;
     top: 0px;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     margin-right: 20px;
     margin-top: 20px;
     border: none;
     outline: none;
+    opacity: 0;
 }
 #div_show_certificate_page2 .div_show_certi_name_style{
    line-height: 20px;
@@ -733,10 +735,10 @@ img{ pointer-events: none; }/*保证所有图片不会点击放大，qr除外*/
 }
 
 #div_show_certificate_page2 .div_show_certi_btn_down{
-    background: url(../img/certificate_down.png) no-repeat;
+    background: url(../img/certificate_down2.png) no-repeat;
     background-size: 100% 100%;
-    width: 60px;
-    height: 67px;
+    width: 150px;
+    height: 24px;
     border: none;
     outline: none;
     margin-left: auto;
@@ -744,13 +746,13 @@ img{ pointer-events: none; }/*保证所有图片不会点击放大，qr除外*/
     left: 0;
     right: 0;
     position: absolute;
-    bottom: -75px;
+    bottom: -10px;
 }
 
 
 #div_show_inputinfo_page2 {
     z-index: 1002;
-    background:url(../img/inputinfo_bg2.png) no-repeat;
+    background:url(../img/inputinfo_bg3.png) no-repeat;
     width: 100%;
     height: 100%;
     background-size: 100% 100%;
