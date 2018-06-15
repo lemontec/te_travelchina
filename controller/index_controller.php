@@ -99,6 +99,11 @@ class index_controller {
                 $rank[$k]["self"] = 0;
             }
             $rank[$k]["date"] = Date("m-d", $rank[$k]["time"]);
+            $nn = $rank[$k]["nickname"];
+            if (substr($nn, 0, 7) == "base64:") {
+                $nn = base64_decode(substr($nn, 7));
+                $rank[$k]["nickname"] = $nn;
+            }
         }
         if (!$head10) {
             $selfrank = Player::selfrank($openid);
@@ -118,6 +123,14 @@ class index_controller {
             }
             $selfrank["self"] = 1;
             array_pop($rank);
+
+            $nn = $selfrank["nickname"];
+            if (substr($nn, 0, 7) == "base64:") {
+                $nn = base64_decode(substr($nn, 7));
+                $selfrank["nickname"] = $nn;
+            }
+
+
             $rank [] = $selfrank;
         }
         return $rank;
@@ -141,6 +154,12 @@ class index_controller {
                 $rank[$k]["self"] = 0;
             }
             $rank[$k]["date"] = Date("m-d", $rank[$k]["time"]);
+            $nn = $rank[$k]["nickname"];
+            if (substr($nn, 0, 7) == "base64:") {
+                $nn = base64_decode(substr($nn, 7));
+                $rank[$k]["nickname"] = $nn;
+            }
+
         }
         if (!$head10) {
             $selfrank = Player::selfrank2($openid);
@@ -160,6 +179,13 @@ class index_controller {
             }
             $selfrank["self"] = 1;
             array_pop($rank);
+
+            $nn = $selfrank["nickname"];
+            if (substr($nn, 0, 7) == "base64:") {
+                $nn = base64_decode(substr($nn, 7));
+                $selfrank["nickname"] = $nn;
+            }
+
             $rank [] = $selfrank;
         }
         return $rank;

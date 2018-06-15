@@ -1,6 +1,6 @@
 var wxshare = function() {
     if (g_appid == "[:appid]") {
-        alert("Not in wechat browser.");
+        console.log("Not in wechat browser.");
         return;
     }
     wx.config({

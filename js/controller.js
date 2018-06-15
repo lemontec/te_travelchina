@@ -1589,7 +1589,7 @@ var m_city_info = [
 // public enable
 // the following code is copied from: https://www.cnblogs.com/catEatBird/p/7123441.html
 function toShake(callBack) {
-    var RANGE = 60;//当用户摇晃的幅度超过这个值，我们认定用户在摇一摇
+    var RANGE = 45;//当用户摇晃的幅度超过这个值，我们认定用户在摇一摇
     var isShake = false;//是否进行了摇一摇
     var lastX,lastY,lastZ;
     var lastTime = Date.now();
