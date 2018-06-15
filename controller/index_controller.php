@@ -19,10 +19,15 @@ class index_controller {
         // $userinfo = WeChat::inst()->get_user_info($openid);
         logging::d("OAuth", $userinfo);
 
+        $sp = WeChat::inst()->get_SignPackage();
+        // logging::d("JS-SDK", $sp);
+
         $player = Player::playerinfo($userinfo["openid"], $userinfo["nickname"], $userinfo["headimgurl"]);
         $_SESSION["current.player"] = $player;
 
         $tpl = new tpl();
+
+        // for business
         $tpl->set("headimgurl", $userinfo["headimgurl"]);
         $tpl->set("nickname", $userinfo["nickname"]);
         $tpl->set("cityindex", $player["loc1"]);
@@ -30,6 +35,13 @@ class index_controller {
         $tpl->set("today_steps", $player["today_steps"]);
         $tpl->set("today_arrived_city", ($player["today_cities"] <= 1 ? 0 : 1));
         $tpl->set("distance", $player["distance"]);
+
+        // for js-sdk
+        $tpl->set("appid", $sp["appid"]);
+        $tpl->set("timestamp", $sp["timestamp"]);
+        $tpl->set("noncestr", $sp["noncestr"]);
+        $tpl->set("signature", $sp["signature"]);
+
         $tpl->display("index2");
     }
 
