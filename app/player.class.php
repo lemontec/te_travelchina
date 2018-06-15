@@ -6,12 +6,9 @@ class Player {
     public static function playerinfo($openid, $nickname, $headimgurl) {
         $player = db_player::inst()->get_by_openid($openid);
         if ($player == null) {
-            $nn = iconv("GBK", "UTF-8//IGNORE", $nickname);
-            logging::d("Debug", "conv from gbk($nickname) to utf-8($nn).");
-            if (empty($nn)) {
-                $nn = $nickname;
-            }
-            $pid = db_player::inst()->add($openid, $nickname, $headimgurl);
+            $nn = "base64:" . base64_encode($nickname);
+
+            $pid = db_player::inst()->add($openid, $nn, $headimgurl);
             return array(
                 "id" => $pid,
                 "openid" => $openid,
@@ -27,6 +24,12 @@ class Player {
         }
         $pid = $player["id"];
         $cl = db_move::inst()->current_location($pid);
+
+        $nn = $player["nickname"];
+        if (substr($nn, 0, 7) == "base64:") {
+            $nn = base64_decode(substr($nn, 7));
+            $player["nickname"] = $nn;
+        }
 
         $player["loc1"] = $cl["loc1"];
         $player["loc2"] = $cl["loc2"];
