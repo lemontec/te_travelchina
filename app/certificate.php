@@ -2,7 +2,17 @@
 
 include_once(dirname(__FILE__) . "/../config.php");
 
+function filterEmoji($str)  
+{  
+    $str = preg_replace_callback('/./u', function (array $match) {
+        return strlen($match[0]) >= 4 ? '' : $match[0];  
+    }, $str);
+    return $str;
+} 
+
 function create_certificate($name) {
+    $name = filterEmoji($name);
+
     $fontfile = dirname(__FILE__) . "/../font/SourceHanSansCN-Regular.otf";
 
     $img = imagecreatefrompng(dirname(__FILE__) . "/../img/certificate1.png");
