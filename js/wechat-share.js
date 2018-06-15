@@ -20,16 +20,16 @@ var wxshare = function() {
         wx.onMenuShareAppMessage({
             title: "连动中国三十年",
             desc: "快来踏上TE中国之旅，与TE一起走遍中国。",
-            link: 'http://travelchina.xiaoningmengkeji.com/?index/index&share=1',
-            imgUrl: 'http://travelchina.xiaoningmengkeji.com/te/travelchina/img/share.jpg',
+            link: 'http://te.xiaoningmengkeji.com/?index/index&share=1',
+            imgUrl: 'http://te.xiaoningmengkeji.com/te/travelchina/img/share.jpg',
             success: function (res) {
                 $('.filter').hide();
             }
         });
         wx.onMenuShareTimeline({
             title: "连动中国三十年",
-            link: 'http://travelchina.xiaoningmengkeji.com/?index/index&share=1',
-            imgUrl: 'http://travelchina.xiaoningmengkeji.com/te/travelchina/img/share.jpg',
+            link: 'http://te.xiaoningmengkeji.com/?index/index&share=1',
+            imgUrl: 'http://te.xiaoningmengkeji.com/te/travelchina/img/share.jpg',
             success: function () {
                 $('.filter').hide();
             }
