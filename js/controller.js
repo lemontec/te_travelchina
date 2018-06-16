@@ -128,6 +128,7 @@ function startGame(){
 var m_next_go_steps = 0;
 function startMoveSteps(){
     //alert("开始移动");
+    var isNeedShowCityWindow = false;
 	if (m_next_go_steps <= 0 || m_can_sharke_flag) {
 	    //信息未同步 check and sync
 		//check server data,keep data uniformity
@@ -149,6 +150,7 @@ function startMoveSteps(){
 			m_curr_city_index++;
 			
 			//拉取信息，显示城市介绍，延长100ms
+            isNeedShowCityWindow = true;
 			showCityInfo();
 			showcity_delay_timer_event(1000);
 		}
@@ -158,6 +160,7 @@ function startMoveSteps(){
 		    if (m_city_list[m_curr_city_index].steps >= 6){//第二次
                 if (m_curr_steps_to_lastcity > 2 && !isShowedCityInfo) {
                     if (m_curr_city_index != 0){
+                        isNeedShowCityWindow = true;
 				        showCityInfo();
 			            showcity_delay_timer_event(1000);
                     }
@@ -166,23 +169,27 @@ function startMoveSteps(){
                     }
 
 			    }else if(needShowCityInfo_shanghai3){//弹出上海3的信息
+                    isNeedShowCityWindow = true;
                     showCityInfo_shanghai3();
                     showcity_delay_timer_event(1000);
                 }
 				//第一次走一步，显示上海的介绍
 				if (m_curr_city_index == 0 && m_curr_steps_to_lastcity == 1){
+                    isNeedShowCityWindow = true;
 				    showCityInfo();
 				    showcity_delay_timer_event(1000);
                     needShowCityInfo_shanghai3 = true;
 				}
 			} else {//小于6，第一次
 			    if(!isShowedCityInfo) {
+                    isNeedShowCityWindow = true;
 					showCityInfo();
 				    showcity_delay_timer_event(1000);
 				}
 			}
             if (m_curr_city_index == 1  && needShowCityInfo_guangdong){//广东的提示
                 isShowedCityInfo = false;
+                isNeedShowCityWindow = true;
                 showCityInfo_guangdong();
                 showcity_delay_timer_event(1000);
             }
@@ -191,7 +198,9 @@ function startMoveSteps(){
 	$("#div_main_progress_tips").hide();
 	drawEnergyProgressBar(-1);
 	m_next_go_steps = -1;
-	m_can_sharke_flag = true;//移动之后置摇一摇属性为true
+    if (!isNeedShowCityWindow) {
+	    m_can_sharke_flag = true;//移动之后置摇一摇属性为true
+    }
 }
 
 function shakePhone(){
@@ -1448,9 +1457,9 @@ function play_animation() {
 			//that.window.open('', '_self', '');
 			//that.window.close();
 			//open(location, '_self').close();
-            $("#close_window").hide();
+            //$("#close_window").hide();
             document.getElementById("div_overlay_id").style.opacity = 0.8;
-            showCertificate();
+            //showCertificate();
         },
     });
 
@@ -1627,9 +1636,9 @@ function toShake(callBack) {
 
 toShake(function(){
     // alert("shake shake.");
-    sharkeAll = true;//for all sharke jiayazhou 0608
+    //sharkeAll = true;//for all sharke jiayazhou 0608
     shakePhone();
-    sharkeAll = false;//for all sharke jiayazhou 0608
+    //sharkeAll = false;//for all sharke jiayazhou 0608
 });
 
 function resetAll() {
