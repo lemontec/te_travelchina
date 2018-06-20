@@ -150,6 +150,9 @@ class db_move extends database {
 
     public function clear($id) {
         $id = (int)$id;
+
+        $this->delete("players_info", "player = $id");
+
         return $this->delete("moves", "player = $id");
     }
 

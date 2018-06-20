@@ -38,7 +38,9 @@ window.onload = function(){
 	loadUserData();
 	//移动到上次所到达的位置
 	moveStepsToNextCity(m_curr_city_index, m_curr_steps_to_lastcity);
-	
+
+    preload_animation();//preload image
+
 	//自动加载进度信息，完成后调用nextPhase()
 	progress(100, 10, function() {
         nextPhase();
@@ -1435,10 +1437,25 @@ function map_reset_timer_event(delay) {
 
 
 /*退出逻辑 start*/
+var m_frame_anim = 0;
+var m_frame_preload = false;
 function play_animation() {
+    if (!m_frame_preload) {
+        m_frame_anim.initialize(function (){
+            m_frame_anim.play();
+            m_frame_preload = true;
+        });
+    } else {
+       m_frame_anim.play(); 
+    }
+}
+
+function preload_animation(){
     var framesUrl = [];
     for (var i = 0; i < 55; i++) {
-        framesUrl.push(base_img_url + "close/te_00" + i + ".jpg");
+        //if (i%2 == 0){
+            framesUrl.push(base_img_url + "close/te_00" + i + ".jpg");
+        //}
     }
 
     var that = this;
@@ -1458,15 +1475,22 @@ function play_animation() {
 			//that.window.close();
 			//open(location, '_self').close();
             //$("#close_window").hide();
-            document.getElementById("div_overlay_id").style.opacity = 0.8;
+            if (m_curr_city_index == 14) {
+                $("#close_window").hide();
+                showCertificate();
+            } else {
+                document.getElementById("div_overlay_id").style.opacity = 0.8;
+            }
             //showCertificate();
         },
     });
 
     // preload & play
     ani.initialize(function (){
-        ani.play();
+        //ani.play();
+        m_frame_preload = true;
     });
+    m_frame_anim = ani;
 }
 /*退出逻辑 end*/
 
@@ -1636,9 +1660,9 @@ function toShake(callBack) {
 
 toShake(function(){
     // alert("shake shake.");
-    //sharkeAll = true;//for all sharke jiayazhou 0608
+    sharkeAll = true;//for all sharke jiayazhou 0608
     shakePhone();
-    //sharkeAll = false;//for all sharke jiayazhou 0608
+    sharkeAll = false;//for all sharke jiayazhou 0608
 });
 
 function resetAll() {
