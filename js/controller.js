@@ -977,7 +977,8 @@ function closeLimitWindow(){
     $("#div_show_limit_window").hide();
 	//window.location.href='';
 	$("#div_overlay_id").css("opacity",'1');
-	enterCloseWindow();
+	//enterCloseWindow();
+    WeixinJSBridge.call('closeWindow');
 }
 
 function showSubmitSuccWindow(){

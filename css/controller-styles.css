@@ -676,7 +676,7 @@ img{ pointer-events: none; }/*保证所有图片不会点击放大，qr除外*/
 .div_show_certificate_close {
     position: absolute;
     z-index: 1002;
-    /*background: url(../img/close_button.png) no-repeat;*/
+    background: url(../img/close_button.png) no-repeat;
     background-size: 100% 100%;
     right: 0px;
     top: 0px;
@@ -686,7 +686,7 @@ img{ pointer-events: none; }/*保证所有图片不会点击放大，qr除外*/
     margin-top: 20px;
     border: none;
     outline: none;
-    opacity: 0;
+    /*opacity: 0;*/
 }
 #div_show_certificate_page2 .div_show_certi_name_style{
    line-height: 20px;
