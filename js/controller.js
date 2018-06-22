@@ -740,7 +740,9 @@ function saveInputInfo(){
 
     var l_phone_reg = /^((\+?86)|(\(\+86\)))?1\d{10}$/;
     var l_tele_reg  = /^((\+?86)|(\(\+86\)))?\d{3,4}-\d{7,8}(-\d{3,4})?$/;
-    if ( !l_phone_reg.test(phone) && !l_tele_reg.test(phone)){
+    //if ( !l_phone_reg.test(phone) && !l_tele_reg.test(phone)){
+    var l_num = /^[0-9]*$/;
+    if (!l_num.test(phone)){
         alert("请输入正确的联系电话！");
         return;
     }
@@ -950,7 +952,7 @@ function calcDistance(loc1, loc2){
     for(var i=0; i< loc1; i++){
         dist += m_city_list[i].dist;
     }
-    dist += m_city_list[loc1].dist * (loc2 / m_city_list[m_curr_city_index].steps);
+    dist += m_city_list[loc1].dist * (loc2 / m_city_list[loc1].steps);
     return Math.floor(dist);
 }
 
@@ -1661,9 +1663,9 @@ function toShake(callBack) {
 
 toShake(function(){
     // alert("shake shake.");
-    sharkeAll = true;//for all sharke jiayazhou 0608
+    //sharkeAll = true;//for all sharke jiayazhou 0608
     shakePhone();
-    sharkeAll = false;//for all sharke jiayazhou 0608
+    //sharkeAll = false;//for all sharke jiayazhou 0608
 });
 
 function resetAll() {
@@ -1735,3 +1737,15 @@ function playSound()
          audio.play();
      }
 }
+
+document.addEventListener("visibilitychange", function(){
+    if (document.hidden){
+        if (m_has_sound_flag){
+            initSoundInfo(!m_has_sound_flag);
+        }
+    } else {
+        if(m_has_sound_flag) {
+            initSoundInfo(m_has_sound_flag);
+        }
+    }
+});
