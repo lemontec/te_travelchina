@@ -12,6 +12,11 @@ class index_controller {
     }
 
     public function show_action() {
+        if (!isset($_SESSION["OAUTH"])) {
+            header("Location: //www.xiaoningmengkeji.com/OAuthDispatcher/index.php?id=te.travelchina&userinfo=1");
+            exit();
+        }
+
         $userinfo = $_SESSION["OAUTH"];
         $sp = WeChat::inst()->get_SignPackage();
         logging::d("JS-SDK", $sp);

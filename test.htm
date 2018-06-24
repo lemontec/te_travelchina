@@ -1,0 +1,22 @@
+<html>
+<head>
+<script>
+var u = navigator.userAgent;  
+var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g  
+var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端  
+let url=''  
+
+if (isAndroid) {  
+    url=location.href  
+    alert("Android" + url);
+}  
+if (isIOS) {  
+    url=location.href.split('#')[0]  //hash后面的部分如果带上ios中config会不对  
+        alert("IOS" + url);
+}
+</script>
+</head>
+<body>
+test
+</body>
+</html>

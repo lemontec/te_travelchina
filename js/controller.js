@@ -741,6 +741,14 @@ function saveInputInfo(){
     var l_phone_reg = /^((\+?86)|(\(\+86\)))?1\d{10}$/;
     var l_tele_reg  = /^((\+?86)|(\(\+86\)))?\d{3,4}-\d{7,8}(-\d{3,4})?$/;
     //if ( !l_phone_reg.test(phone) && !l_tele_reg.test(phone)){
+    if (phone.length == 0) {
+        alert("电话不为空");
+        return;
+    }
+    if (name.length == 0) {
+        alert("姓名不能为空");
+        return;
+    }
     var l_num = /^[0-9]*$/;
     if (!l_num.test(phone)){
         alert("请输入正确的联系电话！");
