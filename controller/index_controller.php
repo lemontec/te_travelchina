@@ -46,12 +46,22 @@ class index_controller {
     }
 
     public function oauth_action() {
-        $userinfo = get_request_assert("userinfo");
-        logging::d("OAuth-1", $userinfo);
-        $userinfo = json_decode($userinfo, true);
-        $openid = $userinfo["openid"];
-        // $userinfo = WeChat::inst()->get_user_info($openid);
-        logging::d("OAuth", $userinfo);
+        $userinfo = get_request("userinfo", null);
+        $fn = get_request("fn", null);
+
+        if ($userinfo != null) {
+            logging::d("OAuth-1", $userinfo);
+            $userinfo = json_decode($userinfo, true);
+            $openid = $userinfo["openid"];
+            // $userinfo = WeChat::inst()->get_user_info($openid);
+            logging::d("OAuth", $userinfo);
+        } else if ($fn != null) {
+            logging::d("OAuth", "fn: $fn");
+            $url = "http://www.xiaoningmengkeji.com/OAuthDispatcher/query.php?fn=$fn";
+            $userinfo = read_url($url);
+            logging::d("OAuth", "userinfo = $userinfo");
+            $userinfo = json_decode($userinfo, true);
+        }
 
         $_SESSION["OAUTH"] = $userinfo;
         header("Location: /index.php?action=index.show");
